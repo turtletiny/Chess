@@ -1,7 +1,10 @@
 abstract class Piece {
 
-    int x;
-    int y;
+    Colour colour;
+
+    Piece(Colour colour) {
+        this.colour = colour;
+    }
 
     abstract void move();
 }

@@ -4,6 +4,10 @@ class Board {
 
     Board() {
         this.board = new Piece[8][8];
+        for (int i = 0; i < 8; i++) {
+            this.board[1][i] = new Pawn(Colour.BLACK);
+            this.board[6][i] = new Pawn(Colour.WHITE);
+        }
     }
 
     public void printBoard() {
