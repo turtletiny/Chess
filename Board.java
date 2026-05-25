@@ -11,23 +11,47 @@ class Board {
     }
 
     public void printBoard() {
+        int coord = 8;
         System.out.println("  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
-        System.out.println("8 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
-        System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
-        System.out.println("7 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
-        System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
-        System.out.println("6 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
-        System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
-        System.out.println("5 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
-        System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
-        System.out.println("4 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
-        System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
-        System.out.println("3 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
-        System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
-        System.out.println("2 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
-        System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
-        System.out.println("1 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+        for (Piece[] row : this.board) {
+            String rowString = coord + " │  ";
+            for (Piece p : row) {
+                if (p == null) {
+                    rowString += "X";
+                } else {
+                    rowString += p;
+                }
+                rowString += "  │  ";
+            }
+            System.out.println(rowString);
+            if (coord != 1) {
+                System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+            }
+
+            coord--;
+        }
         System.out.println("  └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
         System.out.println("     A     B     C     D     E     F     G     H");
     }
+
+    // public void printBoard() {
+    //     System.out.println("  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
+    //     System.out.println("8 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+    //     System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+    //     System.out.println("7 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+    //     System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+    //     System.out.println("6 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+    //     System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+    //     System.out.println("5 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+    //     System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+    //     System.out.println("4 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+    //     System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+    //     System.out.println("3 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+    //     System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+    //     System.out.println("2 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+    //     System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+    //     System.out.println("1 │  j  │  j  │  j  │  j  │  j  │  j  │  j  │  j  │");
+    //     System.out.println("  └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
+    //     System.out.println("     A     B     C     D     E     F     G     H");
+    // }
 }
