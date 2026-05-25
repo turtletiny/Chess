@@ -8,4 +8,5 @@ class Pawn extends Piece {
         board.board[1][0] = null;
         board.board[2][0] = this;
     }
+
 }

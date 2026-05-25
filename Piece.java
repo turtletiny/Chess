@@ -6,5 +6,6 @@ abstract class Piece {
         this.colour = colour;
     }
 
-    abstract void move();
+    abstract void move(Board board, int x, int y);
+    abstract boolean isLegalMove();
 }
