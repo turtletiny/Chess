@@ -6,7 +6,12 @@ class King extends Piece {
 
     public void move(Board board) {}
 
-    public boolean isLegalMove(int xDiff, int yDiff) {
+    public boolean isLegalMove(int xDiff, int yDiff, int newX, int newY) {
+        //if king moves into line of sight, return false
+        if (Math.abs(xDiff) != 1 || Math.abs(yDiff) != 1){
+            return false;
+        }
+        super.moveInBounds(newX, newY);
         return true;
     }
 
