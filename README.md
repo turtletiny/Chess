@@ -2,10 +2,14 @@
 
 
 
-# To-Do
-- Implement isLegalMoves
-- Win condition
-
+# Case Handling
+- Win condition (Checkmate)
+- Moving a piece cannot cannot result in king being exposed
+- Piece captures
+- line of sight
+- stalemate
+- castling through check not allowed
+- castling rights (lost if king moves or if the rook moves)
 
 
 
