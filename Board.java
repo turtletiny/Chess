@@ -4,10 +4,24 @@ class Board {
 
     Board() {
         this.board = new Piece[8][8];
+
+        //Place pawns
         for (int i = 0; i < 8; i++) {
             this.board[1][i] = new Pawn(Colour.BLACK);
             this.board[6][i] = new Pawn(Colour.WHITE);
         }
+        //Place rooks
+        this.board[0][0] = this.board[0][7] = new Rook(Colour.BLACK);
+        this.board[7][0] = this.board[7][7] = new Rook(Colour.WHITE);
+        this.board[0][1] = this.board[0][6] = new Knight(Colour.BLACK);
+        this.board[7][1] = this.board[7][6] = new Knight(Colour.WHITE);
+        this.board[0][2] = this.board[0][5] = new Bishop(Colour.BLACK);
+        this.board[7][2] = this.board[7][5] = new Bishop(Colour.WHITE);
+        this.board[7][3] = new Queen(Colour.WHITE);
+        this.board[7][4] = new King(Colour.WHITE);
+        this.board[0][3] = new Queen(Colour.BLACK);
+        this.board[0][4] = new King(Colour.BLACK);
+
     }
 
     public Piece getPieceAt(int x, int y) {
@@ -24,7 +38,7 @@ class Board {
             String rowString = coord + " │  ";
             for (Piece p : row) {
                 if (p == null) {
-                    rowString += "X";
+                    rowString += " ";
                 } else {
                     rowString += p;
                 }
@@ -38,7 +52,7 @@ class Board {
             coord--;
         }
         System.out.println("  └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
-        System.out.println("     A     B     C     D     E     F     G     H");
+        System.out.println("     a     b     c     d     e     f     g     h");
     }
 }
 // public void printBoard() {

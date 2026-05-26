@@ -3,25 +3,33 @@ public class Main {
     public static void main(String[] args) {
         //Setup
         Board board = new Board();
+        double moveCount = 1;
+        boolean whitesTurn = true;
         boolean running = true;
 
         //Game Loop
         while (running) {
             board.printBoard();
-            System.out.println("");
+            System.out.println("\nTurn Number: " + (int) moveCount + ".");
+            if (whitesTurn){
+                System.out.println("♚ WHITE's turn\n");
+            }
+            else{
+                System.out.println("♔ BLACK's turn\n");
+            }
 
-            System.out.println("Enter coordinate: ");
-            String fromCoord = In.nextLine();
-            System.out.println("Enter move: ");
-            String toCoord = In.nextLine();
-            int fromX = fromCoord.charAt(0) - 96;
-            int fromY = fromCoord.charAt(1) - 48;
-            int toX = toCoord.charAt(0) - 96;
-            int toY = toCoord.charAt(1) - 48;
+            System.out.println("Enter move ");
+            String move = In.nextLine();
+            int fromX = move.charAt(0) - 96;
+            int fromY = move.charAt(1) - 48;
+            int toX = move.charAt(3) - 96;
+            int toY = move.charAt(4) - 48;
             Piece selectedPiece = board.getPieceAt(fromX, fromY);
             selectedPiece.placePiece(board, toX, toY);
             board.clearAtPos(fromX, fromY);
 
+            moveCount += 0.5;
+            whitesTurn = !whitesTurn;
             In.nextLine();
         }
     }
