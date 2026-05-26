@@ -7,6 +7,10 @@ class Rook extends Piece {
     public void move(Board board) {}
 
     public boolean isLegalMove(int xDiff, int yDiff) {
+        if ((xDiff != 0 && yDiff == 0) ||
+            (xDiff == 0 && yDiff != 0)){
+            return false;
+        }
         return true;
     }
 
