@@ -17,5 +17,10 @@ abstract class Piece {
         board.board[Math.abs(this.y - 8)][this.x - 1] = this;
     }
 
-    abstract boolean isLegalMove(int xDiff, int yDiff);
+    boolean moveInBounds(int newX, int newY){
+        if (newX < 1 || newX > 8 || newY < 1 || newY > 8) {
+            return false;
+        }
+        return true;
+    }
 }
