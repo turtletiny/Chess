@@ -16,9 +16,7 @@ abstract class Piece {
         this.y = y;
         board.board[Math.abs(this.y - 8)][this.x - 1] = this;
     }
-    public Piece getPieceAt(Board board, int x, int y){
-        return board.board[Math.abs(this.y - 8)][this.x - 1];
-    }
+
 
     abstract boolean isLegalMove();
 }

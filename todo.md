@@ -1,4 +1,0 @@
-- get all piece logic working
-- cant go through pieces (except knight)
-- split user input into char + int -> use maths to get the actual number of the char to get the coordinates 
--

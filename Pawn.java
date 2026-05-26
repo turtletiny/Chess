@@ -5,8 +5,25 @@ class Pawn extends Piece {
     }
 
     public void move(Board board) {
-        board.board[1][0] = null;
-        board.board[2][0] = this;
+
+    }
+
+    public boolean isLegalMove(){
+        return true;
+
+    }
+
+    public String toString(){
+        if (this.colour == Colour.BLACK){
+            return "♙";
+
+
+        }
+        else{
+            return "♟";
+
+        }
+
     }
 
 }
