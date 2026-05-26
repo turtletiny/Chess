@@ -1,3 +1,5 @@
+
+
 abstract class Piece {
 
     Colour colour;
@@ -8,7 +10,7 @@ abstract class Piece {
     }
 
     public void clearCurrentPos(Board board) {
-        board.board[Math.abs(this.y - 8)][this.x - 1] = null; //changes current position to null
+        board.board[Math.abs(this.y - 8)][this.x - 1] = null;
     }
 
     public void placePiece(Board board, int x, int y) {

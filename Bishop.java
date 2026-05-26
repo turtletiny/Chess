@@ -1,8 +1,8 @@
 
 
-class Rook extends Piece {
+class Bishop extends Piece {
 
-    Rook(Colour colour) {
+    Bishop(Colour colour) {
         super(colour);
     }
 
@@ -14,9 +14,9 @@ class Rook extends Piece {
 
     public String toString() {
         if (this.colour == Colour.BLACK) {
-            return "♖";
+            return "♗";
         } else {
-            return "♜";
+            return "♝";
         }
     }
 }
