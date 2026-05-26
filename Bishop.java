@@ -6,14 +6,12 @@ class Bishop extends Piece {
 
     public void move(Board board) {}
 
-    @Override
-    public boolean isLegalMove(int xDiff, int yDiff) {
+    public boolean isLegalMove(int xDiff, int yDiff, int newX, int newY) {
+        //Diagonal Movement
         if (Math.abs(xDiff) != Math.abs(yDiff)) {
             return false;
         }
-        if (Math.abs(xDiff) > 7){
-            return false;
-        }
+        super.moveInBounds(newX, newY);
         return true;
     }
 
