@@ -10,6 +10,13 @@ class Board {
         }
     }
 
+    public Piece getPieceAt(int x, int y) {
+        return this.board[Math.abs(y - 8)][x - 1];
+    }
+    public void clearAtPos(int x, int y){
+        this.board[Math.abs(y - 8)][x - 1] = null;
+    }
+
     public void printBoard() {
         int coord = 8;
         System.out.println("  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
@@ -33,8 +40,6 @@ class Board {
         System.out.println("  └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
         System.out.println("     A     B     C     D     E     F     G     H");
     }
-
-
 }
 // public void printBoard() {
 //     System.out.println("  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
