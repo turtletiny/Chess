@@ -7,14 +7,17 @@ abstract class Piece {
         this.colour = colour;
     }
 
-    void clearCurrentPos(Board board) {
+    public void clearCurrentPos(Board board) {
         board.board[Math.abs(this.y - 8)][this.x - 1] = null; //changes current position to null
     }
 
-    void placePiece(Board board, int x, int y) {
+    public void placePiece(Board board, int x, int y) {
         this.x = x;
         this.y = y;
         board.board[Math.abs(this.y - 8)][this.x - 1] = this;
+    }
+    public Piece getPieceAt(Board board, int x, int y){
+        return board.board[Math.abs(this.y - 8)][this.x - 1];
     }
 
     abstract boolean isLegalMove();
