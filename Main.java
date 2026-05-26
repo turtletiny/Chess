@@ -8,6 +8,8 @@ public class Main {
         double moveCount = 1;
         boolean whitesTurn = true;
         boolean running = true;
+        boolean whiteCastlingRights = true;
+        boolean blackCastlingRights = false;
 
         //Game Loop
         while (running) {
