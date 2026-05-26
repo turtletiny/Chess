@@ -1,5 +1,3 @@
-
-
 class Bishop extends Piece {
 
     Bishop(Colour colour) {
@@ -8,7 +6,14 @@ class Bishop extends Piece {
 
     public void move(Board board) {}
 
-    public boolean isLegalMove() {
+    @Override
+    public boolean isLegalMove(int xDiff, int yDiff) {
+        if (Math.abs(xDiff) != Math.abs(yDiff)) {
+            return false;
+        }
+        if (Math.abs(xDiff) > 7){
+            return false;
+        }
         return true;
     }
 
@@ -20,3 +25,6 @@ class Bishop extends Piece {
         }
     }
 }
+//Legal moves:
+// this.x && this.y has to change by abs(n)
+//

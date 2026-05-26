@@ -8,7 +8,7 @@ class Queen extends Piece {
 
     public void move(Board board) {}
 
-    public boolean isLegalMove() {
+    public boolean isLegalMove(int xDiff, int yDiff) {
         return true;
     }
 

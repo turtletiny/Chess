@@ -1,5 +1,3 @@
-
-
 abstract class Piece {
 
     Colour colour;
@@ -19,6 +17,5 @@ abstract class Piece {
         board.board[Math.abs(this.y - 8)][this.x - 1] = this;
     }
 
-
-    abstract boolean isLegalMove();
+    abstract boolean isLegalMove(int xDiff, int yDiff);
 }

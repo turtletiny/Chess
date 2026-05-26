@@ -1,5 +1,7 @@
 public class Main {
 
+
+
     public static void main(String[] args) {
         //Setup
         Board board = new Board();
@@ -11,10 +13,9 @@ public class Main {
         while (running) {
             board.printBoard();
             System.out.println("\nTurn Number: " + (int) moveCount + ".");
-            if (whitesTurn){
+            if (whitesTurn) {
                 System.out.println("♚ WHITE's turn\n");
-            }
-            else{
+            } else {
                 System.out.println("♔ BLACK's turn\n");
             }
 
@@ -30,7 +31,6 @@ public class Main {
 
             moveCount += 0.5;
             whitesTurn = !whitesTurn;
-            In.nextLine();
         }
     }
 }

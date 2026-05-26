@@ -10,7 +10,7 @@ class Pawn extends Piece {
 
     }
 
-    public boolean isLegalMove(){
+    public boolean isLegalMove(int xDiff, int yDiff){
         return true;
 
     }
