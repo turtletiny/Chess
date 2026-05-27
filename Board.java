@@ -78,4 +78,44 @@ class Board {
 
     }
 
+    public Piece getPieceAt(int x, int y) {
+        return this.board[getIndex(x, y)];
+    }
+
+    public void clearAtPos(int x, int y) {
+        this.board[getIndex(x, y)] = null;
+    }
+
+    public void printBoard() {
+        int count = 1;
+        int rowNum = 1;
+        System.out.println("  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
+        for (Piece p : this.board) {
+            String row = rowNum + " │  ";
+            if (p == null) {
+                row += "   │  ";
+            } else {
+                row += p + "  │  ";
+            }
+            if (count % 8 == 0) {
+                System.out.println(row);
+                row = rowNum + " │  ";
+                if (rowNum != 8) {
+                    System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+                }
+                rowNum++;
+
+            }
+            count++;
+        }
+        System.out.println("  └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
+        System.out.println("     a     b     c     d     e     f     g     h");
+
+    }
+
+    public static void main(String[] args) {
+        Board board = new Board();
+        board.printBoard();
+    }
+
 }
