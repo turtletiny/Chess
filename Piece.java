@@ -13,10 +13,6 @@ abstract class Piece {
     //     board.board[get] = null;
     // }
 
-    public void placePiece(Board board, int x, int y) {
-        board.board[Board.getIndex(x, y)] = this;
-    }
-
     // Move Legality Checks
     boolean pieceExists(Board board, int fromX, int fromY) {
         return board.getPieceAt(fromX, fromY) != null;

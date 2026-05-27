@@ -4,10 +4,11 @@ class Bishop extends Piece {
         super(colour);
     }
 
-    public void move(Board board) {}
+    public void move(Board board) {
+    }
 
     public boolean isLegalMove(int xDiff, int yDiff, int newX, int newY) {
-        //Diagonal Movement
+        // Diagonal Movement
         if (Math.abs(xDiff) != Math.abs(yDiff)) {
             return false;
         }
@@ -18,11 +19,7 @@ class Bishop extends Piece {
     public String toString() {
         if (this.colour == Colour.BLACK) {
             return "♗";
-        } else {
-            return "♝";
         }
+        return "♝";
     }
 }
-//Legal moves:
-// this.x && this.y has to change by abs(n)
-//

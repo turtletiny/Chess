@@ -28,8 +28,8 @@ public class Main {
             int toX = move.charAt(3) - 96;
             int toY = move.charAt(4) - 48;
             Piece selectedPiece = board.getPieceAt(fromX, fromY);
-            selectedPiece.placePiece(board, toX, toY);
-            board.clearAtPos(fromX, fromY);
+            // selectedPiece.placePiece(board, toX, toY);
+            // board.clearAtPos(fromX, fromY);
 
             moveCount += 0.5;
             whitesTurn = !whitesTurn;
