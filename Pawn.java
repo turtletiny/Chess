@@ -1,5 +1,3 @@
-
-
 class Pawn extends Piece {
 
     Pawn(Colour colour) {
@@ -10,21 +8,18 @@ class Pawn extends Piece {
 
     }
 
-    public boolean isLegalMove(Board board, int xDiff, int yDiff){
-        if ()
+    public boolean isLegalMove(Board board, int xDiff, int yDiff) {
         // for white pieces: board[6]
         // for black pieces: board[1]
         return true;
 
     }
 
-    public String toString(){
-        if (this.colour == Colour.BLACK){
+    public String toString() {
+        if (this.colour == Colour.BLACK) {
             return "♙";
 
-
-        }
-        else{
+        } else {
             return "♟";
 
         }
