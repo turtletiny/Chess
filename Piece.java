@@ -1,10 +1,12 @@
 abstract class Piece {
 
     Colour colour;
-    int x, y; //coordinate position of piece
+    int x, y; // coordinate position of piece
 
     Piece(Colour colour) {
         this.colour = colour;
+        //initialise x, y values based on position in board
+        // or we could just loop through board and initialise
     }
 
     public void clearCurrentPos(Board board) {
@@ -17,7 +19,7 @@ abstract class Piece {
         board.board[Math.abs(this.y - 8)][this.x - 1] = this;
     }
 
-    //Move Legality Checks
+    // Move Legality Checks
     boolean pieceExists(Board board, int fromX, int fromY) {
         return board.getPieceAt(fromX, fromY) != null;
     }
