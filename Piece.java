@@ -9,14 +9,12 @@ abstract class Piece {
         // or we could just loop through board and initialise
     }
 
-    public void clearCurrentPos(Board board) {
-        board.board[Math.abs(this.y - 8)][this.x - 1] = null;
-    }
+    // public void clearCurrentPos(Board board) {
+    //     board.board[get] = null;
+    // }
 
     public void placePiece(Board board, int x, int y) {
-        this.x = x;
-        this.y = y;
-        board.board[Math.abs(this.y - 8)][this.x - 1] = this;
+        board.board[Board.getIndex(x, y)] = this;
     }
 
     // Move Legality Checks
