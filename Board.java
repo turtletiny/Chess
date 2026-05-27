@@ -65,10 +65,17 @@ class Board {
     }
 
     public static int getIndex(int x, int y) {
-        return 8 * Math.abs(8 - y) + x - 1;
+        return 8 * (8 - y) + x - 1;
 
     }
-    public static void main(String[] args) {
-        System.out.println(Board.getIndex(2, 5));
+
+    public static int getX(int index) {
+        return (index % 8) + 1;
     }
+
+    public static int getY(int index) {
+        return 8 - (index / 8);
+
+    }
+
 }
