@@ -11,12 +11,13 @@ class Bishop extends Piece {
     public void move(Board board) {
     }
 
-    public boolean isLegalMove(int xDiff, int yDiff, int newX, int newY) {
-        // Diagonal Movement
+    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
+        super.isLegalMove(board, fromX, fromY, toX, toY);
+        int xDiff = toX - fromX;
+        int yDiff = toY - fromY;
         if (Math.abs(xDiff) != Math.abs(yDiff)) {
             return false;
         }
-        super.moveInBounds(newX, newY);
         return true;
     }
 

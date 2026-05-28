@@ -8,11 +8,15 @@ class Rook extends Piece {
         super(colour, x, y);
     }
 
-    public void move(Board board) {}
+    public void move(Board board) {
+    }
 
-    public boolean isLegalMove(int xDiff, int yDiff) {
+    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
+        super.isLegalMove(board, fromX, fromY, toX, toY);
+        int xDiff = toX - fromX;
+        int yDiff = toY - fromY;
         if ((xDiff != 0 && yDiff == 0) ||
-            (xDiff == 0 && yDiff != 0)){
+                (xDiff == 0 && yDiff != 0)) {
             return false;
         }
         return true;

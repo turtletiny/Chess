@@ -1,7 +1,9 @@
 class Board {
+    boolean whitesTurn;
     Piece[] board;
 
     Board() {
+        this.whitesTurn = true;
         this.board = new Piece[64];
         for (int i = 0; i < 8; i++) {
             // Initialise Pawns
@@ -61,23 +63,23 @@ class Board {
 
     public void printBoard() {
         int count = 1;
-        int rowNum = 1;
+        int rowNum = 8;
         System.out.println("  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
         String row = rowNum + " │  ";
         for (Piece p : this.board) {
-
             if (p == null) {
                 row += "   │  ";
             } else {
                 row += p + "  │  ";
             }
             if (count % 8 == 0) {
+                rowNum--;
                 System.out.println(row);
                 row = rowNum + " │  ";
-                if (rowNum != 8) {
+                if (rowNum != 0) {
                     System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
                 }
-                rowNum++;
+
             }
             count++;
         }

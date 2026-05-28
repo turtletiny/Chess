@@ -12,9 +12,10 @@ class Pawn extends Piece {
 
     }
 
-    public boolean isLegalMove(Board board, int xDiff, int yDiff) {
-        // for white pieces: board[6]
-        // for black pieces: board[1]
+    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
+        super.isLegalMove(board, fromX, fromY, toX, toY);
+        int xDiff = toX - fromX;
+        int yDiff = toY - fromY;
         return true;
 
     }

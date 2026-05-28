@@ -18,8 +18,17 @@ abstract class Piece {
         this.y = y;
     }
 
-    boolean moveInBounds(int newX, int newY) {
-        if (newX < 1 || newX > 8 || newY < 1 || newY > 8) {
+    boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
+        if ((board.whitesTurn && board.getPieceAt(fromX, fromY).colour != Colour.WHITE) // can put into method later
+                || (!board.whitesTurn && board.getPieceAt(fromX, fromY).colour != Colour.BLACK))
+            return false;
+        board.pieceExists(fromX, fromY);
+        this.moveInBounds(toX, toY);
+        return true;
+    }
+
+    boolean moveInBounds(int toX, int toY) {
+        if (toX < 1 || toX > 8 || toY < 1 || toY > 8) {
             return false;
         }
         return true;
