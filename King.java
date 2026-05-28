@@ -12,7 +12,7 @@ class King extends Piece {
         super.isLegalMove(board, fromX, fromY, toX, toY);
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
-        if (Math.abs(xDiff) != 1 || Math.abs(yDiff) != 1) {
+        if (Math.abs(xDiff) > 1 || Math.abs(yDiff) > 1) {
             return false;
         }
         return true;
