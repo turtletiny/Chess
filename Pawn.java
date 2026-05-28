@@ -4,6 +4,10 @@ class Pawn extends Piece {
         super(colour);
     }
 
+    Pawn(Colour colour, int x, int y) {
+        super(colour, x, y);
+    }
+
     public void move(Board board) {
 
     }

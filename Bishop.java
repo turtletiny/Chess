@@ -4,6 +4,10 @@ class Bishop extends Piece {
         super(colour);
     }
 
+    Bishop(Colour colour, int x, int y) {
+        super(colour, x, y);
+    }
+
     public void move(Board board) {
     }
 

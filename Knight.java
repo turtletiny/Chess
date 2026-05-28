@@ -4,7 +4,12 @@ class Knight extends Piece {
         super(colour);
     }
 
-    public void move(Board board) {}
+    Knight(Colour colour, int x, int y) {
+        super(colour, x, y);
+    }
+
+    public void move(Board board) {
+    }
 
     public boolean isLegalMove(int xDiff, int yDiff) {
         if (!(Math.abs(xDiff) == 2 && Math.abs(yDiff) == 1) && !(Math.abs(xDiff) == 1 && Math.abs(yDiff) == 2)) {

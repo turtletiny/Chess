@@ -4,6 +4,10 @@ class Rook extends Piece {
         super(colour);
     }
 
+    Rook(Colour colour, int x, int y) {
+        super(colour, x, y);
+    }
+
     public void move(Board board) {}
 
     public boolean isLegalMove(int xDiff, int yDiff) {

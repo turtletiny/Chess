@@ -1,17 +1,22 @@
 abstract class Piece {
 
     Colour colour;
-    int x, y; // coordinate position of piece
+    int x, y;
 
     Piece(Colour colour) {
         this.colour = colour;
-        //initialise x, y values based on position in board
-        // or we could just loop through board and initialise
+        if (this.colour == Colour.WHITE) {
+            this.y = 1;
+        } else {
+            this.y = 8;
+        }
     }
 
-    // public void clearCurrentPos(Board board) {
-    //     board.board[get] = null;
-    // }
+    Piece(Colour colour, int x, int y) {
+        this.colour = colour;
+        this.x = x;
+        this.y = y;
+    }
 
     // Move Legality Checks
     boolean pieceExists(Board board, int fromX, int fromY) {
