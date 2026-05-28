@@ -18,11 +18,6 @@ abstract class Piece {
         this.y = y;
     }
 
-    // Move Legality Checks
-    boolean pieceExists(Board board, int fromX, int fromY) {
-        return board.getPieceAt(fromX, fromY) != null;
-    }
-
     boolean moveInBounds(int newX, int newY) {
         if (newX < 1 || newX > 8 || newY < 1 || newY > 8) {
             return false;

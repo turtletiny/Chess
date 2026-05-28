@@ -24,6 +24,10 @@ public class Main {
             int toX = move.charAt(3) - 96;
             int toY = move.charAt(4) - 48;
             Piece selectedPiece = board.getPieceAt(fromX, fromY);
+            // if isLegalMove:
+            board.placePiece(selectedPiece, toX, toY);
+            //clear original square
+            // else error and continue?
             whitesTurn = !whitesTurn;
         }
     }

@@ -4,11 +4,11 @@ class Board {
     Board() {
         this.board = new Piece[64];
         for (int i = 0; i < 8; i++) {
-            // Place Pawns
+            // Initialise Pawns
             this.board[i + 8] = new Pawn(Colour.BLACK, Board.getX(i + 8), 7);
             this.board[i + 48] = new Pawn(Colour.WHITE, Board.getX(i + 48), 2);
 
-            // Place Pieces
+            // Initialise Pieces
             switch (i) {
                 case 0, 7:
                     this.board[i] = new Rook(Colour.BLACK, Board.getX(i), 8);
@@ -24,7 +24,7 @@ class Board {
                     break;
             }
         }
-        // Place Kings + Queens
+        // Intialise Kings + Queens
         this.board[3] = new Queen(Colour.BLACK);
         this.board[4] = new King(Colour.BLACK);
         this.board[59] = new Queen(Colour.WHITE);
@@ -53,6 +53,10 @@ class Board {
 
     public void placePiece(Piece piece, int x, int y) {
         this.board[Board.getIndex(x, y)] = piece;
+    }
+
+    public boolean pieceExists(int x, int y) {
+        return this.board[Board.getIndex(x, y)] != null;
     }
 
     public void printBoard() {
