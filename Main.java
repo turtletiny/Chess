@@ -30,7 +30,7 @@ public class Main {
                     board.whitesTurn = !board.whitesTurn;
                     break;
                 } else {
-                    System.out.println("Invalid move!");
+                    System.out.println("Invalid move, try again.");
                     continue;
                 }
             }
