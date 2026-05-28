@@ -4,15 +4,27 @@ class Board {
     Board() {
         this.board = new Piece[64];
         for (int i = 0; i < 8; i++) {
-            this.board[i + 8] = new Pawn(Colour.BLACK);
-            this.board[i + 48] = new Pawn(Colour.WHITE);
+            // Place Pawns
+            this.board[i + 8] = new Pawn(Colour.BLACK, Board.getX(i + 8), 7);
+            this.board[i + 48] = new Pawn(Colour.WHITE, Board.getX(i + 48), 2);
+
+            // Place Pieces
+            switch (i) {
+                case 0, 7:
+                    this.board[i] = new Rook(Colour.BLACK, Board.getX(i), 8);
+                    this.board[i + 56] = new Rook(Colour.WHITE, Board.getX(i + 56), 1);
+                    break;
+                case 1, 6:
+                    this.board[i] = new Knight(Colour.BLACK, Board.getX(i), 8);
+                    this.board[i + 56] = new Knight(Colour.WHITE, Board.getX(i + 56), 1);
+                    break;
+                case 2, 5:
+                    this.board[i] = new Bishop(Colour.BLACK, Board.getX(i), 8);
+                    this.board[i + 56] = new Bishop(Colour.WHITE, Board.getX(i + 56), 1);
+                    break;
+            }
         }
-        this.board[0] = this.board[7] = new Rook(Colour.BLACK);
-        this.board[56] = this.board[63] = new Rook(Colour.WHITE);
-        this.board[1] = this.board[6] = new Knight(Colour.BLACK);
-        this.board[57] = this.board[62] = new Knight(Colour.WHITE);
-        this.board[2] = this.board[5] = new Bishop(Colour.BLACK);
-        this.board[58] = this.board[61] = new Bishop(Colour.WHITE);
+        // Place Kings + Queens
         this.board[3] = new Queen(Colour.BLACK);
         this.board[4] = new King(Colour.BLACK);
         this.board[59] = new Queen(Colour.WHITE);

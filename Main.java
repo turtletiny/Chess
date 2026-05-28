@@ -1,9 +1,6 @@
 public class Main {
-
-
-
     public static void main(String[] args) {
-        //Setup
+        // Setup
         Board board = new Board();
         double moveCount = 1;
         boolean whitesTurn = true;
@@ -11,7 +8,7 @@ public class Main {
         boolean whiteCastlingRights = true;
         boolean blackCastlingRights = false;
 
-        //Game Loop
+        // Game Loop
         while (running) {
             board.printBoard();
             System.out.println("\nTurn Number: " + (int) moveCount + ".");
@@ -20,7 +17,6 @@ public class Main {
             } else {
                 System.out.println("♔ BLACK's turn\n");
             }
-
             System.out.println("Enter move ");
             String move = In.nextLine();
             int fromX = move.charAt(0) - 96;
@@ -28,10 +24,6 @@ public class Main {
             int toX = move.charAt(3) - 96;
             int toY = move.charAt(4) - 48;
             Piece selectedPiece = board.getPieceAt(fromX, fromY);
-            // selectedPiece.placePiece(board, toX, toY);
-            // board.clearAtPos(fromX, fromY);
-
-            moveCount += 0.5;
             whitesTurn = !whitesTurn;
         }
     }
