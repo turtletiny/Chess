@@ -17,9 +17,7 @@ class Rook extends Piece {
         }
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
-        if ((xDiff != 0 && yDiff == 0) ||
-                (xDiff == 0 && yDiff != 0)) {
-            System.out.println("Rooks move perpendicularly");
+        if (xDiff != 0 && yDiff != 0){
             return false;
         }
         return true;
