@@ -1,9 +1,9 @@
 class Board {
-    boolean whitesTurn;
+    Colour turnColour;
     Piece[] board;
 
     Board() {
-        this.whitesTurn = true;
+        this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         for (int i = 0; i < 8; i++) {
             // Initialise Pawns
@@ -59,6 +59,15 @@ class Board {
 
     public boolean pieceExists(int x, int y) {
         return this.board[Board.getIndex(x, y)] != null;
+    }
+
+    public void turnToggle() {
+        if (this.turnColour == Colour.WHITE) {
+            this.turnColour = Colour.BLACK;
+        } else {
+            this.turnColour = Colour.WHITE;
+        }
+
     }
 
     public void printBoard() {

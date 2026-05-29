@@ -12,11 +12,14 @@ class Rook extends Piece {
     }
 
     public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        super.isLegalMove(board, fromX, fromY, toX, toY);
+        if (!super.isLegalMove(board, fromX, fromY, toX, toY)){
+            return false;
+        }
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
         if ((xDiff != 0 && yDiff == 0) ||
                 (xDiff == 0 && yDiff != 0)) {
+            System.out.println("Rooks move perpendicularly");
             return false;
         }
         return true;

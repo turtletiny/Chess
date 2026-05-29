@@ -18,10 +18,13 @@ class Knight extends Piece {
         return true;
     }
     public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        super.isLegalMove(board, fromX, fromY, toX, toY);
+        if (!super.isLegalMove(board, fromX, fromY, toX, toY)){
+            return false;
+        }
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
         if (!(Math.abs(xDiff) == 2 && Math.abs(yDiff) == 1) && !(Math.abs(xDiff) == 1 && Math.abs(yDiff) == 2)) {
+            System.out.println("Knights move in an 'L' shape");
             return false;
         }
         return true;

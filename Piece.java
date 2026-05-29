@@ -19,11 +19,18 @@ abstract class Piece {
     }
 
     boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if ((board.whitesTurn && board.getPieceAt(fromX, fromY).colour != Colour.WHITE) // can put into method later
-                || (!board.whitesTurn && board.getPieceAt(fromX, fromY).colour != Colour.BLACK))
+        if (!board.pieceExists(fromX, fromY)){
+            System.out.println("There's no piece on that square! ");
             return false;
-        board.pieceExists(fromX, fromY);
-        this.moveInBounds(toX, toY);
+        }
+        if (!playerColour(board)){
+            System.out.println("That's not your piece! ");
+            return false;
+        }
+        if (!this.moveInBounds(toX, toY)){
+            System.out.println("That move is off the board! ");
+            return false;
+        }
         return true;
     }
 
@@ -32,5 +39,9 @@ abstract class Piece {
             return false;
         }
         return true;
+    }
+
+    boolean playerColour(Board board) {
+        return this.colour == board.turnColour;
     }
 }

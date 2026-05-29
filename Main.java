@@ -4,14 +4,12 @@ public class Main {
         Board board = new Board();
         double moveCount = 1;
         boolean running = true;
-        boolean whiteCastlingRights = true;
-        boolean blackCastlingRights = false;
 
         // Game Loop
         while (running) {
             board.printBoard();
             System.out.println("\nTurn Number: " + (int) moveCount + ".");
-            if (board.whitesTurn) {
+            if (board.turnColour == Colour.WHITE) {
                 System.out.println("♚ WHITE's turn\n");
             } else {
                 System.out.println("♔ BLACK's turn\n");
@@ -25,12 +23,14 @@ public class Main {
                 int toY = move.charAt(4) - 48;
                 Piece selectedPiece = board.getPieceAt(fromX, fromY);
                 if (selectedPiece.isLegalMove(board, fromX, fromY, toX, toY)) {
-                    board.placePiece(selectedPiece, toX, toY); // these 2 lines should be placed into 1 method later
-                    board.clearSquare(fromX, fromY); // this line
-                    board.whitesTurn = !board.whitesTurn;
+
+                    // these lines can be condensed into 1 method later
+                    board.placePiece(selectedPiece, toX, toY);
+                    board.clearSquare(fromX, fromY);
+                    board.turnToggle();
                     break;
                 } else {
-                    System.out.println("Invalid move, try again.");
+                    System.out.println("Try again.");
                     continue;
                 }
             }
