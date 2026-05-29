@@ -22,17 +22,10 @@ public class Main {
                 int toX = move.charAt(3) - 96;
                 int toY = move.charAt(4) - 48;
                 Piece selectedPiece = board.getPieceAt(fromX, fromY);
-                if (selectedPiece.isLegalMove(board, fromX, fromY, toX, toY)) {
-
-                    // these lines can be condensed into 1 method later
-                    board.placePiece(selectedPiece, toX, toY);
-                    board.clearSquare(fromX, fromY);
-                    board.turnToggle();
+                if (selectedPiece.playMove(board, fromX, fromY, toX, toY)) {
                     break;
-                } else {
-                    System.out.println("Try again.");
-                    continue;
                 }
+                System.out.println("Try again");
             }
         }
     }

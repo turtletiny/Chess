@@ -18,16 +18,26 @@ abstract class Piece {
         this.y = y;
     }
 
+    public boolean playMove(Board board, int fromX, int fromY, int toX, int toY){
+        if (isLegalMove(board, fromX, fromY, toX, toY)){
+            board.placePiece(this, toX, toY);
+            board.clearSquare(fromX, fromY);
+            board.turnToggle();
+            return true;
+        }
+        return false;
+    }
+
     boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!board.pieceExists(fromX, fromY)){
+        if (!board.pieceExists(fromX, fromY)) {
             System.out.println("There's no piece on that square! ");
             return false;
         }
-        if (!playerColour(board)){
+        if (!playerColour(board)) {
             System.out.println("That's not your piece! ");
             return false;
         }
-        if (!this.moveInBounds(toX, toY)){
+        if (!this.moveInBounds(toX, toY)) {
             System.out.println("That move is off the board! ");
             return false;
         }
@@ -43,5 +53,9 @@ abstract class Piece {
 
     boolean playerColour(Board board) {
         return this.colour == board.turnColour;
+    }
+
+    boolean isCapture(Board board, int toX, int toY) {
+        return board.pieceExists(toX, toY);
     }
 }

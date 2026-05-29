@@ -5,6 +5,7 @@ class Board {
     Board() {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
+
         for (int i = 0; i < 8; i++) {
             // Initialise Pawns
             this.board[i + 8] = new Pawn(Colour.BLACK, Board.getX(i + 8), 7);

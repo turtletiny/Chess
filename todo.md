@@ -1,4 +1,3 @@
-- Prevent player moving from opponent pieces
 - storing and displaying captured pieces
 - displaying points and point differences
 - lineOfSight
