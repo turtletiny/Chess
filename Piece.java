@@ -18,8 +18,8 @@ abstract class Piece {
         this.y = y;
     }
 
-    public boolean playMove(Board board, int fromX, int fromY, int toX, int toY){
-        if (isLegalMove(board, fromX, fromY, toX, toY)){
+    public boolean playMove(Board board, int fromX, int fromY, int toX, int toY) {
+        if (isLegalMove(board, fromX, fromY, toX, toY)) {
             board.placePiece(this, toX, toY);
             board.clearSquare(fromX, fromY);
             board.turnToggle();
@@ -58,4 +58,5 @@ abstract class Piece {
     boolean isCapture(Board board, int toX, int toY) {
         return board.pieceExists(toX, toY);
     }
+
 }
