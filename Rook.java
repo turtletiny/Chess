@@ -20,24 +20,23 @@ class Rook extends Piece {
         if (xDiff != 0 && yDiff != 0) {
             return false;
         }
-        if (this.isBlocked(board, fromX, fromY, toX, toY)){
-           return false;
+        if (this.isBlocked(board, fromX, fromY, toX, toY)) {
+            return false;
         }
         return true;
     }
 
     public boolean isBlocked(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX;
-        int yDiff = toY - fromY;
+        int xDiff = toX - fromX, yDiff = toY - fromY;
         if (xDiff == 0) { // then its a vertical move
             for (int i = 1; i < Math.abs(toY - fromY); i++) {
-                if (board.pieceExists(fromX, fromY + i  * yDiff / Math.abs(yDiff))) {
+                if (board.pieceExists(fromX, fromY + i * yDiff / Math.abs(yDiff))) {
                     return true;
                 }
             }
         } else { // its a horizontal move
-            for (int i = 1; i < Math.abs(toX - fromX); i++){
-                if (board.pieceExists(fromX + i * xDiff / Math.abs(xDiff), fromY)){
+            for (int i = 1; i < Math.abs(toX - fromX); i++) {
+                if (board.pieceExists(fromX + i * xDiff / Math.abs(xDiff), fromY)) {
                     return true;
                 }
             }

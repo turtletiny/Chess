@@ -59,4 +59,12 @@ abstract class Piece {
         return board.pieceExists(toX, toY);
     }
 
+    boolean capturingOwnPiece(Board board, int toX, int toY) {
+        if (board.getPieceAt(toX, toY).colour == this.colour) {
+            System.out.println("You cant capture your own piece!");
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -17,8 +17,9 @@ class Knight extends Piece {
         }
         return true;
     }
+
     public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!super.isLegalMove(board, fromX, fromY, toX, toY)){
+        if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
             return false;
         }
         int xDiff = toX - fromX;

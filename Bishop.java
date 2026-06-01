@@ -23,6 +23,9 @@ class Bishop extends Piece {
         if (this.isBlocked(board, fromX, fromY, toX, toY)) {
             return false;
         }
+        if (this.capturingOwnPiece(board, toX, toY)){
+            return false;
+        }
         return true;
     }
 
