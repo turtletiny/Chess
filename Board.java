@@ -74,7 +74,7 @@ class Board {
     public void printBoard() {
         int count = 1;
         int rowNum = 8;
-        System.out.println("  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
+        System.out.println("   ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
         String row = rowNum + " │  ";
         for (Piece p : this.board) {
             if (p == null) {
@@ -84,16 +84,16 @@ class Board {
             }
             if (count % 8 == 0) {
                 rowNum--;
-                System.out.println(row);
+                System.out.println(" " + row);
                 row = rowNum + " │  ";
                 if (rowNum != 0) {
-                    System.out.println("  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+                    System.out.println("   ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
                 }
 
             }
             count++;
         }
-        System.out.println("  └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
-        System.out.println("     a     b     c     d     e     f     g     h");
+        System.out.println("   └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
+        System.out.println("      a     b     c     d     e     f     g     h");
     }
 }
