@@ -19,20 +19,38 @@ class Queen extends Piece {
             System.out.println("Queens move diagonally or perpendicularly");
             return false;
         }
+        if (this.isBlocked(board, fromX, fromY, toX, toY)){
+            return false;
+        }
         return true;
     }
 
     public boolean isBlocked(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX, yDiff = toY - fromY, xDir = xDiff / Math.abs(xDiff), yDir = yDiff / Math.abs(yDiff);
+        int xDiff = toX - fromX, yDiff = toY - fromY;
         if (Math.abs(xDiff) == Math.abs(yDiff)) { // diagonal move
+            int xDir = xDiff / Math.abs(xDiff), yDir = yDiff / Math.abs(yDiff);
             for (int i = 1; i < Math.abs(toY - fromY); i++) {
                 if (board.pieceExists(fromX + i * xDir, fromY + i * yDir)) {
                     System.out.println("Bishop blocked bum");
                     return true;
                 }
             }
-        } else{ // vertical move
-            //... rook block check logic
+        } else { // perpendicular move
+            if (xDiff == 0) { // vertical move
+                int yDir = yDiff / Math.abs(yDiff);
+                for (int i = 1; i < Math.abs(toY - fromY); i++) {
+                    if (board.pieceExists(fromX, fromY + i * yDir)) {
+                        return true;
+                    }
+                }
+            } else { // horizontal move
+                int xDir = xDiff / Math.abs(xDiff);
+                for (int i = 1; i < Math.abs(toX - fromX); i++) {
+                    if (board.pieceExists(fromX + i * xDir, fromY)) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
