@@ -23,25 +23,14 @@ class Bishop extends Piece {
         if (this.isBlocked(board, fromX, fromY, toX, toY)) {
             return false;
         }
-        if (this.capturingOwnPiece(board, toX, toY)){
+        if (this.capturingOwnPiece(board, toX, toY)) {
             return false;
         }
         return true;
     }
 
     public boolean isBlocked(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX, yDiff = toY - fromY, xDir, yDir;
-        if (xDiff > 0) {
-            xDir = 1;
-        } else {
-            xDir = -1;
-        }
-        if (yDiff > 0) {
-            yDir = 1;
-        } else {
-            yDir = -1;
-        }
-
+        int xDiff = toX - fromX, yDiff = toY - fromY, xDir = xDiff / Math.abs(xDiff), yDir = yDiff / Math.abs(yDiff);
         for (int i = 1; i < Math.abs(toY - fromY); i++) {
             if (board.pieceExists(fromX + i * xDir, fromY + i * yDir)) {
                 System.out.println("Bishop blocked bum");
