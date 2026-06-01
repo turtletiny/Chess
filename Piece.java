@@ -41,6 +41,9 @@ abstract class Piece {
             System.out.println("That move is off the board! ");
             return false;
         }
+        if (this.capturingOwnPiece(board, toX, toY)) {
+            return false;
+        }
         return true;
     }
 
