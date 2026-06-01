@@ -22,6 +22,21 @@ class Queen extends Piece {
         return true;
     }
 
+    public boolean isBlocked(Board board, int fromX, int fromY, int toX, int toY) {
+        int xDiff = toX - fromX, yDiff = toY - fromY, xDir = xDiff / Math.abs(xDiff), yDir = yDiff / Math.abs(yDiff);
+        if (Math.abs(xDiff) == Math.abs(yDiff)) { // diagonal move
+            for (int i = 1; i < Math.abs(toY - fromY); i++) {
+                if (board.pieceExists(fromX + i * xDir, fromY + i * yDir)) {
+                    System.out.println("Bishop blocked bum");
+                    return true;
+                }
+            }
+        } else{ // vertical move
+            //... rook block check logic
+        }
+        return false;
+    }
+
     public String toString() {
         if (this.colour == Colour.BLACK) {
             return "♕";
