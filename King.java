@@ -1,8 +1,9 @@
 class King extends Piece {
-
+    boolean inCheck;
     King(Colour colour) {
         super(colour);
         this.x = 5;
+        this.inCheck = false;
     }
 
     public void move(Board board) {
