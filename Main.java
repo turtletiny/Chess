@@ -15,6 +15,7 @@ public class Main {
                 System.out.println("♔ BLACK's turn\n");
             }
             while (true) {
+
                 System.out.println("Enter move ");
                 String move = In.nextLine();
                 int fromX = move.charAt(0) - 96;
@@ -22,10 +23,16 @@ public class Main {
                 int toX = move.charAt(3) - 96;
                 int toY = move.charAt(4) - 48;
                 Piece selectedPiece = board.getPieceAt(fromX, fromY);
-                if (selectedPiece.playMove(board, fromX, fromY, toX, toY)) {
+                if (!selectedPiece.isLegalMove(board, fromX, fromY, toX, toY)) {
+                    System.out.println("Try again");
+                    continue;
+                } else {
+                    selectedPiece.playMove(board, fromX, fromY, toX, toY);
+                    if (board.isSquareAttacked(board.whiteKing.x, board.whiteKing.y)
+                            || board.isSquareAttacked(board.blackKing.x, board.blackKing.y)) {
+                    }
                     break;
                 }
-                System.out.println("Try again");
             }
         }
     }

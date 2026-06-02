@@ -1,6 +1,7 @@
 class Board {
     Colour turnColour;
     Piece[] board;
+    King blackKing, whiteKing; // allows for instant global calling
 
     Board() {
         this.turnColour = Colour.WHITE;
@@ -30,10 +31,10 @@ class Board {
         // Intialise Kings + Queens
         this.board[3] = new Queen(Colour.BLACK);
         this.board[59] = new Queen(Colour.WHITE);
-        King blackKing = new King(Colour.BLACK);
-        King whiteKing = new King(Colour.WHITE);
-        this.board[4] = blackKing;
-        this.board[60] = whiteKing;
+        this.blackKing = new King(Colour.BLACK);
+        this.whiteKing = new King(Colour.WHITE);
+        this.board[4] = this.blackKing;
+        this.board[60] = this.whiteKing;
     }
 
     public static int getIndex(int x, int y) {

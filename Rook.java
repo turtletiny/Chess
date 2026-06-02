@@ -12,12 +12,14 @@ class Rook extends Piece {
     public void move(Board board) {
     }
 
+    @Override
     public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
         return (xDiff == 0 && yDiff != 0) || (xDiff != 0 && yDiff == 0);
     }
 
+    @Override
     public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
         if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
             return false;

@@ -18,16 +18,12 @@ abstract class Piece {
         this.y = y;
     }
 
-    public boolean playMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (isLegalMove(board, fromX, fromY, toX, toY)) {
-            board.placePiece(this, toX, toY);
-            board.clearSquare(fromX, fromY);
-            this.x = toX;
-            this.y = toY;
-            board.turnToggle();
-            return true;
-        }
-        return false;
+    public void playMove(Board board, int fromX, int fromY, int toX, int toY) {
+        board.placePiece(this, toX, toY);
+        board.clearSquare(fromX, fromY);
+        this.x = toX;
+        this.y = toY;
+        board.turnToggle();
     }
 
     // Represents unique move pattern for each piece
