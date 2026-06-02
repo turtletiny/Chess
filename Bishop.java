@@ -9,6 +9,7 @@ class Bishop extends Piece {
     }
 
     public void move(Board board) {
+    }
 
     @Override
     public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {

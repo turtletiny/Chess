@@ -30,6 +30,7 @@ public class Main {
                     selectedPiece.playMove(board, fromX, fromY, toX, toY);
                     if (board.isSquareAttacked(board.whiteKing.x, board.whiteKing.y)
                             || board.isSquareAttacked(board.blackKing.x, board.blackKing.y)) {
+                        // king is in check...
                     }
                     break;
                 }
