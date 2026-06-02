@@ -29,9 +29,11 @@ class Board {
         }
         // Intialise Kings + Queens
         this.board[3] = new Queen(Colour.BLACK);
-        this.board[4] = new King(Colour.BLACK);
         this.board[59] = new Queen(Colour.WHITE);
-        this.board[60] = new King(Colour.WHITE);
+        King blackKing = new King(Colour.BLACK);
+        King whiteKing = new King(Colour.WHITE);
+        this.board[4] = blackKing;
+        this.board[60] = whiteKing;
     }
 
     public static int getIndex(int x, int y) {
@@ -70,6 +72,15 @@ class Board {
         }
 
     }
+
+    // public boolean isSquareAttacked(int x, int y) {
+    //     for (Piece p : board) {
+    //         if (p != null) {
+    //             if (p.isBlocked(board, p.x, p.y, x, y)
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public void printBoard() {
         int count = 1;
