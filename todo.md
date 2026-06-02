@@ -1,3 +1,10 @@
+# priority  
+piece.lineOfSight()
+board.isSquareAttacked()
+
+
+# later
+- store each piece logic into its own function (e.g diagonal movement for bishop)
 - storing and displaying captured pieces
 - displaying points and point differences
 - lineOfSight
