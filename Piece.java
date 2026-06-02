@@ -22,10 +22,28 @@ abstract class Piece {
         if (isLegalMove(board, fromX, fromY, toX, toY)) {
             board.placePiece(this, toX, toY);
             board.clearSquare(fromX, fromY);
+            this.x = toX;
+            this.y = toY;
             board.turnToggle();
             return true;
         }
         return false;
+    }
+
+    // horizontal, vertical and diagonal line of sight
+    boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY){
+        int xDir = Integer.compare(toX, fromX);
+        int yDir = Integer.compare(toY, fromY);
+        int curX = fromX + xDir;
+        int curY = fromY + yDir;
+        while (curX != toX || curY != toY){
+            if (board.pieceExists(curX, curY)){
+                return false;
+            }
+            curX += xDir;
+            curY += yDir;
+        }
+        return true;
     }
 
     boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
