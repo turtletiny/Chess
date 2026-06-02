@@ -31,9 +31,7 @@ abstract class Piece {
     }
 
     // Represents unique move pattern for each piece
-    public boolean correctMovePattern() {
-        return true;
-    }
+    abstract boolean correctMovePattern(int fromX, int fromY, int toX, int toY);
 
     // Whether a piece is attacking a square
     public boolean isAttacking(int x, int y) {

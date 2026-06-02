@@ -14,6 +14,10 @@ class Pawn extends Piece {
         this.hasMoved = true;
     }
 
+    public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
+        return false;
+    }
+
     public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
         if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
             return false;

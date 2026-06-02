@@ -70,19 +70,19 @@ class Board {
         } else {
             this.turnColour = Colour.WHITE;
         }
-
     }
 
-    // public boolean isSquareAttacked(int x, int y) {
-    //     for (Piece p : board) {
-    //         if (p != null) {
-    //             if (p.hasLineOfSight(board, p.x, p.y, x, y)){
-
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
+    public boolean isSquareAttacked(int x, int y) {
+        for (Piece p : board) {
+            if (p != null) {
+                if (p.correctMovePattern(p.x, p.y, x, y) && p.hasLineOfSight(this, p.x, p.y, x, y)) {
+                    System.out.println("Attacked by " + p + p.x + p.y);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public void printBoard() {
         int count = 1;

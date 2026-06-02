@@ -11,6 +11,11 @@ class Knight extends Piece {
     public void move(Board board) {
     }
 
+    @Override
+    boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY) {
+        return true;
+    }
+
     public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
