@@ -11,14 +11,18 @@ class Bishop extends Piece {
     public void move(Board board) {
     }
 
+    public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
+        int xDiff = toX - fromX;
+        int yDiff = toY - fromY;
+        return Math.abs(xDiff) == Math.abs(yDiff);
+    }
+
     public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
         if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
             return false;
         }
-        int xDiff = toX - fromX, yDiff = toY - fromY;
-        if (Math.abs(xDiff) != Math.abs(yDiff)) {
+        if (!correctMovePattern(fromX, fromY, toX, toY)){
             System.out.println("Bishops move diagonally");
-            return false;
         }
         if (!hasLineOfSight(board, fromX, fromY, toX, toY)) {
             return false;

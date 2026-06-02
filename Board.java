@@ -76,7 +76,9 @@ class Board {
     // public boolean isSquareAttacked(int x, int y) {
     //     for (Piece p : board) {
     //         if (p != null) {
-    //             if (p.isBlocked(board, p.x, p.y, x, y)
+    //             if (p.hasLineOfSight(board, p.x, p.y, x, y)){
+
+    //             }
     //         }
     //     }
     //     return false;

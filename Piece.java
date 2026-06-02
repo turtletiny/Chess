@@ -30,14 +30,25 @@ abstract class Piece {
         return false;
     }
 
-    // horizontal, vertical and diagonal line of sight (Note: Doesnt check if the type of move is right for the piece)
-    boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY){
+    // Represents unique move pattern for each piece
+    public boolean correctMovePattern() {
+        return true;
+    }
+
+    // Whether a piece is attacking a square
+    public boolean isAttacking(int x, int y) {
+        return true;
+    }
+
+    // horizontal, vertical and diagonal line of sight (Note: Doesnt check if the
+    // type of move is right for the piece)
+    boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY) {
         int xDir = Integer.compare(toX, fromX);
         int yDir = Integer.compare(toY, fromY);
         int curX = fromX + xDir;
         int curY = fromY + yDir;
-        while (curX != toX || curY != toY){
-            if (board.pieceExists(curX, curY)){
+        while (curX != toX || curY != toY) {
+            if (board.pieceExists(curX, curY)) {
                 System.out.println("Piece blocked");
                 return false;
             }
@@ -47,6 +58,7 @@ abstract class Piece {
         return true;
     }
 
+    // Checks that apply to all pieces
     boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
         if (!board.pieceExists(fromX, fromY)) {
             System.out.println("There's no piece on that square! ");
