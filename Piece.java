@@ -30,7 +30,7 @@ abstract class Piece {
         return false;
     }
 
-    // horizontal, vertical and diagonal line of sight
+    // horizontal, vertical and diagonal line of sight (Note: Doesnt check if the type of move is right for the piece)
     boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY){
         int xDir = Integer.compare(toX, fromX);
         int yDir = Integer.compare(toY, fromY);
