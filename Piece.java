@@ -38,6 +38,7 @@ abstract class Piece {
         int curY = fromY + yDir;
         while (curX != toX || curY != toY){
             if (board.pieceExists(curX, curY)){
+                System.out.println("Piece blocked");
                 return false;
             }
             curX += xDir;
