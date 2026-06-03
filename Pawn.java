@@ -15,8 +15,29 @@ class Pawn extends Piece {
     }
 
     @Override
-    public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
-        return false;
+    public void playMove(Board board, int fromX, int fromY, int toX, int toY) {
+        board.placePiece(this, toX, toY);
+        board.clearSquare(fromX, fromY);
+        this.x = toX;
+        this.y = toY;
+        this.hasMoved = true;
+        board.turnToggle();
+    }
+
+    public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
+        int xDiff = toX - fromX, yDiff = toY - fromY, yDir = 1;
+        if (this.colour == Colour.BLACK) {
+            yDir = -1;
+        }
+        if (!(yDiff == 1 * yDir || (yDiff == 2 * yDir && !this.hasMoved))) {
+            return false;
+        }
+        if (!this.isCapture(board, toX, toY) && xDiff != 0) {
+            return false;
+        }
+
+        // if (board.getLastMove() == pawn && math.abs(yDiff) == 2) ... then en passant possible
+        return true;
     }
 
     @Override
@@ -24,22 +45,7 @@ class Pawn extends Piece {
         if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
             return false;
         }
-        int xDiff = toX - fromX;
-        int yDiff = toY - fromY;
-
-        if (xDiff != 0 && !this.isCapture(board, toX, toY)) {
-            System.out.println("Pawns can only move diagonally on capture");
-            return false;
-        }
-        if (this.colour == Colour.WHITE && yDiff < 0) {
-            System.out.println("Pawns can only move forwards");
-            return false;
-        }
-        if (this.colour == Colour.BLACK && yDiff > 0) {
-            System.out.println("Pawns can only move forwards");
-            return false;
-        }
-        if (this.hasMoved && !(Math.abs(yDiff) == 1 || Math.abs(yDiff) == 2)) {
+        if (!correctMovePattern(board, fromX, fromY, toX, toY)) {
             return false;
         }
         return true;

@@ -27,7 +27,9 @@ abstract class Piece {
     }
 
     // Represents unique move pattern for each piece
-    abstract boolean correctMovePattern(int fromX, int fromY, int toX, int toY);
+    public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
+        return true;
+    }
 
     // Whether a piece is attacking a square
     public boolean isAttacking(int x, int y) {
@@ -43,7 +45,6 @@ abstract class Piece {
         int curY = fromY + yDir;
         while (curX != toX || curY != toY) {
             if (board.pieceExists(curX, curY)) {
-                System.out.println("Piece blocked");
                 return false;
             }
             curX += xDir;
@@ -69,6 +70,7 @@ abstract class Piece {
         if (this.capturingOwnPiece(board, toX, toY)) {
             return false;
         }
+
         return true;
     }
 
