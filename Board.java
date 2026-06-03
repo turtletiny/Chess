@@ -1,11 +1,17 @@
+import java.util.ArrayList;
+
 class Board {
     Colour turnColour;
     Piece[] board;
+    double moveCount;
+    private ArrayList<String> moveLog;
     King blackKing, whiteKing; // allows for instant global calling
 
     Board() {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
+        this.moveCount = 1;
+        this.moveLog = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
             // Initialise Pawns
@@ -49,6 +55,21 @@ class Board {
         return 8 - (index / 8);
     }
 
+    public void logMove(String move) {
+        this.moveLog.add(move);
+    }
+
+    public String getLastMove() {
+        return this.moveLog.getLast();
+    }
+
+    public void printLog() {
+        System.out.println("Move Log");
+        for (int i = 0; i < this.moveLog.size(); i += 2) {
+            System.out.println((i + 1) + ". " + this.moveLog.get(i) + "| " + this.moveLog.get(i + 1));
+        }
+    }
+
     public Piece getPieceAt(int x, int y) {
         return this.board[getIndex(x, y)];
     }
@@ -77,7 +98,6 @@ class Board {
         for (Piece p : board) {
             if (p != null) {
                 if (p.correctMovePattern(p.x, p.y, x, y) && p.hasLineOfSight(this, p.x, p.y, x, y)) {
-                    System.out.println("Attacked by " + p + p.x + p.y);
                     return true;
                 }
             }
@@ -103,7 +123,6 @@ class Board {
                 if (rowNum != 0) {
                     System.out.println("   ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
                 }
-
             }
             count++;
         }

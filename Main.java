@@ -18,6 +18,7 @@ public class Main {
 
                 System.out.println("Enter move ");
                 String move = In.nextLine();
+                // can put these into a function later
                 int fromX = move.charAt(0) - 96;
                 int fromY = move.charAt(1) - 48;
                 int toX = move.charAt(3) - 96;
@@ -28,6 +29,7 @@ public class Main {
                     continue;
                 } else {
                     selectedPiece.playMove(board, fromX, fromY, toX, toY);
+                    board.logMove(move);
                     if (board.isSquareAttacked(board.whiteKing.x, board.whiteKing.y)
                             || board.isSquareAttacked(board.blackKing.x, board.blackKing.y)) {
                         // king is in check...
