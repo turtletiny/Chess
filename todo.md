@@ -1,11 +1,17 @@
-# Priority
-- pawn logic is still incomplete (logic reversed for 1 or 2 movess
+# notes
+- pawn.isCorrectMovePattern() uses different signature to piece.isCorrectMovePattern
 
+# Priority
+- en passant logic 
+- refactor to using Move class to represent moves
 
 # later
+
 - input / exception handling
 - consistency with functions and organisation
-- store each piece logic into its own function (e.g diagonal movement for bishop)
+- error message order
+- have a class called 'coordinate'
+- have a class called 'move'
 - storing and displaying captured pieces
 - displaying points and point differences
 - pawn capture logic
