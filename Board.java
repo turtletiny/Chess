@@ -105,6 +105,28 @@ class Board {
         return false;
     }
 
+    public boolean leavesKingExposed(Piece piece, int fromX, int fromY, int toX, int toY) {
+        piece.playMove(this, fromX, fromY, toX, toY);
+        if (this.inCheck()) {
+            piece.playMove(this, toX, toY, fromX, fromY); // revert the board back to original position
+            System.out.println("That move leaves the king in check.");
+            return true;
+        }
+        piece.playMove(this, toX, toY, fromX, fromY); // revert the board back to original position
+        return false;
+    }
+
+    public boolean inCheck() {
+        if (this.turnColour.isWhite() && this.isSquareAttacked(this.whiteKing.x, this.whiteKing.y)) {
+            this.whiteKing.setInCheck(true);
+            return true;
+        } else if (!this.turnColour.isWhite() && this.isSquareAttacked(this.blackKing.x, this.blackKing.y)) {
+            this.blackKing.setInCheck(true);
+            return true;
+        }
+        return false;
+    }
+
     public void printBoard() {
         int count = 1;
         int rowNum = 8;

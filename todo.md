@@ -1,5 +1,7 @@
 # notes
 - pawn.isCorrectMovePattern() uses different signature to piece.isCorrectMovePattern
+- prevent user from making moves that leaveKingExposed()
+- 
 
 # Priority
 - en passant logic 

@@ -3,10 +3,10 @@ public class Main {
         // Setup
         Board board = new Board();
         double moveCount = 1;
-        boolean running = true;
+        boolean playing = true;
 
         // Game Loop
-        while (running) {
+        while (playing) {
             board.printBoard();
             System.out.println("\nTurn Number: " + (int) moveCount + ".");
             if (board.turnColour == Colour.WHITE) {
@@ -30,9 +30,8 @@ public class Main {
                 } else {
                     selectedPiece.playMove(board, fromX, fromY, toX, toY);
                     board.logMove(move);
-                    if (board.isSquareAttacked(board.whiteKing.x, board.whiteKing.y)
-                            || board.isSquareAttacked(board.blackKing.x, board.blackKing.y)) {
-                        // king is in check...
+                    if (board.inCheck()) { // (and not checkmate)
+                        System.out.println(board.turnColour + " in check");
                     }
                     break;
                 }

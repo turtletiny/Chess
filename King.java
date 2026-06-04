@@ -1,5 +1,6 @@
 class King extends Piece {
-    boolean inCheck;
+    private boolean inCheck;
+
     King(Colour colour) {
         super(colour);
         this.x = 5;
@@ -9,8 +10,12 @@ class King extends Piece {
     public void move(Board board) {
     }
 
+    public void setInCheck(Boolean bool) {
+        this.inCheck = bool;
+    }
+
     @Override
-    public boolean correctMovePattern(int fromX, int fromY, int toX, int toY){
+    public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
         return !(Math.abs(xDiff) > 1 || Math.abs(yDiff) > 1);

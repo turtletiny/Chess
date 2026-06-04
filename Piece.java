@@ -71,6 +71,7 @@ abstract class Piece {
             return false;
         }
 
+
         return true;
     }
 
