@@ -1,10 +1,5 @@
-# notes
-- pawn.isCorrectMovePattern() uses different signature to piece.isCorrectMovePattern
-- prevent user from making moves that leaveKingExposed()
-- 
-# bugs
-- king is unable to capture piece that is delivering check to get out of check
-- if dummy move is a capture, reverting the move doesnt restore the piece
+# 
+- when using revert move, revert pawn hasMoved() status to original
 
 # Priority
 - en passant logic 

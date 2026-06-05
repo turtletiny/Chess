@@ -14,14 +14,27 @@ class Pawn extends Piece {
         this.hasMoved = true;
     }
 
+    public boolean canAttack(Board board, int x, int y) {
+        if (this.colour.isWhite()) {
+            if (y - this.y == 1 && Math.abs(x - this.x) == 1) {
+                return true;
+            }
+        } else {
+            if (y - this.y == -1 && Math.abs(x - this.x) == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void playMove(Board board, int fromX, int fromY, int toX, int toY) {
-        board.placePiece(this, toX, toY);
-        board.clearSquare(fromX, fromY);
-        this.x = toX;
-        this.y = toY;
+        super.playMove(board, fromX, fromY, toX, toY);
         this.hasMoved = true;
-        board.turnToggle();
+    }
+    public void revertMove(Board board, int fromX, int fromY, int toX, int toY){
+        super.revertMove(board, fromX, fromY, toX, toY);
+        //logic to revert hasmoved
     }
 
     public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
@@ -35,11 +48,12 @@ class Pawn extends Piece {
         if (!this.isCapture(board, toX, toY) && xDiff != 0) {
             return false;
         }
-        if (this.isCapture(board, toX, toY) && xDiff != 1){
+        if (this.isCapture(board, toX, toY) && xDiff != 1) {
             return false;
         }
 
-        // if (board.getLastMove() == pawn && math.abs(yDiff) == 2) ... then en passant possible
+        // if (board.getLastMove() == pawn && math.abs(yDiff) == 2) ... then en passant
+        // possible
         return true;
     }
 

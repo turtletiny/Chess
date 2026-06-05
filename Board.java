@@ -58,19 +58,17 @@ class Board {
         return 8 - (index / 8);
     }
 
-    public int getWhiteKingX() {
-        return this.whiteKing.x;
-    }
-
-    public int getWhiteKingY() {
-        return this.whiteKing.y;
-    }
-
-    public int getBlackKingX() {
+    public int getKingX(Colour colour) {
+        if (colour.isWhite()) {
+            return this.whiteKing.x;
+        }
         return this.blackKing.x;
     }
 
-    public int getBlackKingY() {
+    public int getKingY(Colour colour) {
+        if (colour.isWhite()) {
+            return this.whiteKing.y;
+        }
         return this.blackKing.y;
     }
 
@@ -106,35 +104,45 @@ class Board {
     }
 
     public void turnToggle() {
-        if (this.turnColour == Colour.WHITE) {
-            this.turnColour = Colour.BLACK;
-        } else {
-            this.turnColour = Colour.WHITE;
-        }
+        this.turnColour = this.turnColour.getOpposite();
     }
 
     // Checks if a square is attacked by pieces of enemy colour
     public boolean isSquareAttacked(Colour myColour, int x, int y) {
         for (Piece p : board) {
-            if (p != null && p.colour != myColour) {
-                if (p.canAttack(this, x, y)) {
-                    return true;
-                }
+            if (p != null && p.colour != myColour && p.canAttack(this, x, y)) {
+                return true;
             }
         }
         return false;
     }
 
+    // public boolean leavesOwnKingExposed(Piece piece, int fromX, int fromY, int
+    // toX, int toY) {
+
+    // piece.playMove(this, fromX, fromY, toX, toY);
+    // if (!this.turnColour.isWhite()
+    // && this.isSquareAttacked(Colour.WHITE, this.getWhiteKingX(),
+    // this.getWhiteKingY())) {
+    // System.out.println("That leaves your white king exposed");
+    // piece.revertMove(this, fromX, fromY, toX, toY);
+    // return true;
+    // } else if (this.turnColour.isWhite()
+    // && this.isSquareAttacked(Colour.BLACK, this.getBlackKingX(),
+    // this.getBlackKingY())) {
+    // System.out.println("That leaves your black king exposed");
+    // piece.revertMove(this, fromX, fromY, toX, toY);
+    // return true;
+    // }
+    // piece.revertMove(this, fromX, fromY, toX, toY);
+    // return false;
+    // }
+
     public boolean leavesOwnKingExposed(Piece piece, int fromX, int fromY, int toX, int toY) {
+        Colour currentColour = this.turnColour;
         piece.playMove(this, fromX, fromY, toX, toY);
-        if (!this.turnColour.isWhite()
-                && this.isSquareAttacked(Colour.WHITE, this.getWhiteKingX(), this.getWhiteKingY())) {
-            System.out.println("That leaves your white king exposed");
-            piece.revertMove(this, fromX, fromY, toX, toY);
-            return true;
-        } else if (this.turnColour.isWhite()
-                && this.isSquareAttacked(Colour.BLACK, this.getBlackKingX(), this.getBlackKingY())) {
-            System.out.println("That leaves your black king exposed");
+        if (this.isSquareAttacked(currentColour, this.getKingX(currentColour), this.getKingY(currentColour))) {
+            System.out.println("King exposed");
             piece.revertMove(this, fromX, fromY, toX, toY);
             return true;
         }
@@ -142,13 +150,18 @@ class Board {
         return false;
     }
 
+    // public boolean inCheck(Colour colour) {
+    // if (colour.isWhite() && this.isSquareAttacked(colour, this.getWhiteKingX(),
+    // this.getWhiteKingY())) {
+    // return true;
+    // } else if (!colour.isWhite() && this.isSquareAttacked(colour,
+    // this.getBlackKingX(), this.getBlackKingY())) {
+    // return true;
+    // }
+    // return false;
+    // }
     public boolean inCheck(Colour colour) {
-        if (colour.isWhite() && this.isSquareAttacked(colour, this.getWhiteKingX(), this.getWhiteKingY())) {
-            return true;
-        } else if (!colour.isWhite() && this.isSquareAttacked(colour, this.getBlackKingX(), this.getBlackKingY())) {
-            return true;
-        }
-        return false;
+        return this.isSquareAttacked(colour, this.getKingX(colour), this.getKingY(colour));
     }
 
     public void printBoard() {
