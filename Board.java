@@ -4,6 +4,8 @@ class Board {
     Colour turnColour;
     Piece[] board;
     double moveCount;
+    ArrayList<Piece> graveyard;
+    Piece cache;
     private ArrayList<String> moveLog;
     King blackKing, whiteKing; // allows for instant global calling
 
@@ -11,6 +13,7 @@ class Board {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         this.moveCount = 1;
+        this.graveyard = new ArrayList<>();
         this.moveLog = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
@@ -55,6 +58,22 @@ class Board {
         return 8 - (index / 8);
     }
 
+    public int getWhiteKingX() {
+        return this.whiteKing.x;
+    }
+
+    public int getWhiteKingY() {
+        return this.whiteKing.y;
+    }
+
+    public int getBlackKingX() {
+        return this.blackKing.x;
+    }
+
+    public int getBlackKingY() {
+        return this.blackKing.y;
+    }
+
     public void logMove(String move) {
         this.moveLog.add(move);
     }
@@ -94,10 +113,11 @@ class Board {
         }
     }
 
-    public boolean isSquareAttacked(int x, int y) {
+    // Checks if a square is attacked by pieces of enemy colour
+    public boolean isSquareAttacked(Colour myColour, int x, int y) {
         for (Piece p : board) {
-            if (p != null) {
-                if (p.correctMovePattern(p.x, p.y, x, y) && p.hasLineOfSight(this, p.x, p.y, x, y)) {
+            if (p != null && p.colour != myColour) {
+                if (p.canAttack(this, x, y)) {
                     return true;
                 }
             }
@@ -105,23 +125,27 @@ class Board {
         return false;
     }
 
-    public boolean leavesKingExposed(Piece piece, int fromX, int fromY, int toX, int toY) {
+    public boolean leavesOwnKingExposed(Piece piece, int fromX, int fromY, int toX, int toY) {
         piece.playMove(this, fromX, fromY, toX, toY);
-        if (this.inCheck()) {
-            piece.playMove(this, toX, toY, fromX, fromY); // revert the board back to original position
-            System.out.println("That move leaves the king in check.");
+        if (!this.turnColour.isWhite()
+                && this.isSquareAttacked(Colour.WHITE, this.getWhiteKingX(), this.getWhiteKingY())) {
+            System.out.println("That leaves your white king exposed");
+            piece.revertMove(this, fromX, fromY, toX, toY);
+            return true;
+        } else if (this.turnColour.isWhite()
+                && this.isSquareAttacked(Colour.BLACK, this.getBlackKingX(), this.getBlackKingY())) {
+            System.out.println("That leaves your black king exposed");
+            piece.revertMove(this, fromX, fromY, toX, toY);
             return true;
         }
-        piece.playMove(this, toX, toY, fromX, fromY); // revert the board back to original position
+        piece.revertMove(this, fromX, fromY, toX, toY);
         return false;
     }
 
-    public boolean inCheck() {
-        if (this.turnColour.isWhite() && this.isSquareAttacked(this.whiteKing.x, this.whiteKing.y)) {
-            this.whiteKing.setInCheck(true);
+    public boolean inCheck(Colour colour) {
+        if (colour.isWhite() && this.isSquareAttacked(colour, this.getWhiteKingX(), this.getWhiteKingY())) {
             return true;
-        } else if (!this.turnColour.isWhite() && this.isSquareAttacked(this.blackKing.x, this.blackKing.y)) {
-            this.blackKing.setInCheck(true);
+        } else if (!colour.isWhite() && this.isSquareAttacked(colour, this.getBlackKingX(), this.getBlackKingY())) {
             return true;
         }
         return false;

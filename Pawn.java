@@ -35,6 +35,9 @@ class Pawn extends Piece {
         if (!this.isCapture(board, toX, toY) && xDiff != 0) {
             return false;
         }
+        if (this.isCapture(board, toX, toY) && xDiff != 1){
+            return false;
+        }
 
         // if (board.getLastMove() == pawn && math.abs(yDiff) == 2) ... then en passant possible
         return true;

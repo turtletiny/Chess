@@ -24,13 +24,14 @@ public class Main {
                 int toX = move.charAt(3) - 96;
                 int toY = move.charAt(4) - 48;
                 Piece selectedPiece = board.getPieceAt(fromX, fromY);
-                if (!selectedPiece.isLegalMove(board, fromX, fromY, toX, toY)) {
+                if (!selectedPiece.isLegalMove(board, fromX, fromY, toX, toY)
+                        || board.leavesOwnKingExposed(selectedPiece, fromX, fromY, toX, toY)) {
                     System.out.println("Try again");
                     continue;
                 } else {
                     selectedPiece.playMove(board, fromX, fromY, toX, toY);
                     board.logMove(move);
-                    if (board.inCheck()) { // (and not checkmate)
+                    if (board.inCheck(board.turnColour)) { // (and not checkmate)
                         System.out.println(board.turnColour + " in check");
                     }
                     break;
