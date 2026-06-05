@@ -26,10 +26,9 @@ class King extends Piece {
         if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
             return false;
         }
-        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)){
+        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)) {
             return false;
         }
-
         return true;
     }
 

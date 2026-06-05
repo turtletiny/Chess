@@ -46,6 +46,7 @@ class Board {
         this.board[60] = this.whiteKing;
     }
 
+    // Getters
     public static int getIndex(int x, int y) {
         return 8 * (8 - y) + x - 1;
     }
@@ -72,23 +73,12 @@ class Board {
         return this.blackKing.y;
     }
 
-    public void logMove(String move) {
-        this.moveLog.add(move);
+    public Piece getPieceAt(int x, int y) {
+        return this.board[getIndex(x, y)];
     }
 
     public String getLastMove() {
         return this.moveLog.getLast();
-    }
-
-    public void printLog() {
-        System.out.println("Move Log");
-        for (int i = 0; i < this.moveLog.size(); i += 2) {
-            System.out.println((i + 1) + ". " + this.moveLog.get(i) + "| " + this.moveLog.get(i + 1));
-        }
-    }
-
-    public Piece getPieceAt(int x, int y) {
-        return this.board[getIndex(x, y)];
     }
 
     public void clearSquare(int x, int y) {
@@ -117,27 +107,6 @@ class Board {
         return false;
     }
 
-    // public boolean leavesOwnKingExposed(Piece piece, int fromX, int fromY, int
-    // toX, int toY) {
-
-    // piece.playMove(this, fromX, fromY, toX, toY);
-    // if (!this.turnColour.isWhite()
-    // && this.isSquareAttacked(Colour.WHITE, this.getWhiteKingX(),
-    // this.getWhiteKingY())) {
-    // System.out.println("That leaves your white king exposed");
-    // piece.revertMove(this, fromX, fromY, toX, toY);
-    // return true;
-    // } else if (this.turnColour.isWhite()
-    // && this.isSquareAttacked(Colour.BLACK, this.getBlackKingX(),
-    // this.getBlackKingY())) {
-    // System.out.println("That leaves your black king exposed");
-    // piece.revertMove(this, fromX, fromY, toX, toY);
-    // return true;
-    // }
-    // piece.revertMove(this, fromX, fromY, toX, toY);
-    // return false;
-    // }
-
     public boolean leavesOwnKingExposed(Piece piece, int fromX, int fromY, int toX, int toY) {
         Colour currentColour = this.turnColour;
         piece.playMove(this, fromX, fromY, toX, toY);
@@ -150,18 +119,19 @@ class Board {
         return false;
     }
 
-    // public boolean inCheck(Colour colour) {
-    // if (colour.isWhite() && this.isSquareAttacked(colour, this.getWhiteKingX(),
-    // this.getWhiteKingY())) {
-    // return true;
-    // } else if (!colour.isWhite() && this.isSquareAttacked(colour,
-    // this.getBlackKingX(), this.getBlackKingY())) {
-    // return true;
-    // }
-    // return false;
-    // }
     public boolean inCheck(Colour colour) {
         return this.isSquareAttacked(colour, this.getKingX(colour), this.getKingY(colour));
+    }
+
+    public void logMove(String move) {
+        this.moveLog.add(move);
+    }
+
+    public void printLog() {
+        System.out.println("Move Log");
+        for (int i = 0; i < this.moveLog.size(); i += 2) {
+            System.out.println((i + 1) + ". " + this.moveLog.get(i) + "| " + this.moveLog.get(i + 1));
+        }
     }
 
     public void printBoard() {
