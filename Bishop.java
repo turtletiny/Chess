@@ -12,7 +12,7 @@ class Bishop extends Piece {
     }
 
     @Override
-    public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
+    public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
         return Math.abs(xDiff) == Math.abs(yDiff);
@@ -23,13 +23,10 @@ class Bishop extends Piece {
         if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
             return false;
         }
-        if (!correctMovePattern(fromX, fromY, toX, toY)) {
+        if (!correctMovePattern(board, fromX, fromY, toX, toY)) {
             System.out.println("Bishops move diagonally");
         }
         if (!hasLineOfSight(board, fromX, fromY, toX, toY)) {
-            return false;
-        }
-        if (this.capturingOwnPiece(board, toX, toY)) {
             return false;
         }
         return true;
