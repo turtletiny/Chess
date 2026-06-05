@@ -2,6 +2,7 @@ abstract class Piece {
 
     Colour colour;
     int x, y;
+    final int[][] DIRECTIONS = {};
 
     Piece(Colour colour) {
         this.colour = colour;
@@ -28,7 +29,7 @@ abstract class Piece {
         board.incrementMoveCount(0.5);
     }
 
-    public void revertMove(Board board, int fromX, int fromY, int toX, int toY){
+    public void revertMove(Board board, int fromX, int fromY, int toX, int toY) {
         board.placePiece(this, fromX, fromY);
         board.placePiece(board.cache, toX, toY);
         this.x = fromX;
@@ -41,10 +42,24 @@ abstract class Piece {
     // Represents unique move pattern for each piece
     abstract boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY);
 
+    public boolean hasLegalMoves(Board board) {
+        for (int[] dir : this.DIRECTIONS) {
+            int curX = this.x, curY = this.y;
+            int xDir = dir[0], yDir = dir[1];
+            while (!board.pieceExists(curX + xDir, curY + yDir) || this.moveInBounds(curX + xDir, curY + yDir)) {
+                if (this.isLegalMove(board, curX, curY, curX + xDir, curY + yDir)) {
+                    return true;
+                }
+                curX += xDir;
+                curY += yDir;
+            }
+        }
+        return false;
+    }
 
     // Whether a piece can attack a square
     public boolean canAttack(Board board, int x, int y) {
-        if (this.correctMovePattern(board, this.x, this.y, x, y) && this.hasLineOfSight(board, this.x, this.y, x, y)){
+        if (this.correctMovePattern(board, this.x, this.y, x, y) && this.hasLineOfSight(board, this.x, this.y, x, y)) {
             return true;
         }
         return false;
@@ -84,10 +99,9 @@ abstract class Piece {
         if (this.capturingOwnPiece(board, toX, toY)) {
             return false;
         }
-        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)){
+        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)) {
             return false;
         }
-
 
         return true;
     }

@@ -1,4 +1,5 @@
 class Rook extends Piece {
+    private final int[][] DIRECTIONS = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
     Rook(Colour colour) {
         super(colour);
@@ -18,6 +19,7 @@ class Rook extends Piece {
         int yDiff = toY - fromY;
         return (xDiff == 0 && yDiff != 0) || (xDiff != 0 && yDiff == 0);
     }
+
 
     @Override
     public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {

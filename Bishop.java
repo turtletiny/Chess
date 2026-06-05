@@ -1,4 +1,5 @@
 class Bishop extends Piece {
+    private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 } };
 
     Bishop(Colour colour) {
         super(colour);

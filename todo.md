@@ -1,6 +1,5 @@
 # Priority
 - en passant logic 
-
 - when using revert move, revert pawn hasMoved() status to original
 - checkmate
 - castling

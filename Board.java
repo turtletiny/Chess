@@ -4,7 +4,7 @@ class Board {
     Colour turnColour;
     Piece[] board;
     private double moveCount;
-    ArrayList<Piece> graveyard;
+    private ArrayList<Piece> graveyard;
     Piece cache;
     private ArrayList<String> moveLog;
     King blackKing, whiteKing; // allows for instant global calling
@@ -137,6 +137,12 @@ class Board {
     public boolean inCheck(Colour colour) {
         return this.isSquareAttacked(colour, this.getKingX(colour), this.getKingY(colour));
     }
+
+    // public boolean hasLegalMoves(){
+    //     for (Piece p : this.board){
+
+    //     }
+    // }
 
     public void logMove(String move) {
         this.moveLog.add(move);
