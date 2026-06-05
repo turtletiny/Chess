@@ -48,7 +48,7 @@ class Pawn extends Piece {
         if (!this.isCapture(board, toX, toY) && xDiff != 0) {
             return false;
         }
-        if (this.isCapture(board, toX, toY) && xDiff != 1) {
+        if (this.isCapture(board, toX, toY) && Math.abs(xDiff) != 1) {
             return false;
         }
 
