@@ -19,6 +19,7 @@ abstract class Piece {
     }
 
     public void playMove(Board board, int fromX, int fromY, int toX, int toY) {
+        board.cache = board.getPieceAt(toX, toY);
         board.placePiece(this, toX, toY);
         board.clearSquare(fromX, fromY);
         this.x = toX;
@@ -26,14 +27,25 @@ abstract class Piece {
         board.turnToggle();
     }
 
-    // Represents unique move pattern for each piece
-    public boolean correctMovePattern(int fromX, int fromY, int toX, int toY) {
-        return true;
+    public void revertMove(Board board, int fromX, int fromY, int toX, int toY){
+        board.placePiece(this, fromX, fromY);
+        board.placePiece(board.cache, toX, toY);
+        this.x = fromX;
+        this.y = fromY;
+        board.turnToggle();
+        board.cache = null;
     }
 
-    // Whether a piece is attacking a square
-    public boolean isAttacking(int x, int y) {
-        return true;
+    // Represents unique move pattern for each piece
+    abstract boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY);
+
+
+    // Whether a piece can attack a square
+    public boolean canAttack(Board board, int x, int y) {
+        if (this.correctMovePattern(board, this.x, this.y, x, y) && this.hasLineOfSight(board, this.x, this.y, x, y)){
+            return true;
+        }
+        return false;
     }
 
     // horizontal, vertical and diagonal line of sight (Note: Doesnt check if the
@@ -68,6 +80,9 @@ abstract class Piece {
             return false;
         }
         if (this.capturingOwnPiece(board, toX, toY)) {
+            return false;
+        }
+        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)){
             return false;
         }
 
