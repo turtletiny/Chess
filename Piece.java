@@ -25,6 +25,7 @@ abstract class Piece {
         this.x = toX;
         this.y = toY;
         board.turnToggle();
+        board.incrementMoveCount(0.5);
     }
 
     public void revertMove(Board board, int fromX, int fromY, int toX, int toY){
@@ -33,6 +34,7 @@ abstract class Piece {
         this.x = fromX;
         this.y = fromY;
         board.turnToggle();
+        board.incrementMoveCount(-0.5);
         board.cache = null;
     }
 

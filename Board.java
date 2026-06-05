@@ -3,7 +3,7 @@ import java.util.ArrayList;
 class Board {
     Colour turnColour;
     Piece[] board;
-    double moveCount;
+    private double moveCount;
     ArrayList<Piece> graveyard;
     Piece cache;
     private ArrayList<String> moveLog;
@@ -77,6 +77,10 @@ class Board {
         return this.board[getIndex(x, y)];
     }
 
+    public int getMoveCount() {
+        return (int) this.moveCount;
+    }
+
     public static Move getMove(String move, Board board) {
         int fromX = move.charAt(0) - 96, fromY = move.charAt(1) - 48;
         int toX = move.charAt(3) - 96, toY = move.charAt(4) - 48;
@@ -86,6 +90,10 @@ class Board {
 
     public String getLastMove() {
         return this.moveLog.getLast();
+    }
+
+    public void incrementMoveCount(double num) {
+        this.moveCount += num;
     }
 
     public void clearSquare(int x, int y) {

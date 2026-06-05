@@ -2,13 +2,12 @@ public class Main {
     public static void main(String[] args) {
         // Setup
         Board board = new Board();
-        double moveCount = 1;
         boolean playing = true;
 
         // Game Loop
         while (playing) {
             board.printBoard();
-            System.out.println("\nTurn Number: " + (int) moveCount + ".");
+            System.out.println("\nTurn Number: " + board.getMoveCount() + ".");
             if (board.turnColour == Colour.WHITE) {
                 System.out.println("♚ WHITE's turn\n");
             } else {
