@@ -1,4 +1,5 @@
 # Priority
+- create a dummy move method that doesnt affect game states, rather than using the normal playmove function
 - implement hasLegalMoves for: queen, knight, pawn, king
 - en passant logic 
 - when using revert move, revert pawn hasMoved() status to original

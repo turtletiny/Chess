@@ -123,15 +123,20 @@ class Board {
     }
 
     public boolean leavesOwnKingExposed(Piece piece, int fromX, int fromY, int toX, int toY) {
-        Colour currentColour = this.turnColour;
-        piece.playMove(this, fromX, fromY, toX, toY);
-        if (this.isSquareAttacked(currentColour, this.getKingX(currentColour), this.getKingY(currentColour))) {
-            System.out.println("King exposed");
-            piece.revertMove(this, fromX, fromY, toX, toY);
-            return true;
-        }
-        piece.revertMove(this, fromX, fromY, toX, toY);
-        return false;
+        Piece capturedPiece = this.getPieceAt(toX, toY);
+        this.placePiece(piece, toX, toY);
+        this.clearSquare(fromX, fromY);
+        piece.x = toX;
+        piece.y = toY;
+
+        boolean exposed = this.isSquareAttacked(piece.colour, this.getKingX(piece.colour), this.getKingY(piece.colour));
+
+        this.placePiece(piece, fromX, fromY);
+        this.placePiece(capturedPiece, toX, toY);
+        piece.x = fromX;
+        piece.y = fromY;
+
+        return exposed;
     }
 
     public boolean inCheck(Colour colour) {
@@ -139,9 +144,9 @@ class Board {
     }
 
     // public boolean hasLegalMoves(){
-    //     for (Piece p : this.board){
+    // for (Piece p : this.board){
 
-    //     }
+    // }
     // }
 
     public void logMove(String move) {

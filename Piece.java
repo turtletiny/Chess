@@ -33,6 +33,14 @@ abstract class Piece {
         board.incrementMoveCount(0.5);
     }
 
+    public void dummyMove(Board board, int fromX, int fromY, int toX, int toY){
+        Piece capturedPiece = board.getPieceAt(toX, toY);
+        board.placePiece(this, toX, toY);
+        board.clearSquare(fromX, fromY);
+        this.x = toX;
+        this.y = toY;
+    }
+
     public void revertMove(Board board, int fromX, int fromY, int toX, int toY) {
         board.placePiece(this, fromX, fromY);
         board.placePiece(board.cache, toX, toY);
@@ -50,7 +58,7 @@ abstract class Piece {
         for (int[] dir : this.DIRECTIONS) {
             int curX = this.x, curY = this.y;
             int xDir = dir[0], yDir = dir[1];
-            while (!board.pieceExists(curX + xDir, curY + yDir) || !this.moveInBounds(curX + xDir, curY + yDir)) {
+            while (!board.pieceExists(curX + xDir, curY + yDir) && this.moveInBounds(curX + xDir, curY + yDir)) {
                 if (this.isLegalMove(board, curX, curY, curX + xDir, curY + yDir)) {
                     return true;
                 }
@@ -105,6 +113,13 @@ abstract class Piece {
         }
 
         return true;
+    }
+
+    boolean isStrictlyLegal(Board board, int fromX, int fromY, int toX, int toY) {
+        if (correctMovePattern(board, fromX, fromY, toX, toY) && !board.leavesOwnKingExposed(this, fromX, fromY, toX, toY)){
+            return true;
+        }
+        return false;
     }
 
     boolean moveInBounds(int toX, int toY) {
