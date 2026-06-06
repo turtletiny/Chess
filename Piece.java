@@ -2,7 +2,7 @@ abstract class Piece {
 
     Colour colour;
     int x, y;
-    final int[][] DIRECTIONS = {};
+    private final int[][] DIRECTIONS = {};
 
     Piece(Colour colour) {
         this.colour = colour;
@@ -17,6 +17,10 @@ abstract class Piece {
         this.colour = colour;
         this.x = x;
         this.y = y;
+    }
+
+    public int[][] getDirections() {
+        return this.DIRECTIONS;
     }
 
     public void playMove(Board board, int fromX, int fromY, int toX, int toY) {
@@ -46,7 +50,7 @@ abstract class Piece {
         for (int[] dir : this.DIRECTIONS) {
             int curX = this.x, curY = this.y;
             int xDir = dir[0], yDir = dir[1];
-            while (!board.pieceExists(curX + xDir, curY + yDir) || this.moveInBounds(curX + xDir, curY + yDir)) {
+            while (!board.pieceExists(curX + xDir, curY + yDir) || !this.moveInBounds(curX + xDir, curY + yDir)) {
                 if (this.isLegalMove(board, curX, curY, curX + xDir, curY + yDir)) {
                     return true;
                 }
@@ -85,15 +89,12 @@ abstract class Piece {
     // Checks that apply to all pieces
     boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
         if (!board.pieceExists(fromX, fromY)) {
-            System.out.println("There's no piece on that square! ");
             return false;
         }
         if (!playerColour(board)) {
-            System.out.println("That's not your piece! ");
             return false;
         }
         if (!this.moveInBounds(toX, toY)) {
-            System.out.println("That move is off the board! ");
             return false;
         }
         if (this.capturingOwnPiece(board, toX, toY)) {
