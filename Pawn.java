@@ -4,6 +4,7 @@ class Pawn extends Piece {
     Pawn(Colour colour) {
         super(colour);
         this.hasMoved = false;
+
     }
 
     Pawn(Colour colour, int x, int y) {
@@ -32,9 +33,10 @@ class Pawn extends Piece {
         super.playMove(board, fromX, fromY, toX, toY);
         this.hasMoved = true;
     }
-    public void revertMove(Board board, int fromX, int fromY, int toX, int toY){
+
+    public void revertMove(Board board, int fromX, int fromY, int toX, int toY) {
         super.revertMove(board, fromX, fromY, toX, toY);
-        //logic to revert hasmoved
+        // logic to revert hasmoved
     }
 
     public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {

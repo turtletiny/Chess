@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 class Board {
     Colour turnColour;
     Piece[] board;
     private double moveCount;
-    private ArrayList<Piece> graveyard;
+    private HashMap<String, Integer> graveyard; // maps piece (black or white) to count
     Piece cache;
     private ArrayList<String> moveLog;
     King blackKing, whiteKing; // allows for instant global calling
@@ -13,7 +14,7 @@ class Board {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         this.moveCount = 1;
-        this.graveyard = new ArrayList<>();
+        this.graveyard = new HashMap<>();
         this.moveLog = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
@@ -110,6 +111,10 @@ class Board {
 
     public void turnToggle() {
         this.turnColour = this.turnColour.getOpposite();
+    }
+
+    public void toGraveyard(Piece piece) {
+        //increment hashmap by 1
     }
 
     // Checks if a square is attacked by pieces of enemy colour

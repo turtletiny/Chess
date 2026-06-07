@@ -2,14 +2,17 @@ abstract class Piece {
 
     Colour colour;
     int x, y;
+    private final String id;
     private final int[][] DIRECTIONS = {};
 
     Piece(Colour colour) {
         this.colour = colour;
-        if (this.colour == Colour.WHITE) {
+        if (this.colour.isWhite()) {
             this.y = 1;
+            this.id = "white" + this.getClass().getSimpleName();
         } else {
             this.y = 8;
+            this.id = "black" + this.getClass().getSimpleName();
         }
     }
 
@@ -17,10 +20,16 @@ abstract class Piece {
         this.colour = colour;
         this.x = x;
         this.y = y;
+        this.id = (this.colour.isWhite()) ? "white" + this.getClass().getSimpleName()
+                : "black" + this.getClass().getSimpleName();
     }
 
     public int[][] getDirections() {
         return this.DIRECTIONS;
+    }
+
+    public String getId(){
+        return this.id;
     }
 
     public void playMove(Board board, int fromX, int fromY, int toX, int toY) {
@@ -33,7 +42,7 @@ abstract class Piece {
         board.incrementMoveCount(0.5);
     }
 
-    public void dummyMove(Board board, int fromX, int fromY, int toX, int toY){
+    public void dummyMove(Board board, int fromX, int fromY, int toX, int toY) {
         Piece capturedPiece = board.getPieceAt(toX, toY);
         board.placePiece(this, toX, toY);
         board.clearSquare(fromX, fromY);
@@ -116,7 +125,8 @@ abstract class Piece {
     }
 
     boolean isStrictlyLegal(Board board, int fromX, int fromY, int toX, int toY) {
-        if (correctMovePattern(board, fromX, fromY, toX, toY) && !board.leavesOwnKingExposed(this, fromX, fromY, toX, toY)){
+        if (correctMovePattern(board, fromX, fromY, toX, toY)
+                && !board.leavesOwnKingExposed(this, fromX, fromY, toX, toY)) {
             return true;
         }
         return false;
