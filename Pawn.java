@@ -1,18 +1,33 @@
 class Pawn extends Piece {
     boolean hasMoved;
+    int yDir;
 
     Pawn(Colour colour) {
         super(colour);
         this.hasMoved = false;
+        this.yDir = (this.colour.isWhite()) ? 1 : -1;
 
     }
 
     Pawn(Colour colour, int x, int y) {
         super(colour, x, y);
+        this.hasMoved = false;
+        this.yDir = (this.colour.isWhite()) ? 1 : -1;
     }
 
     public void move(Board board) {
         this.hasMoved = true;
+    }
+
+    @Override
+    public boolean hasLegalMoves(Board board) {
+        if (this.isStrictlyLegal(board, this.x, this.y, this.x, this.y + this.yDir)
+                || this.isStrictlyLegal(board, this.x, this.y, this.x, this.y + 2 * this.yDir)
+                || this.isStrictlyLegal(board, this.x, this.y, this.x + 1, this.y + this.yDir)
+                || this.isStrictlyLegal(board, this.x, this.y, this.x - 1, this.y + this.yDir)) {
+            return true;
+        }
+        return false;
     }
 
     public boolean canAttack(Board board, int x, int y) {
@@ -40,11 +55,8 @@ class Pawn extends Piece {
     }
 
     public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX, yDiff = toY - fromY, yDir = 1;
-        if (this.colour == Colour.BLACK) {
-            yDir = -1;
-        }
-        if (!(yDiff == 1 * yDir || (yDiff == 2 * yDir && !this.hasMoved))) {
+        int xDiff = toX - fromX, yDiff = toY - fromY;
+        if (!(yDiff == this.yDir || (yDiff == 2 * this.yDir && !this.hasMoved))) {
             return false;
         }
         if (!this.isCapture(board, toX, toY) && xDiff != 0) {
