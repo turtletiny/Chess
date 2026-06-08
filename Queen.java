@@ -1,11 +1,19 @@
 class Queen extends Piece {
 
+    private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 }, { -1, 0 }, { 0, 1 }, { 1, 0 },
+            { 0, -1 } };
+
     Queen(Colour colour) {
         super(colour);
         this.x = 4;
     }
 
     public void move(Board board) {
+    }
+
+    @Override
+    public int[][] getDirections() {
+        return this.DIRECTIONS;
     }
 
     @Override

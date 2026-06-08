@@ -14,6 +14,11 @@ class Rook extends Piece {
     }
 
     @Override
+    public int[][] getDirections(){
+        return this.DIRECTIONS;
+    }
+
+    @Override
     public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;

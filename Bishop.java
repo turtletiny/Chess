@@ -1,5 +1,5 @@
 class Bishop extends Piece {
-    private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 } };
+     int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 } };
 
     Bishop(Colour colour) {
         super(colour);
@@ -12,6 +12,10 @@ class Bishop extends Piece {
     public void move(Board board) {
     }
 
+    @Override
+    public int[][] getDirections(){
+        return this.DIRECTIONS;
+    }
     @Override
     public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
         int xDiff = toX - fromX;

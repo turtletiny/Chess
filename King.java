@@ -1,5 +1,7 @@
 class King extends Piece {
     private boolean inCheck;
+    private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 }, { -1, 0 }, { 0, 1 }, { 1, 0 },
+            { 0, -1 } };
 
     King(Colour colour) {
         super(colour);
@@ -8,6 +10,11 @@ class King extends Piece {
     }
 
     public void move(Board board) {
+    }
+
+    @Override
+    public int[][] getDirections() {
+        return this.DIRECTIONS;
     }
 
     public void setInCheck(Boolean bool) {

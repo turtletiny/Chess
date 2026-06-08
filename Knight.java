@@ -1,4 +1,6 @@
 class Knight extends Piece {
+    private final int[][] DIRECTIONS = { { -2, -1 }, { -2, 1 }, { 2, -1 }, { 2, 1 }, { 1, -2 }, { 1, 2 }, { -1, -2 },
+            { -1, 2 } };
 
     Knight(Colour colour) {
         super(colour);
@@ -33,6 +35,16 @@ class Knight extends Piece {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean hasLegalMoves(Board board) {
+        for (int[] dir : this.DIRECTIONS) {
+            if (this.isStrictlyLegal(board, this.x, this.y, this.x + dir[0], this.y + dir[1])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String toString() {

@@ -1,11 +1,9 @@
 # Priority
-- create a dummy move method that doesnt affect game states, rather than using the normal playmove function
-- implement hasLegalMoves for: queen, knight, pawn, king
+- piece enums
+- null checks on input
 - en passant logic 
-- when using revert move, revert pawn hasMoved() status to original
 - checkmate
 - castling
-- turn count
 
 # later
 

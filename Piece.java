@@ -28,7 +28,7 @@ abstract class Piece {
         return this.DIRECTIONS;
     }
 
-    public String getId(){
+    public String getId() {
         return this.id;
     }
 
@@ -64,15 +64,18 @@ abstract class Piece {
     abstract boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY);
 
     public boolean hasLegalMoves(Board board) {
-        for (int[] dir : this.DIRECTIONS) {
-            int curX = this.x, curY = this.y;
+        for (int[] dir : this.getDirections()) {
             int xDir = dir[0], yDir = dir[1];
-            while (!board.pieceExists(curX + xDir, curY + yDir) && this.moveInBounds(curX + xDir, curY + yDir)) {
-                if (this.isLegalMove(board, curX, curY, curX + xDir, curY + yDir)) {
+            int targetX = this.x + xDir, targetY = this.y + yDir;
+            while (this.moveInBounds(targetX, targetY)) {
+                if (this.isStrictlyLegal(board, this.x, this.y, targetX, targetY)) {
                     return true;
                 }
-                curX += xDir;
-                curY += yDir;
+                if (board.pieceExists(targetX, targetY)) {
+                    break;
+                }
+                targetX += xDir;
+                targetY += yDir;
             }
         }
         return false;
@@ -125,8 +128,10 @@ abstract class Piece {
     }
 
     boolean isStrictlyLegal(Board board, int fromX, int fromY, int toX, int toY) {
-        if (correctMovePattern(board, fromX, fromY, toX, toY)
-                && !board.leavesOwnKingExposed(this, fromX, fromY, toX, toY)) {
+        if (this.moveInBounds(toX, toY)
+                && correctMovePattern(board, this.x, this.y, toX, toY)
+                && !board.leavesOwnKingExposed(this, this.x, this.y, toX, toY)
+                && !this.capturingOwnPiece(board, toX, toY)) {
             return true;
         }
         return false;
@@ -149,7 +154,6 @@ abstract class Piece {
 
     boolean capturingOwnPiece(Board board, int toX, int toY) {
         if (board.pieceExists(toX, toY) && board.getPieceAt(toX, toY).colour == this.colour) {
-            System.out.println("You cant capture your own piece!");
             return true;
         }
         return false;

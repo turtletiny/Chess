@@ -103,6 +103,10 @@ class Board {
 
     public void placePiece(Piece piece, int x, int y) {
         this.board[Board.getIndex(x, y)] = piece;
+        if (piece != null) {
+            piece.x = x;
+            piece.y = y;
+        }
     }
 
     public boolean pieceExists(int x, int y) {
