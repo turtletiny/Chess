@@ -5,7 +5,7 @@ class King extends Piece {
 
     King(Colour colour) {
         super(colour);
-        this.x = 5;
+        this.getPoint().setX(5);
         this.inCheck = false;
     }
 
@@ -22,18 +22,17 @@ class King extends Piece {
     }
 
     @Override
-    public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX;
-        int yDiff = toY - fromY;
-        return !(Math.abs(xDiff) > 1 || Math.abs(yDiff) > 1);
+    public boolean correctMovePattern(Board board, Point fromSquare, Point toSquare) {
+        Point diff = Point.subtractPoints(toSquare, fromSquare);
+        return !(Math.abs(diff.getX()) > 1 || Math.abs(diff.getY()) > 1);
     }
 
     @Override
-    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
+    public boolean isLegalMove(Board board, Point fromSquare, Point toSquare) {
+        if (!super.isLegalMove(board, fromSquare,toSquare)) {
             return false;
         }
-        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)) {
+        if (!this.correctMovePattern(board, fromSquare, toSquare)) {
             return false;
         }
         return true;

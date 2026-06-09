@@ -1,37 +1,37 @@
 class Bishop extends Piece {
-     int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 } };
+    int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 } };
 
     Bishop(Colour colour) {
         super(colour);
     }
 
-    Bishop(Colour colour, int x, int y) {
-        super(colour, x, y);
+    Bishop(Colour colour, Point point) {
+        super(colour, point);
     }
 
     public void move(Board board) {
     }
 
     @Override
-    public int[][] getDirections(){
+    public int[][] getDirections() {
         return this.DIRECTIONS;
-    }
-    @Override
-    public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX;
-        int yDiff = toY - fromY;
-        return Math.abs(xDiff) == Math.abs(yDiff);
     }
 
     @Override
-    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
+    public boolean correctMovePattern(Board board, Point fromSquare, Point toSquare) {
+        Point diff = Point.subtractPoints(toSquare, fromSquare);
+        return Math.abs(diff.getX()) == Math.abs(diff.getY());
+    }
+
+    @Override
+    public boolean isLegalMove(Board board, Point fromSquare, Point toSquare) {
+        if (!super.isLegalMove(board, fromSquare, toSquare)) {
             return false;
         }
-        if (!correctMovePattern(board, fromX, fromY, toX, toY)) {
-            System.out.println("Bishops move diagonally");
+        if (!correctMovePattern(board, fromSquare, toSquare)) {
+            return false;
         }
-        if (!hasLineOfSight(board, fromX, fromY, toX, toY)) {
+        if (!hasLineOfSight(board, fromSquare, toSquare)) {
             return false;
         }
         return true;

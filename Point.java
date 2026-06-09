@@ -13,16 +13,34 @@ class Point {
     public int getY() {
         return this.y;
     }
-    public void setX(int newX){
+
+    public void setX(int newX) {
         this.x = newX;
     }
-    public void setY(int newY){
+
+    public void setY(int newY) {
         this.y = newY;
     }
 
     public void setPoint(int newX, int newY) {
         this.x = newX;
         this.y = newY;
+    }
+
+    public Point addValues(int x, int y) {
+        return new Point(this.getX() + x, this.getY() + y);
+    }
+
+    public static Point addValues(Point p, int x, int y) {
+        return new Point(p.getX() + x, p.getY() + y);
+    }
+
+    public static Point addPoints(Point a, Point b) {
+        return new Point(a.getX() + b.getX(), a.getY() + b.getY());
+    }
+
+    public static Point subtractPoints(Point a, Point b) {
+        return new Point(a.getX() - b.getX(), a.getY() - b.getY());
     }
 
 }

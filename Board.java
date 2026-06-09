@@ -10,17 +10,6 @@ class Board {
     private ArrayList<Move> moveLog = new ArrayList<>();
     King blackKing, whiteKing;
 
-    Board(String s) { // for testing
-        this.turnColour = Colour.WHITE;
-        this.board = new Piece[64];
-        this.moveCount = 1;
-        this.graveyard = new HashMap<>();
-        this.blackKing = new King(Colour.BLACK);
-        this.whiteKing = new King(Colour.WHITE);
-        this.board[4] = this.blackKing;
-        this.board[60] = this.whiteKing;
-    }
-
     Board() {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
@@ -58,7 +47,7 @@ class Board {
         this.board[60] = this.whiteKing;
     }
 
-    // Getters
+    // == Getters ==
     public static int getIndex(Point point) {
         return 8 * (8 - point.getY()) + point.getX() - 1;
     }
@@ -71,7 +60,6 @@ class Board {
         return 8 - (index / 8);
     }
 
-
     public Point getKingPoint(Colour colour) {
         if (colour.isWhite()) {
             return this.whiteKing.getPoint();
@@ -82,6 +70,10 @@ class Board {
 
     public Piece getPieceAt(Point point) {
         return this.board[getIndex(point)];
+    }
+
+    public boolean pieceExists(Point point) {
+        return this.board[Board.getIndex(point)] != null;
     }
 
     public int getMoveCount() {
@@ -99,10 +91,11 @@ class Board {
         return this.moveLog.getLast();
     }
 
-    public void incrementMoveCount(double num) {
-        this.moveCount += num;
+    public boolean inCheck(Colour colour) {
+        return this.isSquareAttacked(colour, this.getKingPoint(colour));
     }
 
+    // == Board Actions ==
     public void clearSquare(Point point) {
         this.board[getIndex(point)] = null;
     }
@@ -112,18 +105,6 @@ class Board {
         if (piece != null) {
             piece.setPoint(point);
         }
-    }
-
-    public boolean pieceExists(Point point) {
-        return this.board[Board.getIndex(point)] != null;
-    }
-
-    public void turnToggle() {
-        this.turnColour = this.turnColour.getOpposite();
-    }
-
-    public void toGraveyard(Piece piece) {
-        // increment hashmap by 1
     }
 
     // Checks if a square is attacked by pieces of enemy colour
@@ -150,10 +131,6 @@ class Board {
         return exposed;
     }
 
-    public boolean inCheck(Colour colour) {
-        return this.isSquareAttacked(colour, this.getKingPoint(colour));
-    }
-
     public boolean hasLegalMoves() {
         for (Piece p : this.board) {
             if (p != null && p.colour == this.turnColour && p.hasLegalMoves(this)) {
@@ -161,6 +138,19 @@ class Board {
             }
         }
         return false;
+    }
+
+    // == Board conditions ==
+    public void turnToggle() {
+        this.turnColour = this.turnColour.getOpposite();
+    }
+
+    public void toGraveyard(Piece piece) {
+        // increment hashmap by 1
+    }
+
+    public void incrementMoveCount(double num) {
+        this.moveCount += num;
     }
 
     public void logMove(Move move) {
@@ -199,10 +189,15 @@ class Board {
         System.out.println("      a     b     c     d     e     f     g     h");
     }
 
-    // testing
-    public void clearBoard() {
-        for (Piece p : this.board) {
-            p = null;
-        }
+    // == Testing==
+    Board(String s) { // for testing
+        this.turnColour = Colour.WHITE;
+        this.board = new Piece[64];
+        this.moveCount = 1;
+        this.graveyard = new HashMap<>();
+        this.blackKing = new King(Colour.BLACK);
+        this.whiteKing = new King(Colour.WHITE);
+        this.board[4] = this.blackKing;
+        this.board[60] = this.whiteKing;
     }
 }

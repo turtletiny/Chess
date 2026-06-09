@@ -6,32 +6,31 @@ class Knight extends Piece {
         super(colour);
     }
 
-    Knight(Colour colour, int x, int y) {
-        super(colour, x, y);
+    Knight(Colour colour, Point point) {
+        super(colour, point);
     }
 
     public void move(Board board) {
     }
 
     @Override
-    boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY) {
+    boolean hasLineOfSight(Board board, Point fromPoint, Point toPoint) {
         return true;
     }
 
     @Override
-    public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX;
-        int yDiff = toY - fromY;
-        return (Math.abs(xDiff) == 2 && Math.abs(yDiff) == 1) || (Math.abs(xDiff) == 1 && Math.abs(yDiff) == 2);
+    public boolean correctMovePattern(Board board, Point fromPoint, Point toPoint) {
+        Point diff = Point.subtractPoints(toPoint, fromPoint);
+        return (Math.abs(diff.getX()) == 2 && Math.abs(diff.getY()) == 1)
+                || (Math.abs(diff.getX()) == 1 && Math.abs(diff.getY()) == 2);
     }
 
     @Override
-    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
+    public boolean isLegalMove(Board board, Point fromPoint, Point toPoint) {
+        if (!super.isLegalMove(board, fromPoint, toPoint)) {
             return false;
         }
-        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)) {
-            System.out.println("Knights move in an L shape");
+        if (!this.correctMovePattern(board, fromPoint, toPoint)) {
             return false;
         }
         return true;
@@ -40,7 +39,8 @@ class Knight extends Piece {
     @Override
     public boolean hasLegalMoves(Board board) {
         for (int[] dir : this.DIRECTIONS) {
-            if (this.isStrictlyLegal(board, this.x, this.y, this.x + dir[0], this.y + dir[1])) {
+            Point toPoint = Point.addPoints(this.getPoint(), new Point(dir[0], dir[1]));
+            if (this.isStrictlyLegal(board, this.getPoint(), toPoint)) {
                 return true;
             }
         }

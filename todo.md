@@ -1,5 +1,5 @@
 # Priority
-- add point addition / subtraction + refaactor move
+- finish fixing up pawn, queen, rook, main with Point class implementations
 - en passant logic 
 - castling
 - promotion

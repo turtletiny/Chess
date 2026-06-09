@@ -24,6 +24,7 @@ abstract class Piece {
                 : "black" + this.getClass().getSimpleName();
     }
 
+    // == Getters & Setters ==
     public int[][] getDirections() {
         return this.DIRECTIONS;
     }
@@ -32,12 +33,15 @@ abstract class Piece {
         return this.id;
     }
 
-    public Point getPoint(){
+    public Point getPoint() {
         return this.point;
     }
-    public void setPoint(Point newPoint){
+
+    public void setPoint(Point newPoint) {
         this.point = newPoint;
     }
+
+    // == Piece Logic ==
 
     public void playMove(Board board, Point from, Point to) {
         board.cache = board.getPieceAt(to);
@@ -46,22 +50,6 @@ abstract class Piece {
         this.point = to;
         board.turnToggle();
         board.incrementMoveCount(0.5);
-    }
-
-    public void dummyMove(Board board, Point from, Point to) {
-        Piece capturedPiece = board.getPieceAt(to);
-        board.placePiece(this, to);
-        board.clearSquare(from);
-        this.point = to;
-    }
-
-    public void revertMove(Board board, Point from, Point to) {
-        board.placePiece(this, from);
-        board.placePiece(board.cache, to);
-        this.point = from;
-        board.turnToggle();
-        board.incrementMoveCount(-0.5);
-        board.cache = null;
     }
 
     // Represents unique move pattern for each piece
@@ -96,16 +84,13 @@ abstract class Piece {
     // horizontal, vertical and diagonal line of sight (Note: Doesnt check if the
     // type of move is right for the piece)
     boolean hasLineOfSight(Board board, Point from, Point to) {
-        int xDir = Integer.compare(to.getX(), from.getX());
-        int yDir = Integer.compare(to.getY(), from.getY());
-        int curX = from.getX() + xDir;
-        int curY = from.getY() + yDir;
-        while (curX != to.getX() || curY != to.getY()) {
-            if (board.pieceExists(curX, curY)) {
+        Point dir = new Point(Integer.compare(to.getX(), from.getX()), Integer.compare(to.getY(), from.getY()));
+        Point curPoint = new Point(from.getX(), from.getY());
+        while (!curPoint.equals(to)) {
+            if (board.pieceExists(curPoint)) {
                 return false;
             }
-            curX += xDir;
-            curY += yDir;
+            curPoint = Point.addPoints(curPoint, dir);
         }
         return true;
     }

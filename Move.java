@@ -1,38 +1,25 @@
 class Move {
-    private final int fromX, fromY, toX, toY;
+    private final Point from, to;
     private final Piece movedPiece, capturedPiece;
 
-    public Move(int fromX, int fromY, int toX, int toY, Piece movedPiece, Piece capturedPiece) {
-        this.fromX = fromX;
-        this.fromY = fromY;
-        this.toX = toX;
-        this.toY = toY;
+    public Move(Point from, Point to, Piece movedPiece, Piece capturedPiece) {
+        this.from = from;
+        this.to = to;
         this.movedPiece = movedPiece;
         this.capturedPiece = capturedPiece;
     }
 
-    public int getFromX() {
-        return this.fromX;
+    public Point getFrom() {
+        return this.from;
     }
 
-    public int getFromY() {
-        return this.fromY;
+    public Point getTo() {
+        return this.to;
     }
 
-    public int getToX() {
-        return this.toX;
-    }
-
-    public int getToY() {
-        return this.toY;
-    }
-
-    public int getXDir() {
-        return Integer.compare(this.toX, this.fromX);
-    }
-
-    public int getYDir() {
-        return Integer.compare(this.toY, this.fromY);
+    public Point getDir() {
+        return new Point(Integer.compare(this.to.getX(), this.from.getX()),
+                Integer.compare(this.to.getY(), this.from.getY()));
     }
 
     public Piece getMovedPiece() {

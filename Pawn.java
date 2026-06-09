@@ -9,8 +9,8 @@ class Pawn extends Piece {
 
     }
 
-    Pawn(Colour colour, int x, int y) {
-        super(colour, x, y);
+    Pawn(Colour colour, Point point) {
+        super(colour, point);
         this.hasMoved = false;
         this.yDir = (this.colour.isWhite()) ? 1 : -1;
     }
@@ -21,22 +21,22 @@ class Pawn extends Piece {
 
     @Override
     public boolean hasLegalMoves(Board board) {
-        if (this.isStrictlyLegal(board, this.x, this.y, this.x, this.y + this.yDir)
-                || this.isStrictlyLegal(board, this.x, this.y, this.x, this.y + 2 * this.yDir)
-                || this.isStrictlyLegal(board, this.x, this.y, this.x + 1, this.y + this.yDir)
-                || this.isStrictlyLegal(board, this.x, this.y, this.x - 1, this.y + this.yDir)) {
+        if (this.isStrictlyLegal(board, this.getPoint(), this.getPoint().addValues(0, this.yDir))
+                || this.isStrictlyLegal(board, this.getPoint(), this.getPoint().addValues(0, 2 * this.yDir))
+                || this.isStrictlyLegal(board, this.getPoint(), this.getPoint().addValues(1, this.yDir))
+                || this.isStrictlyLegal(board, this.getPoint(), this.getPoint().addValues(-1, this.yDir))) {
             return true;
         }
         return false;
     }
 
-    public boolean canAttack(Board board, int x, int y) {
+    public boolean canAttack(Board board, Point point) {
         if (this.colour.isWhite()) {
-            if (y - this.y == 1 && Math.abs(x - this.x) == 1) {
+            if (point.getY() - this.getPoint().getY() == 1 && Math.abs(point.getX() - this.getPoint().getX()) == 1) {
                 return true;
             }
         } else {
-            if (y - this.y == -1 && Math.abs(x - this.x) == 1) {
+            if (point.getY() - this.getPoint().getY() == -1 && Math.abs(point.getX() - this.getPoint().getX()) == 1) {
                 return true;
             }
         }
