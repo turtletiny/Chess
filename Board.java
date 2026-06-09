@@ -19,30 +19,30 @@ class Board {
 
         for (int i = 0; i < 8; i++) {
             // Initialise Pawns
-            this.board[i + 8] = new Pawn(Colour.BLACK, Board.getX(i + 8), 7);
-            this.board[i + 48] = new Pawn(Colour.WHITE, Board.getX(i + 48), 2);
+            this.board[i + 8] = new Pawn(Colour.BLACK, new Point(Board.getX(i + 8), 7));
+            this.board[i + 48] = new Pawn(Colour.WHITE, new Point(Board.getX(i + 48), 2));
 
             // Initialise Pieces
             switch (i) {
                 case 0, 7:
-                    this.board[i] = new Rook(Colour.BLACK, Board.getX(i), 8);
-                    this.board[i + 56] = new Rook(Colour.WHITE, Board.getX(i + 56), 1);
+                    this.board[i] = new Rook(Colour.BLACK, Board.getPoint(i));
+                    this.board[i + 56] = new Rook(Colour.WHITE, Board.getPoint(i + 56));
                     break;
                 case 1, 6:
-                    this.board[i] = new Knight(Colour.BLACK, Board.getX(i), 8);
-                    this.board[i + 56] = new Knight(Colour.WHITE, Board.getX(i + 56), 1);
+                    this.board[i] = new Knight(Colour.BLACK, Board.getPoint(i));
+                    this.board[i + 56] = new Knight(Colour.WHITE, Board.getPoint(i + 56));
                     break;
                 case 2, 5:
-                    this.board[i] = new Bishop(Colour.BLACK, Board.getX(i), 8);
-                    this.board[i + 56] = new Bishop(Colour.WHITE, Board.getX(i + 56), 1);
+                    this.board[i] = new Bishop(Colour.BLACK, Board.getPoint(i));
+                    this.board[i + 56] = new Bishop(Colour.WHITE, Board.getPoint(i + 56));
                     break;
             }
         }
         // Intialise Kings + Queens
-        this.board[3] = new Queen(Colour.BLACK);
-        this.board[59] = new Queen(Colour.WHITE);
-        this.blackKing = new King(Colour.BLACK);
-        this.whiteKing = new King(Colour.WHITE);
+        this.board[3] = new Queen(Colour.BLACK, new Point(4, 8));
+        this.board[59] = new Queen(Colour.WHITE, new Point(4, 1));
+        this.blackKing = new King(Colour.BLACK, new Point(5, 8));
+        this.whiteKing = new King(Colour.WHITE, new Point(5, 1));
         this.board[4] = this.blackKing;
         this.board[60] = this.whiteKing;
     }
@@ -58,6 +58,10 @@ class Board {
 
     public static int getY(int index) {
         return 8 - (index / 8);
+    }
+
+    public static Point getPoint(int index) {
+        return new Point(getX(index), getY(index));
     }
 
     public Point getKingPoint(Colour colour) {

@@ -1,5 +1,4 @@
 # Priority
-- finish fixing up pawn, queen, rook, main with Point class implementations
 - en passant logic 
 - castling
 - promotion

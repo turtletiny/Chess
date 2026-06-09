@@ -9,6 +9,11 @@ class King extends Piece {
         this.inCheck = false;
     }
 
+    King(Colour colour, Point point) {
+        super(colour, point);
+        this.inCheck = false;
+    }
+
     public void move(Board board) {
     }
 
@@ -29,7 +34,7 @@ class King extends Piece {
 
     @Override
     public boolean isLegalMove(Board board, Point fromSquare, Point toSquare) {
-        if (!super.isLegalMove(board, fromSquare,toSquare)) {
+        if (!super.isLegalMove(board, fromSquare, toSquare)) {
             return false;
         }
         if (!this.correctMovePattern(board, fromSquare, toSquare)) {

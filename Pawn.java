@@ -44,25 +44,20 @@ class Pawn extends Piece {
     }
 
     @Override
-    public void playMove(Board board, int fromX, int fromY, int toX, int toY) {
-        super.playMove(board, fromX, fromY, toX, toY);
+    public void playMove(Board board, Point fromPoint, Point toPoint) {
+        super.playMove(board, fromPoint, toPoint);
         this.hasMoved = true;
     }
 
-    public void revertMove(Board board, int fromX, int fromY, int toX, int toY) {
-        super.revertMove(board, fromX, fromY, toX, toY);
-        // logic to revert hasmoved
-    }
-
-    public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX, yDiff = toY - fromY;
-        if (!(yDiff == this.yDir || (yDiff == 2 * this.yDir && !this.hasMoved))) {
+    public boolean correctMovePattern(Board board, Point fromPoint, Point toPoint) {
+        Point diff = Point.subtractPoints(toPoint, fromPoint);
+        if (!(diff.getY() == this.yDir || (diff.getY() == 2 * this.yDir && !this.hasMoved))) {
             return false;
         }
-        if (!this.isCapture(board, toX, toY) && xDiff != 0) {
+        if (!this.isCapture(board, toPoint) && diff.getX() != 0) {
             return false;
         }
-        if (this.isCapture(board, toX, toY) && Math.abs(xDiff) != 1) {
+        if (this.isCapture(board, toPoint) && Math.abs(diff.getX()) != 1) {
             return false;
         }
 
@@ -72,11 +67,11 @@ class Pawn extends Piece {
     }
 
     @Override
-    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
+    public boolean isLegalMove(Board board, Point fromPoint, Point toPoint) {
+        if (!super.isLegalMove(board, fromPoint, toPoint)) {
             return false;
         }
-        if (!correctMovePattern(board, fromX, fromY, toX, toY)) {
+        if (!correctMovePattern(board, fromPoint, toPoint)) {
             return false;
         }
         return true;

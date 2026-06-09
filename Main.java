@@ -19,19 +19,17 @@ public class Main {
                 System.out.println("Enter move ");
                 String move = In.nextLine();
                 // can put these into a function later
-                    int fromX = move.charAt(0) - 96;
-                    int fromY = move.charAt(1) - 48;
-                    int toX = move.charAt(3) - 96;
-                    int toY = move.charAt(4) - 48;
+                Point from = new Point(move.charAt(0) - 96, move.charAt(1) - 48);
+                Point to = new Point(move.charAt(3) - 96, move.charAt(4) - 48);
 
-                Piece selectedPiece = board.getPieceAt(fromX, fromY);
-                if (!board.pieceExists(fromX, fromY)
-                        || !selectedPiece.isLegalMove(board, fromX, fromY, toX, toY)
-                        || board.leavesOwnKingExposed(selectedPiece, fromX, fromY, toX, toY)) {
+                Piece selectedPiece = board.getPieceAt(from);
+                if (!board.pieceExists(from)
+                        || !selectedPiece.isLegalMove(board, from, to)
+                        || board.leavesOwnKingExposed(selectedPiece, from, to)) {
                     System.out.println("Try again");
                     continue;
                 } else {
-                    selectedPiece.playMove(board, fromX, fromY, toX, toY);
+                    selectedPiece.playMove(board, from, to);
                     // board.logMove(move);
                     if (board.inCheck(board.turnColour) && board.hasLegalMoves()) {
                         System.out.println(board.turnColour + " in check");

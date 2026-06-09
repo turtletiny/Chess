@@ -5,8 +5,8 @@ class Rook extends Piece {
         super(colour);
     }
 
-    Rook(Colour colour, int x, int y) {
-        super(colour, x, y);
+    Rook(Colour colour, Point point) {
+        super(colour, point);
     }
 
     // Everything to be done when a move is actually made
@@ -19,23 +19,22 @@ class Rook extends Piece {
     }
 
     @Override
-    public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX;
-        int yDiff = toY - fromY;
-        return (xDiff == 0 && yDiff != 0) || (xDiff != 0 && yDiff == 0);
+    public boolean correctMovePattern(Board board, Point from, Point to) {
+        Point diff = Point.subtractPoints(to, from);
+        return (diff.getX() == 0 && diff.getY() != 0) || (diff.getX() != 0 && diff.getY() == 0);
     }
 
 
     @Override
-    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
+    public boolean isLegalMove(Board board, Point from, Point to) {
+        if (!super.isLegalMove(board, from, to)) {
             return false;
         }
-        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)) {
+        if (!this.correctMovePattern(board, from, to)) {
             System.out.println("Rooks can only move perpendicularly");
             return false;
         }
-        if (!this.hasLineOfSight(board, fromX, fromY, toX, toY)) {
+        if (!this.hasLineOfSight(board, from, to)) {
             return false;
         }
         return true;

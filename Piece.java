@@ -8,6 +8,7 @@ abstract class Piece {
 
     Piece(Colour colour) {
         this.colour = colour;
+        this.point = new Point(0, 0); // Initialize point
         if (this.colour.isWhite()) {
             this.point.setX(1);
             this.id = "white" + this.getClass().getSimpleName();
@@ -42,7 +43,6 @@ abstract class Piece {
     }
 
     // == Piece Logic ==
-
     public void playMove(Board board, Point from, Point to) {
         board.cache = board.getPieceAt(to);
         board.placePiece(this, to);
@@ -67,7 +67,7 @@ abstract class Piece {
                     break;
                 }
                 target.setX(target.getX() + xDir); // note to self: add point addition / subtraction
-                target.setX(target.getY() + yDir);
+                target.setY(target.getY() + yDir);
             }
         }
         return false;
@@ -85,8 +85,8 @@ abstract class Piece {
     // type of move is right for the piece)
     boolean hasLineOfSight(Board board, Point from, Point to) {
         Point dir = new Point(Integer.compare(to.getX(), from.getX()), Integer.compare(to.getY(), from.getY()));
-        Point curPoint = new Point(from.getX(), from.getY());
-        while (!curPoint.equals(to)) {
+        Point curPoint = Point.addPoints(new Point(from.getX(), from.getY()), dir);
+        while (curPoint.getX() != to.getX() || curPoint.getY() != to.getY()) {
             if (board.pieceExists(curPoint)) {
                 return false;
             }
@@ -94,6 +94,21 @@ abstract class Piece {
         }
         return true;
     }
+
+    // boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY) {
+    // int xDir = Integer.compare(toX, fromX);
+    // int yDir = Integer.compare(toY, fromY);
+    // int curX = fromX + xDir;
+    // int curY = fromY + yDir;
+    // while (curX != toX || curY != toY) {
+    // if (board.pieceExists(curX, curY)) {
+    // return false;
+    // }
+    // curX += xDir;
+    // curY += yDir;
+    // }
+    // return true;
+    // }
 
     // Checks that apply to all pieces
     boolean isLegalMove(Board board, Point from, Point to) {
@@ -128,7 +143,7 @@ abstract class Piece {
     }
 
     boolean moveInBounds(Point to) {
-        if (to.getX() < 1 || to.getY() > 8 || to.getY() < 1 || to.getY() > 8) {
+        if (to.getX() < 1 || to.getX() > 8 || to.getY() < 1 || to.getY() > 8) {
             return false;
         }
         return true;

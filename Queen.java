@@ -5,7 +5,10 @@ class Queen extends Piece {
 
     Queen(Colour colour) {
         super(colour);
-        this.x = 4;
+    }
+
+    Queen(Colour colour, Point point) {
+        super(colour, point);
     }
 
     public void move(Board board) {
@@ -17,22 +20,23 @@ class Queen extends Piece {
     }
 
     @Override
-    public boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDiff = toX - fromX;
-        int yDiff = toY - fromY;
+    public boolean correctMovePattern(Board board, Point from, Point to) {
+        Point diff = Point.subtractPoints(to, from);
+        int xDiff = diff.getX();
+        int yDiff = diff.getY();
         return (Math.abs(xDiff) == Math.abs(yDiff)) || ((xDiff == 0 && yDiff != 0) || (xDiff != 0 && yDiff == 0));
     }
 
     @Override
-    public boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!super.isLegalMove(board, fromX, fromY, toX, toY)) {
+    public boolean isLegalMove(Board board, Point from, Point to) {
+        if (!super.isLegalMove(board, from, to)) {
             return false;
         }
-        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)) {
+        if (!this.correctMovePattern(board, from, to)) {
             System.out.println("Queens can only move diagonally or perpendicularly");
             return false;
         }
-        if (!this.hasLineOfSight(board, fromX, fromY, toX, toY)) {
+        if (!this.hasLineOfSight(board, from, to)) {
             return false;
         }
         return true;
