@@ -3,6 +3,7 @@ public class Main {
         // Setup
         Board board = new Board();
         boolean playing = true;
+        Colour winner = null;
 
         // Game Loop
         while (playing) {
@@ -30,12 +31,18 @@ public class Main {
                 } else {
                     selectedPiece.playMove(board, fromX, fromY, toX, toY);
                     board.logMove(move);
-                    if (board.inCheck(board.turnColour)) { // (and not checkmate)
+                    if (board.inCheck(board.turnColour) && board.hasLegalMoves()) {
                         System.out.println(board.turnColour + " in check");
+                    } else if (board.inCheck(board.turnColour) && !board.hasLegalMoves()) {
+                        winner = board.turnColour.getOpposite();
+                        playing = false;
+                    } else if (!board.inCheck(board.turnColour) && !board.hasLegalMoves()) {
+                        playing = false;
                     }
                     break;
                 }
             }
         }
+        System.out.println(winner + " wins by checkmate in " + board.getMoveCount() + " moves");
     }
 }
