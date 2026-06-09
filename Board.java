@@ -10,6 +10,17 @@ class Board {
     private ArrayList<String> moveLog;
     King blackKing, whiteKing; // allows for instant global calling
 
+    Board(String s) { // for testing
+        this.turnColour = Colour.WHITE;
+        this.board = new Piece[64];
+        this.moveCount = 1;
+        this.graveyard = new HashMap<>();
+        this.blackKing = new King(Colour.BLACK);
+        this.whiteKing = new King(Colour.WHITE);
+        this.board[4] = this.blackKing;
+        this.board[60] = this.whiteKing;
+    }
+
     Board() {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
@@ -118,7 +129,7 @@ class Board {
     }
 
     public void toGraveyard(Piece piece) {
-        //increment hashmap by 1
+        // increment hashmap by 1
     }
 
     // Checks if a square is attacked by pieces of enemy colour
@@ -150,6 +161,15 @@ class Board {
 
     public boolean inCheck(Colour colour) {
         return this.isSquareAttacked(colour, this.getKingX(colour), this.getKingY(colour));
+    }
+
+    public boolean hasLegalMoves() {
+        for (Piece p : this.board) {
+            if (p != null && p.colour == this.turnColour && p.hasLegalMoves(this)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // public boolean hasLegalMoves(){
@@ -192,5 +212,12 @@ class Board {
         }
         System.out.println("   └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
         System.out.println("      a     b     c     d     e     f     g     h");
+    }
+
+    // testing
+    public void clearBoard() {
+        for (Piece p : this.board) {
+            p = null;
+        }
     }
 }
