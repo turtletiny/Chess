@@ -19,18 +19,20 @@ public class Main {
                 System.out.println("Enter move ");
                 String move = In.nextLine();
                 // can put these into a function later
-                int fromX = move.charAt(0) - 96;
-                int fromY = move.charAt(1) - 48;
-                int toX = move.charAt(3) - 96;
-                int toY = move.charAt(4) - 48;
+                    int fromX = move.charAt(0) - 96;
+                    int fromY = move.charAt(1) - 48;
+                    int toX = move.charAt(3) - 96;
+                    int toY = move.charAt(4) - 48;
+
                 Piece selectedPiece = board.getPieceAt(fromX, fromY);
-                if (!selectedPiece.isLegalMove(board, fromX, fromY, toX, toY)
+                if (!board.pieceExists(fromX, fromY)
+                        || !selectedPiece.isLegalMove(board, fromX, fromY, toX, toY)
                         || board.leavesOwnKingExposed(selectedPiece, fromX, fromY, toX, toY)) {
                     System.out.println("Try again");
                     continue;
                 } else {
                     selectedPiece.playMove(board, fromX, fromY, toX, toY);
-                    board.logMove(move);
+                    // board.logMove(move);
                     if (board.inCheck(board.turnColour) && board.hasLegalMoves()) {
                         System.out.println(board.turnColour + " in check");
                     } else if (board.inCheck(board.turnColour) && !board.hasLegalMoves()) {
@@ -43,6 +45,10 @@ public class Main {
                 }
             }
         }
-        System.out.println(winner + " wins by checkmate in " + board.getMoveCount() + " moves");
+        if (winner == null) {
+            System.out.println("Stalemate in " + board.getMoveCount() + " moves");
+        } else {
+            System.out.println(winner + " wins by checkmate in " + board.getMoveCount() + " moves");
+        }
     }
 }

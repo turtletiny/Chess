@@ -5,10 +5,10 @@ class Board {
     Colour turnColour;
     Piece[] board;
     private double moveCount;
-    private HashMap<String, Integer> graveyard; // maps piece (black or white) to count
     Piece cache;
-    private ArrayList<String> moveLog;
-    King blackKing, whiteKing; // allows for instant global calling
+    private HashMap<String, Integer> graveyard = new HashMap<>();
+    private ArrayList<Move> moveLog = new ArrayList<>();
+    King blackKing, whiteKing;
 
     Board(String s) { // for testing
         this.turnColour = Colour.WHITE;
@@ -100,7 +100,7 @@ class Board {
         return new Move(fromX, fromY, toX, toY, selectedPiece, null);
     }
 
-    public String getLastMove() {
+    public Move getLastMove() {
         return this.moveLog.getLast();
     }
 
@@ -172,13 +172,7 @@ class Board {
         return false;
     }
 
-    // public boolean hasLegalMoves(){
-    // for (Piece p : this.board){
-
-    // }
-    // }
-
-    public void logMove(String move) {
+    public void logMove(Move move) {
         this.moveLog.add(move);
     }
 

@@ -1,9 +1,9 @@
 # Priority
+- en passant logic 
+- castling
+- promotion
 - piece enums
 - null checks on input
-- en passant logic 
-- checkmate
-- castling
 
 # later
 
