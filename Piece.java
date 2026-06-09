@@ -1,25 +1,25 @@
 abstract class Piece {
 
     Colour colour;
-    int x, y;
+    private Point point;
+
     private final String id;
     private final int[][] DIRECTIONS = {};
 
     Piece(Colour colour) {
         this.colour = colour;
         if (this.colour.isWhite()) {
-            this.y = 1;
+            this.point.setX(1);
             this.id = "white" + this.getClass().getSimpleName();
         } else {
-            this.y = 8;
+            this.point.setY(8);
             this.id = "black" + this.getClass().getSimpleName();
         }
     }
 
-    Piece(Colour colour, int x, int y) {
+    Piece(Colour colour, Point point) {
         this.colour = colour;
-        this.x = x;
-        this.y = y;
+        this.point = point;
         this.id = (this.colour.isWhite()) ? "white" + this.getClass().getSimpleName()
                 : "black" + this.getClass().getSimpleName();
     }
@@ -32,58 +32,62 @@ abstract class Piece {
         return this.id;
     }
 
-    public void playMove(Board board, int fromX, int fromY, int toX, int toY) {
-        board.cache = board.getPieceAt(toX, toY);
-        board.placePiece(this, toX, toY);
-        board.clearSquare(fromX, fromY);
-        this.x = toX;
-        this.y = toY;
+    public Point getPoint(){
+        return this.point;
+    }
+    public void setPoint(Point newPoint){
+        this.point = newPoint;
+    }
+
+    public void playMove(Board board, Point from, Point to) {
+        board.cache = board.getPieceAt(to);
+        board.placePiece(this, to);
+        board.clearSquare(from);
+        this.point = to;
         board.turnToggle();
         board.incrementMoveCount(0.5);
     }
 
-    public void dummyMove(Board board, int fromX, int fromY, int toX, int toY) {
-        Piece capturedPiece = board.getPieceAt(toX, toY);
-        board.placePiece(this, toX, toY);
-        board.clearSquare(fromX, fromY);
-        this.x = toX;
-        this.y = toY;
+    public void dummyMove(Board board, Point from, Point to) {
+        Piece capturedPiece = board.getPieceAt(to);
+        board.placePiece(this, to);
+        board.clearSquare(from);
+        this.point = to;
     }
 
-    public void revertMove(Board board, int fromX, int fromY, int toX, int toY) {
-        board.placePiece(this, fromX, fromY);
-        board.placePiece(board.cache, toX, toY);
-        this.x = fromX;
-        this.y = fromY;
+    public void revertMove(Board board, Point from, Point to) {
+        board.placePiece(this, from);
+        board.placePiece(board.cache, to);
+        this.point = from;
         board.turnToggle();
         board.incrementMoveCount(-0.5);
         board.cache = null;
     }
 
     // Represents unique move pattern for each piece
-    abstract boolean correctMovePattern(Board board, int fromX, int fromY, int toX, int toY);
+    abstract boolean correctMovePattern(Board board, Point from, Point to);
 
     public boolean hasLegalMoves(Board board) {
         for (int[] dir : this.getDirections()) {
             int xDir = dir[0], yDir = dir[1];
-            int targetX = this.x + xDir, targetY = this.y + yDir;
-            while (this.moveInBounds(targetX, targetY)) {
-                if (this.isStrictlyLegal(board, this.x, this.y, targetX, targetY)) {
+            Point target = new Point(this.point.getX() + xDir, this.point.getY() + yDir);
+            while (this.moveInBounds(target)) {
+                if (this.isStrictlyLegal(board, this.point, target)) {
                     return true;
                 }
-                if (board.pieceExists(targetX, targetY)) {
+                if (board.pieceExists(target)) {
                     break;
                 }
-                targetX += xDir;
-                targetY += yDir;
+                target.setX(target.getX() + xDir); // note to self: add point addition / subtraction
+                target.setX(target.getY() + yDir);
             }
         }
         return false;
     }
 
     // Whether a piece can attack a square
-    public boolean canAttack(Board board, int x, int y) {
-        if (this.correctMovePattern(board, this.x, this.y, x, y) && this.hasLineOfSight(board, this.x, this.y, x, y)) {
+    public boolean canAttack(Board board, Point target) {
+        if (this.correctMovePattern(board, this.point, target) && this.hasLineOfSight(board, this.point, target)) {
             return true;
         }
         return false;
@@ -91,12 +95,12 @@ abstract class Piece {
 
     // horizontal, vertical and diagonal line of sight (Note: Doesnt check if the
     // type of move is right for the piece)
-    boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY) {
-        int xDir = Integer.compare(toX, fromX);
-        int yDir = Integer.compare(toY, fromY);
-        int curX = fromX + xDir;
-        int curY = fromY + yDir;
-        while (curX != toX || curY != toY) {
+    boolean hasLineOfSight(Board board, Point from, Point to) {
+        int xDir = Integer.compare(to.getX(), from.getX());
+        int yDir = Integer.compare(to.getY(), from.getY());
+        int curX = from.getX() + xDir;
+        int curY = from.getY() + yDir;
+        while (curX != to.getX() || curY != to.getY()) {
             if (board.pieceExists(curX, curY)) {
                 return false;
             }
@@ -107,39 +111,39 @@ abstract class Piece {
     }
 
     // Checks that apply to all pieces
-    boolean isLegalMove(Board board, int fromX, int fromY, int toX, int toY) {
-        if (!board.pieceExists(fromX, fromY)) {
+    boolean isLegalMove(Board board, Point from, Point to) {
+        if (!board.pieceExists(from)) {
             System.out.println("no piece there!");
             return false;
         }
         if (!playerColour(board)) {
             return false;
         }
-        if (!this.moveInBounds(toX, toY)) {
+        if (!this.moveInBounds(to)) {
             return false;
         }
-        if (this.capturingOwnPiece(board, toX, toY)) {
+        if (this.capturingOwnPiece(board, to)) {
             return false;
         }
-        if (!this.correctMovePattern(board, fromX, fromY, toX, toY)) {
+        if (!this.correctMovePattern(board, from, to)) {
             return false;
         }
 
         return true;
     }
 
-    boolean isStrictlyLegal(Board board, int fromX, int fromY, int toX, int toY) {
-        if (this.moveInBounds(toX, toY)
-                && correctMovePattern(board, this.x, this.y, toX, toY)
-                && !board.leavesOwnKingExposed(this, this.x, this.y, toX, toY)
-                && !this.capturingOwnPiece(board, toX, toY)) {
+    boolean isStrictlyLegal(Board board, Point from, Point to) {
+        if (this.moveInBounds(to)
+                && correctMovePattern(board, this.point, to)
+                && !board.leavesOwnKingExposed(this, this.point, to)
+                && !this.capturingOwnPiece(board, to)) {
             return true;
         }
         return false;
     }
 
-    boolean moveInBounds(int toX, int toY) {
-        if (toX < 1 || toX > 8 || toY < 1 || toY > 8) {
+    boolean moveInBounds(Point to) {
+        if (to.getX() < 1 || to.getY() > 8 || to.getY() < 1 || to.getY() > 8) {
             return false;
         }
         return true;
@@ -149,12 +153,12 @@ abstract class Piece {
         return this.colour == board.turnColour;
     }
 
-    boolean isCapture(Board board, int toX, int toY) {
-        return board.pieceExists(toX, toY);
+    boolean isCapture(Board board, Point to) {
+        return board.pieceExists(to);
     }
 
-    boolean capturingOwnPiece(Board board, int toX, int toY) {
-        if (board.pieceExists(toX, toY) && board.getPieceAt(toX, toY).colour == this.colour) {
+    boolean capturingOwnPiece(Board board, Point to) {
+        if (board.pieceExists(to) && board.getPieceAt(to).colour == this.colour) {
             return true;
         }
         return false;

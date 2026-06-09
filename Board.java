@@ -59,8 +59,8 @@ class Board {
     }
 
     // Getters
-    public static int getIndex(int x, int y) {
-        return 8 * (8 - y) + x - 1;
+    public static int getIndex(Point point) {
+        return 8 * (8 - point.getY()) + point.getX() - 1;
     }
 
     public static int getX(int index) {
@@ -71,22 +71,17 @@ class Board {
         return 8 - (index / 8);
     }
 
-    public int getKingX(Colour colour) {
+
+    public Point getKingPoint(Colour colour) {
         if (colour.isWhite()) {
-            return this.whiteKing.x;
+            return this.whiteKing.getPoint();
+        } else {
+            return this.blackKing.getPoint();
         }
-        return this.blackKing.x;
     }
 
-    public int getKingY(Colour colour) {
-        if (colour.isWhite()) {
-            return this.whiteKing.y;
-        }
-        return this.blackKing.y;
-    }
-
-    public Piece getPieceAt(int x, int y) {
-        return this.board[getIndex(x, y)];
+    public Piece getPieceAt(Point point) {
+        return this.board[getIndex(point)];
     }
 
     public int getMoveCount() {
@@ -94,10 +89,10 @@ class Board {
     }
 
     public static Move getMove(String move, Board board) {
-        int fromX = move.charAt(0) - 96, fromY = move.charAt(1) - 48;
-        int toX = move.charAt(3) - 96, toY = move.charAt(4) - 48;
-        Piece selectedPiece = board.getPieceAt(fromX, fromY);
-        return new Move(fromX, fromY, toX, toY, selectedPiece, null);
+        Point from = new Point(move.charAt(0) - 96, move.charAt(1) - 48);
+        Point to = new Point(move.charAt(3) - 96, move.charAt(4) - 48);
+        Piece selectedPiece = board.getPieceAt(from);
+        return new Move(from, to, selectedPiece, null);
     }
 
     public Move getLastMove() {
@@ -108,20 +103,19 @@ class Board {
         this.moveCount += num;
     }
 
-    public void clearSquare(int x, int y) {
-        this.board[getIndex(x, y)] = null;
+    public void clearSquare(Point point) {
+        this.board[getIndex(point)] = null;
     }
 
-    public void placePiece(Piece piece, int x, int y) {
-        this.board[Board.getIndex(x, y)] = piece;
+    public void placePiece(Piece piece, Point point) {
+        this.board[Board.getIndex(point)] = piece;
         if (piece != null) {
-            piece.x = x;
-            piece.y = y;
+            piece.setPoint(point);
         }
     }
 
-    public boolean pieceExists(int x, int y) {
-        return this.board[Board.getIndex(x, y)] != null;
+    public boolean pieceExists(Point point) {
+        return this.board[Board.getIndex(point)] != null;
     }
 
     public void turnToggle() {
@@ -133,34 +127,31 @@ class Board {
     }
 
     // Checks if a square is attacked by pieces of enemy colour
-    public boolean isSquareAttacked(Colour myColour, int x, int y) {
+    public boolean isSquareAttacked(Colour myColour, Point point) {
         for (Piece p : board) {
-            if (p != null && p.colour != myColour && p.canAttack(this, x, y)) {
+            if (p != null && p.colour != myColour && p.canAttack(this, point)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean leavesOwnKingExposed(Piece piece, int fromX, int fromY, int toX, int toY) {
-        Piece capturedPiece = this.getPieceAt(toX, toY);
-        this.placePiece(piece, toX, toY);
-        this.clearSquare(fromX, fromY);
-        piece.x = toX;
-        piece.y = toY;
+    public boolean leavesOwnKingExposed(Piece piece, Point from, Point to) {
+        Piece capturedPiece = this.getPieceAt(to);
+        this.placePiece(piece, to);
+        this.clearSquare(from);
+        piece.setPoint(to);
 
-        boolean exposed = this.isSquareAttacked(piece.colour, this.getKingX(piece.colour), this.getKingY(piece.colour));
+        boolean exposed = this.isSquareAttacked(piece.colour, this.getKingPoint(piece.colour));
 
-        this.placePiece(piece, fromX, fromY);
-        this.placePiece(capturedPiece, toX, toY);
-        piece.x = fromX;
-        piece.y = fromY;
-
+        this.placePiece(piece, from);
+        this.placePiece(capturedPiece, to);
+        piece.setPoint(from);
         return exposed;
     }
 
     public boolean inCheck(Colour colour) {
-        return this.isSquareAttacked(colour, this.getKingX(colour), this.getKingY(colour));
+        return this.isSquareAttacked(colour, this.getKingPoint(colour));
     }
 
     public boolean hasLegalMoves() {

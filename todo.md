@@ -1,4 +1,5 @@
 # Priority
+- add point addition / subtraction + refaactor move
 - en passant logic 
 - castling
 - promotion
