@@ -1,3 +1,5 @@
+package src;
+
 class Knight extends Piece {
     private final int[][] DIRECTIONS = { { -2, -1 }, { -2, 1 }, { 2, -1 }, { 2, 1 }, { 1, -2 }, { 1, 2 }, { -1, -2 },
             { -1, 2 } };

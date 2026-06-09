@@ -3,7 +3,7 @@
 - castling
 - promotion
 - piece enums
-- null checks on input
+- out of index checks
 
 # later
 

@@ -1,3 +1,5 @@
+package src;
+
 class Pawn extends Piece {
     boolean hasMoved;
     int yDir;

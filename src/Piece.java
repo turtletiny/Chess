@@ -1,3 +1,5 @@
+package src;
+
 abstract class Piece {
 
     Colour colour;

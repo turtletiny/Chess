@@ -1,3 +1,4 @@
+package src;
 class Queen extends Piece {
 
     private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 }, { -1, 0 }, { 0, 1 }, { 1, 0 },

@@ -1,17 +1,14 @@
-class King extends Piece {
-    private boolean inCheck;
-    private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 }, { -1, 0 }, { 0, 1 }, { 1, 0 },
-            { 0, -1 } };
+package src;
 
-    King(Colour colour) {
+class Bishop extends Piece {
+    int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 } };
+
+    Bishop(Colour colour) {
         super(colour);
-        this.getPoint().setX(5);
-        this.inCheck = false;
     }
 
-    King(Colour colour, Point point) {
+    Bishop(Colour colour, Point point) {
         super(colour, point);
-        this.inCheck = false;
     }
 
     public void move(Board board) {
@@ -22,14 +19,10 @@ class King extends Piece {
         return this.DIRECTIONS;
     }
 
-    public void setInCheck(Boolean bool) {
-        this.inCheck = bool;
-    }
-
     @Override
     public boolean correctMovePattern(Board board, Point fromSquare, Point toSquare) {
         Point diff = Point.subtractPoints(toSquare, fromSquare);
-        return !(Math.abs(diff.getX()) > 1 || Math.abs(diff.getY()) > 1);
+        return Math.abs(diff.getX()) == Math.abs(diff.getY());
     }
 
     @Override
@@ -37,7 +30,10 @@ class King extends Piece {
         if (!super.isLegalMove(board, fromSquare, toSquare)) {
             return false;
         }
-        if (!this.correctMovePattern(board, fromSquare, toSquare)) {
+        if (!correctMovePattern(board, fromSquare, toSquare)) {
+            return false;
+        }
+        if (!hasLineOfSight(board, fromSquare, toSquare)) {
             return false;
         }
         return true;
@@ -45,9 +41,8 @@ class King extends Piece {
 
     public String toString() {
         if (this.colour == Colour.BLACK) {
-            return "♔";
-        } else {
-            return "♚";
+            return "♗";
         }
+        return "♝";
     }
 }

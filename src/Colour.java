@@ -1,3 +1,4 @@
+package src;
 enum Colour {
     WHITE(true),
     BLACK(false);

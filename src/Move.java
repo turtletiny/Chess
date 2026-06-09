@@ -1,3 +1,5 @@
+package src;
+
 class Move {
     private final Point from, to;
     private final Piece movedPiece, capturedPiece;

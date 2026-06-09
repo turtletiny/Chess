@@ -1,5 +1,8 @@
+package src;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import src.Bishop;
 
 class Board {
     Colour turnColour;
