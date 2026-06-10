@@ -1,17 +1,24 @@
 package src;
 class Rook extends Piece {
+    private boolean hasMoved;
     private final int[][] DIRECTIONS = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
     Rook(Colour colour) {
         super(colour);
+        this.hasMoved = false;
     }
 
     Rook(Colour colour, Point point) {
         super(colour, point);
+        this.hasMoved = false;
     }
 
     // Everything to be done when a move is actually made
     public void move(Board board) {
+    }
+
+    public boolean getHasMoved(){
+        return this.hasMoved;
     }
 
     @Override

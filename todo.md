@@ -1,4 +1,7 @@
 # Priority
+- castling - finish logic in main
+- make rooks instantly callable in board (reuse king logic)
+- 
 - en passant logic 
 - castling\\\
 - promotion
