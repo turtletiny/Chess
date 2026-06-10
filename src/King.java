@@ -1,22 +1,29 @@
 package src;
 
 class King extends Piece {
-    private boolean inCheck;
+
+    private boolean hasMoved;
     private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 }, { -1, 0 }, { 0, 1 }, { 1, 0 },
             { 0, -1 } };
 
     King(Colour colour) {
         super(colour);
         this.getPoint().setX(5);
-        this.inCheck = false;
+        this.hasMoved = false;
     }
 
     King(Colour colour, Point point) {
         super(colour, point);
-        this.inCheck = false;
+        this.hasMoved = false;
     }
 
     public void move(Board board) {
+    }
+
+    @Override
+    public void playMove(Board board, Point fromPoint, Point toPoint) {
+        super.playMove(board, fromPoint, toPoint);
+        this.hasMoved = true;
     }
 
     @Override
@@ -24,8 +31,12 @@ class King extends Piece {
         return this.DIRECTIONS;
     }
 
-    public void setInCheck(Boolean bool) {
-        this.inCheck = bool;
+    public boolean getHasMoved() {
+        return this.hasMoved;
+    }
+
+    public void setHasMoved(Boolean bool) {
+        this.hasMoved = bool;
     }
 
     @Override

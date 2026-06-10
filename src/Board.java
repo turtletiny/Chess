@@ -1,24 +1,27 @@
 package src;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import src.Bishop;
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class Board {
-    Colour turnColour;
-    Piece[] board;
+    private boolean blackCanLongCastle, blackCanShortCastle, whiteCanLongCastle, whiteCanShortCastle;
     private double moveCount;
+    Colour turnColour;
     Piece cache;
+    King blackKing, whiteKing;
+    Piece[] board;
+    private List<String> castlingCommands;
     private HashMap<String, Integer> graveyard = new HashMap<>();
     private ArrayList<Move> moveLog = new ArrayList<>();
-    King blackKing, whiteKing;
 
     Board() {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         this.moveCount = 1;
-        this.graveyard = new HashMap<>();
-        this.moveLog = new ArrayList<>();
+        this.castlingCommands = new ArrayList<>(Arrays.asList("/rc"));
 
         for (int i = 0; i < 8; i++) {
             // Initialise Pawns
@@ -50,7 +53,31 @@ class Board {
         this.board[60] = this.whiteKing;
     }
 
-    // == Getters ==
+    // == Getters & Setters ==
+
+    public boolean getblackCanLongCastle() {
+        return this.blackCanLongCastle;
+    }
+
+    public boolean getblackCanShortCastle() {
+        return this.blackCanShortCastle;
+    }
+
+    public boolean getWhiteCanShortCastle() {
+        return this.whiteCanShortCastle;
+    }
+
+    public boolean getWhiteCanLongCastle() {
+        return this.whiteCanLongCastle;
+    }
+
+    public King getKing(Colour colour){
+        if (colour.isWhite()){
+            return this.whiteKing;
+        }
+        return this.blackKing;
+    }
+
     public static int getIndex(Point point) {
         return 8 * (8 - point.getY()) + point.getX() - 1;
     }
@@ -148,6 +175,15 @@ class Board {
     }
 
     // == Board conditions ==
+    //
+
+    public boolean canCastle(Colour colour, CastleAction action) {
+        if (action == CastleAction.SHORT) {
+
+        }
+        return true;
+    }
+
     public void turnToggle() {
         this.turnColour = this.turnColour.getOpposite();
     }

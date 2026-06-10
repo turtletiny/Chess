@@ -21,6 +21,19 @@ public class Main {
                 System.out.println("Enter move ");
                 String move = In.nextLine();
                 // can put these into a function later
+                if (CastleAction.inMap(move)){
+                    //check if rook / king have moved corresponding to getCastleAction
+                    // king cannot be in check
+                    // move king square by square to see if its valid (not blocked, not castling through check)
+                    // place place rook next to king
+                    if (board.inCheck(board.turnColour)){
+                        System.out.println("You can't castle out of check.");
+                        continue;
+                    } else if (board.getKing(board.turnColour).getHasMoved()){
+                        System.out.println("King has moved, cannot castle");
+                    }
+
+                }
                 Point from = new Point(move.charAt(0) - 96, move.charAt(1) - 48);
                 Point to = new Point(move.charAt(3) - 96, move.charAt(4) - 48);
 
