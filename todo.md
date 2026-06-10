@@ -1,8 +1,7 @@
 # Priority
-- castling - finish logic in main
-- 
+- implement Board.castle()
+- optimise Board.canCastle()
 - en passant logic 
-- castling\\\
 - promotion
 - piece enums
 - out of index checks
