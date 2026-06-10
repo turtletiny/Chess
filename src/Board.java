@@ -12,8 +12,8 @@ class Board {
     Colour turnColour;
     Piece cache;
     King blackKing, whiteKing;
+    private Rook whiteRookKingSide, whiteRookQueenSide, blackRookKingSide, blackRookQueenSide;
     Piece[] board;
-    private List<String> castlingCommands;
     private HashMap<String, Integer> graveyard = new HashMap<>();
     private ArrayList<Move> moveLog = new ArrayList<>();
 
@@ -21,32 +21,37 @@ class Board {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         this.moveCount = 1;
-        this.castlingCommands = new ArrayList<>(Arrays.asList("/rc"));
 
+        // == Initialise Pieces ==
         for (int i = 0; i < 8; i++) {
-            // Initialise Pawns
+            // Pawns
             this.board[i + 8] = new Pawn(Colour.BLACK, new Point(Board.getX(i + 8), 7));
             this.board[i + 48] = new Pawn(Colour.WHITE, new Point(Board.getX(i + 48), 2));
 
-            // Initialise Pieces
-            switch (i) {
-                case 0, 7:
-                    this.board[i] = new Rook(Colour.BLACK, Board.getPoint(i));
-                    this.board[i + 56] = new Rook(Colour.WHITE, Board.getPoint(i + 56));
-                    break;
-                case 1, 6:
-                    this.board[i] = new Knight(Colour.BLACK, Board.getPoint(i));
-                    this.board[i + 56] = new Knight(Colour.WHITE, Board.getPoint(i + 56));
-                    break;
-                case 2, 5:
-                    this.board[i] = new Bishop(Colour.BLACK, Board.getPoint(i));
-                    this.board[i + 56] = new Bishop(Colour.WHITE, Board.getPoint(i + 56));
-                    break;
+            // Knights & Bishops
+            if (i == 1 || i == 6) {
+                this.board[i] = new Knight(Colour.BLACK, Board.getPoint(i));
+                this.board[i + 56] = new Knight(Colour.WHITE, Board.getPoint(i + 56));
+            } else if (i == 2 || i == 5) {
+                this.board[i] = new Bishop(Colour.BLACK, Board.getPoint(i));
+                this.board[i + 56] = new Bishop(Colour.WHITE, Board.getPoint(i + 56));
             }
         }
-        // Intialise Kings + Queens
+        // Rooks
+        this.whiteRookKingSide = new Rook(Colour.WHITE, new Point(8, 1));
+        this.whiteRookQueenSide = new Rook(Colour.WHITE, new Point(1, 1));
+        this.blackRookKingSide = new Rook(Colour.BLACK, new Point(1, 8));
+        this.blackRookQueenSide = new Rook(Colour.BLACK, new Point(8, 8));
+        this.placePiece(this.whiteRookKingSide, new Point(8, 1));
+        this.placePiece(this.whiteRookQueenSide, new Point(1, 1));
+        this.placePiece(this.blackRookKingSide, new Point(1, 8));
+        this.placePiece(this.blackRookQueenSide, new Point(8, 8));
+
+        // Queens
         this.board[3] = new Queen(Colour.BLACK, new Point(4, 8));
         this.board[59] = new Queen(Colour.WHITE, new Point(4, 1));
+
+        // Kings
         this.blackKing = new King(Colour.BLACK, new Point(5, 8));
         this.whiteKing = new King(Colour.WHITE, new Point(5, 1));
         this.board[4] = this.blackKing;
@@ -71,8 +76,8 @@ class Board {
         return this.whiteCanLongCastle;
     }
 
-    public King getKing(Colour colour){
-        if (colour.isWhite()){
+    public King getKing(Colour colour) {
+        if (colour.isWhite()) {
             return this.whiteKing;
         }
         return this.blackKing;
@@ -125,6 +130,68 @@ class Board {
         return this.moveLog.getLast();
     }
 
+    public boolean canCastle(Colour colour, CastleAction castleSide) {
+        boolean hasMoved = false;
+        // White Short
+        if (castleSide == CastleAction.SHORT && colour.isWhite()) {
+            hasMoved = this.whiteRookKingSide.getHasMoved() && this.getKing(Colour.WHITE).getHasMoved();
+            if (hasMoved) {
+                return false;
+            } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 1), new Point(7, 1))) {
+                for (int xDir = 1; xDir < 3; xDir++) {
+                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 1), new Point(5 + xDir, 1))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+            // White Long
+        } else if (castleSide == CastleAction.LONG && colour.isWhite()) {
+            hasMoved = this.whiteRookQueenSide.getHasMoved() && this.getKing(Colour.WHITE).getHasMoved();
+            if (hasMoved) {
+                return false;
+            } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 1), new Point(2, 1))) {
+                for (int xDir = 1; xDir < 4; xDir++) {
+                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 1), new Point(5 - xDir, 1))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+            // Black Short
+        } else if (castleSide == CastleAction.SHORT && !colour.isWhite()) {
+            hasMoved = this.blackRookKingSide.getHasMoved() && this.getKing(Colour.BLACK).getHasMoved();
+            if (hasMoved) {
+                return false;
+            } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 8), new Point(7, 8))) {
+                for (int xDir = 1; xDir < 3; xDir++) {
+                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 8), new Point(5 + xDir, 8))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+            // Black Long
+        } else if (castleSide == CastleAction.LONG && !colour.isWhite()) {
+            hasMoved = this.blackRookKingSide.getHasMoved() && this.getKing(Colour.BLACK).getHasMoved();
+        }
+        if (hasMoved) {
+            return false;
+        } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 8), new Point(2, 8))) {
+            for (int xDir = 1; xDir < 4; xDir++) {
+                if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 1), new Point(5 - xDir, 8))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
+    public void castle(){
+
+    }
+
     public boolean inCheck(Colour colour) {
         return this.isSquareAttacked(colour, this.getKingPoint(colour));
     }
@@ -175,14 +242,6 @@ class Board {
     }
 
     // == Board conditions ==
-    //
-
-    public boolean canCastle(Colour colour, CastleAction action) {
-        if (action == CastleAction.SHORT) {
-
-        }
-        return true;
-    }
 
     public void turnToggle() {
         this.turnColour = this.turnColour.getOpposite();

@@ -1,4 +1,5 @@
 package src;
+
 class Point {
     private int x, y;
 
@@ -28,6 +29,7 @@ class Point {
         this.y = newY;
     }
 
+    // Points can be treated as math vectors
     public Point addValues(int x, int y) {
         return new Point(this.getX() + x, this.getY() + y);
     }

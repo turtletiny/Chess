@@ -18,7 +18,7 @@ public enum CastleAction {
         castleActionsMap.put("0-0", SHORT);
     }
 
-    public CastleAction getCastleAction(String input) {
+    public static CastleAction getCastleAction(String input) {
         return castleActionsMap.get(input);
     }
     public static boolean inMap(String input){

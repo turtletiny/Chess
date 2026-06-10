@@ -1,4 +1,5 @@
 package src;
+
 class Rook extends Piece {
     private boolean hasMoved;
     private final int[][] DIRECTIONS = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
@@ -17,13 +18,19 @@ class Rook extends Piece {
     public void move(Board board) {
     }
 
-    public boolean getHasMoved(){
+    public boolean getHasMoved() {
         return this.hasMoved;
     }
 
     @Override
-    public int[][] getDirections(){
+    public int[][] getDirections() {
         return this.DIRECTIONS;
+    }
+
+    @Override
+    public void playMove(Board board, Point fromPoint, Point toPoint) {
+        super.playMove(board, fromPoint, toPoint);
+        this.hasMoved = true;
     }
 
     @Override
@@ -31,7 +38,6 @@ class Rook extends Piece {
         Point diff = Point.subtractPoints(to, from);
         return (diff.getX() == 0 && diff.getY() != 0) || (diff.getX() != 0 && diff.getY() == 0);
     }
-
 
     @Override
     public boolean isLegalMove(Board board, Point from, Point to) {
