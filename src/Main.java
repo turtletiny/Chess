@@ -30,12 +30,12 @@ public class Main {
                     if (board.inCheck(board.turnColour)) {
                         System.out.println("You can't castle out of check.");
                         continue;
-                    } else if (!board.canCastle(board.turnColour, CastleAction.getCastleAction(move))) {
-                        System.out.println("Invalid, try agfain");
+                    } else if (board.canCastle(board.turnColour, CastleAction.getCastleAction(move)) == null) {
+                        System.out.println("Invalid castle attempt, try again");
                         continue;
                     }
-                    board.castle();
-
+                    board.castle(CastleAction.getCastleAction(move));
+                    break;
 
                 }
                 Point from = new Point(move.charAt(0) - 96, move.charAt(1) - 48);

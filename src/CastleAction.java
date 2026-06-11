@@ -3,7 +3,7 @@ package src;
 import java.util.HashMap;
 
 public enum CastleAction {
-    SHORT, LONG;
+    SHORT, LONG, WHITESHORT, WHITELONG, BLACKSHORT, BLACKLONG;
 
     private static final HashMap<String, CastleAction> castleActionsMap = new HashMap<>();
     static {
@@ -21,7 +21,8 @@ public enum CastleAction {
     public static CastleAction getCastleAction(String input) {
         return castleActionsMap.get(input);
     }
-    public static boolean inMap(String input){
+
+    public static boolean inMap(String input) {
         return castleActionsMap.containsKey(input);
     }
 }

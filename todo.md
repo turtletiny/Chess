@@ -1,5 +1,6 @@
 # Priority
-- implement Board.castle()
+- bugfix castle() logic
+- optimise Board.castle()
 - optimise Board.canCastle()
 - en passant logic 
 - promotion
