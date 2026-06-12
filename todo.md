@@ -1,15 +1,15 @@
 # Priority
-- bugfix castle() logic
+
+- en passant logic 
+- out of index checks
+- set king to hasmoved in castle()
 - optimise Board.castle()
 - optimise Board.canCastle()
-- en passant logic 
-- promotion
-- piece enums
-- out of index checks
 
 # later
 
 - input / exception handling
+- promotion optimisation + theming
 - consistency with functions and organisation
 - error message order
 - storing and displaying captured pieces

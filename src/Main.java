@@ -34,7 +34,7 @@ public class Main {
                         System.out.println("Invalid castle attempt, try again");
                         continue;
                     }
-                    board.castle(CastleAction.getCastleAction(move));
+                    board.castle(board.canCastle(board.turnColour, CastleAction.getCastleAction(move)));
                     break;
 
                 }

@@ -47,8 +47,40 @@ class Pawn extends Piece {
 
     @Override
     public void playMove(Board board, Point fromPoint, Point toPoint) {
-        super.playMove(board, fromPoint, toPoint);
-        this.hasMoved = true;
+        if (toPoint.getY() == 8 || toPoint.getY() == 1) {
+            while (true) {
+                System.out.println("Queen[1] | Knight[2] | Bishop[3] | Rook[4]");
+                int promotionChoice = In.nextInt();
+                Piece piece;
+                switch (promotionChoice) {
+                    case 1 -> {
+                        piece = new Queen(this.colour, toPoint);
+                    }
+                    case 2 -> {
+                        piece = new Knight(this.colour, toPoint);
+                    }
+                    case 3 -> {
+                        piece = new Bishop(this.colour, toPoint);
+                    }
+                    case 4 -> {
+                        piece = new Rook(this.colour, toPoint);
+                    }
+                    default -> {
+                        System.out.println("Invalid option");
+                        continue;
+                    }
+                }
+                board.placePiece(piece, toPoint);
+                board.clearSquare(fromPoint);
+                board.turnToggle();
+                board.incrementMoveCount(0.5);
+                break;
+            }
+        } else {
+            super.playMove(board, fromPoint, toPoint);
+            this.hasMoved = true;
+        }
+
     }
 
     public boolean correctMovePattern(Board board, Point fromPoint, Point toPoint) {

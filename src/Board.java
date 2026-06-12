@@ -114,12 +114,11 @@ class Board {
     }
 
     public CastleAction canCastle(Colour colour, CastleAction castleSide) {
-        boolean hasMoved = false;
         CastleAction castleType = null;
+
         // White Short
         if (castleSide == CastleAction.SHORT && colour.isWhite()) {
-            hasMoved = this.whiteRookKingSide.getHasMoved() || this.getKing(Colour.WHITE).getHasMoved();
-            if (hasMoved) {
+            if (this.whiteRookKingSide.getHasMoved() || this.getKing(Colour.WHITE).getHasMoved()) {
                 return castleType;
             } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 1), new Point(7, 1))) {
                 for (int xDir = 1; xDir < 3; xDir++) {
@@ -127,14 +126,13 @@ class Board {
                         return castleType;
                     }
                 }
-            } else {
                 return CastleAction.WHITESHORT;
+
             }
 
             // White Long
         } else if (castleSide == CastleAction.LONG && colour.isWhite()) {
-            hasMoved = this.whiteRookQueenSide.getHasMoved() || this.getKing(Colour.WHITE).getHasMoved();
-            if (hasMoved) {
+            if (this.whiteRookQueenSide.getHasMoved() || this.getKing(Colour.WHITE).getHasMoved()) {
                 return castleType;
             } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 1), new Point(2, 1))) {
                 for (int xDir = 1; xDir < 4; xDir++) {
@@ -142,13 +140,11 @@ class Board {
                         return castleType;
                     }
                 }
-            } else {
                 return CastleAction.WHITELONG;
             }
             // Black Short
         } else if (castleSide == CastleAction.SHORT && !colour.isWhite()) {
-            hasMoved = this.blackRookKingSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved();
-            if (hasMoved) {
+            if (this.blackRookKingSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved()) {
                 return castleType;
             } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 8), new Point(7, 8))) {
                 for (int xDir = 1; xDir < 3; xDir++) {
@@ -156,21 +152,19 @@ class Board {
                         return castleType;
                     }
                 }
-            } else {
                 return CastleAction.BLACKSHORT;
             }
+
             // Black Long
         } else if (castleSide == CastleAction.LONG && !colour.isWhite()) {
-            hasMoved = this.blackRookKingSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved();
-            if (hasMoved) {
+            if (this.blackRookKingSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved()) {
                 return castleType;
             } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 8), new Point(2, 8))) {
                 for (int xDir = 1; xDir < 4; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 1), new Point(5 - xDir, 8))) {
+                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 8), new Point(5 - xDir, 8))) {
                         return castleType;
                     }
                 }
-            } else {
                 return CastleAction.BLACKLONG;
             }
         }
@@ -182,38 +176,43 @@ class Board {
             case CastleAction.WHITESHORT -> {
                 this.placePiece(this.getKing(Colour.WHITE), new Point(7, 1));
                 this.clearSquare(new Point(5, 1));
-                this.placePiece(this.whiteRookKingSide, new Point(6,1));
-                this.clearSquare(new Point(8,1));
-                this.whiteKing.setPoint(new Point(7,1));
-                this.whiteRookKingSide.setPoint(new Point(6,1));
+                this.placePiece(this.whiteRookKingSide, new Point(6, 1));
+                this.clearSquare(new Point(8, 1));
+                this.whiteKing.setPoint(new Point(7, 1));
+                this.whiteRookKingSide.setPoint(new Point(6, 1));
             }
             case CastleAction.WHITELONG -> {
                 this.placePiece(this.getKing(Colour.WHITE), new Point(2, 1));
                 this.clearSquare(new Point(5, 1));
-                this.placePiece(this.whiteRookKingSide, new Point(3,1));
-                this.clearSquare(new Point(1,1));
-                this.whiteKing.setPoint(new Point(2,1));
-                this.whiteRookQueenSide.setPoint(new Point(3,1));
+                this.placePiece(this.whiteRookKingSide, new Point(3, 1));
+                this.clearSquare(new Point(1, 1));
+                this.whiteKing.setPoint(new Point(2, 1));
+                this.whiteRookQueenSide.setPoint(new Point(3, 1));
             }
             case CastleAction.BLACKSHORT -> {
                 this.placePiece(this.getKing(Colour.BLACK), new Point(7, 8));
                 this.clearSquare(new Point(5, 8));
-                this.placePiece(this.whiteRookKingSide, new Point(6,8));
-                this.clearSquare(new Point(8,8));
-                this.blackKing.setPoint(new Point(7,8));
-                this.blackRookKingSide.setPoint(new Point(6,8));
+                this.placePiece(this.blackRookKingSide, new Point(6, 8));
+                this.clearSquare(new Point(8, 8));
+                this.blackKing.setPoint(new Point(7, 8));
+                this.blackRookKingSide.setPoint(new Point(6, 8));
             }
             case CastleAction.BLACKLONG -> {
                 this.placePiece(this.getKing(Colour.BLACK), new Point(2, 8));
                 this.clearSquare(new Point(5, 8));
-                this.placePiece(this.whiteRookKingSide, new Point(3,8));
-                this.clearSquare(new Point(1,8));
-                this.blackKing.setPoint(new Point(2,8));
-                this.blackRookQueenSide.setPoint(new Point(3,8));
+                this.placePiece(this.blackRookQueenSide, new Point(3, 8));
+                this.clearSquare(new Point(1, 8));
+                this.blackKing.setPoint(new Point(2, 8));
+                this.blackRookQueenSide.setPoint(new Point(3, 8));
+            }
+            default -> {
+                System.out.println("Error");
             }
         }
         this.turnToggle();
         this.incrementMoveCount(0.5);
+        //set king to hasMoved
+
     }
 
     public boolean inCheck(Colour colour) {
