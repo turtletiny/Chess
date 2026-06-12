@@ -35,6 +35,7 @@ public class Main {
                         continue;
                     }
                     board.castle(board.canCastle(board.turnColour, CastleAction.getCastleAction(move)));
+                    // board.logMove(new Move(board.turnColour, CastleAction.getCastleAction(move)));
                     break;
 
                 }
@@ -49,7 +50,7 @@ public class Main {
                     continue;
                 } else {
                     selectedPiece.playMove(board, from, to);
-                    // board.logMove(move);
+                    // board.logMove(board.getMove(move));
                     if (board.inCheck(board.turnColour) && board.hasLegalMoves()) {
                         System.out.println(board.turnColour + " in check");
                     } else if (board.inCheck(board.turnColour) && !board.hasLegalMoves()) {
