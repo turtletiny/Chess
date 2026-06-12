@@ -7,7 +7,6 @@
 
 # later
 
-- input / exception handling
 - promotion optimisation + theming
 - consistency with functions and organisation
 - error message order

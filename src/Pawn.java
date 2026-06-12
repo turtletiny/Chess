@@ -85,8 +85,10 @@ class Pawn extends Piece {
 
     public boolean correctMovePattern(Board board, Point fromPoint, Point toPoint) {
         Point diff = Point.subtractPoints(toPoint, fromPoint);
-        boolean enPassantLegal = (board.getLastMove().movedPiece() instanceof Pawn)
-                && Math.abs(board.getLastMove().getDir().getX()) == 2;
+        if (board.getLastMove() != null) {
+            boolean enPassantLegal = (board.getLastMove().movedPiece() instanceof Pawn)
+                    && Math.abs(board.getLastMove().getDiff().getX()) == 2;
+        }
 
         if (!(diff.getY() == this.yDir || (diff.getY() == 2 * this.yDir && !this.hasMoved))) {
             return false;

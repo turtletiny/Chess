@@ -110,7 +110,11 @@ class Board {
     }
 
     public Move getLastMove() {
-        return this.moveLog.getLast();
+        if (this.moveLog.size() > 0) {
+            return this.moveLog.getLast();
+        }
+        return null;
+
     }
 
     public void logMove(Move move) {

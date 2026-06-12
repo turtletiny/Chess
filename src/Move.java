@@ -11,4 +11,8 @@ public record Move(Point from, Point to, Piece movedPiece, Piece capturedPiece, 
         return new Point(Integer.compare(this.to.getX(), this.from.getX()),
                 Integer.compare(this.to.getY(), this.from.getY()));
     }
+
+    public Point getDiff() {
+        return Point.subtractPoints(to, from);
+    }
 }
