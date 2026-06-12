@@ -102,15 +102,19 @@ class Board {
         return (int) this.moveCount;
     }
 
-    public static Move getMove(String move, Board board) {
+    public Move getMove(String move) {
         Point from = new Point(move.charAt(0) - 96, move.charAt(1) - 48);
         Point to = new Point(move.charAt(3) - 96, move.charAt(4) - 48);
-        Piece selectedPiece = board.getPieceAt(from);
-        return new Move(from, to, selectedPiece, null);
+        Piece selectedPiece = this.getPieceAt(from);
+        return new Move(from, to, selectedPiece, null, selectedPiece.colour, null);
     }
 
     public Move getLastMove() {
         return this.moveLog.getLast();
+    }
+
+    public void logMove(Move move) {
+        this.moveLog.add(move);
     }
 
     public CastleAction canCastle(Colour colour, CastleAction castleSide) {
@@ -211,7 +215,7 @@ class Board {
         }
         this.turnToggle();
         this.incrementMoveCount(0.5);
-        //set king to hasMoved
+        // set king to hasMoved
 
     }
 
@@ -276,10 +280,6 @@ class Board {
 
     public void incrementMoveCount(double num) {
         this.moveCount += num;
-    }
-
-    public void logMove(Move move) {
-        this.moveLog.add(move);
     }
 
     public void printLog() {
