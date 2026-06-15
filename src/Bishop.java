@@ -1,6 +1,7 @@
 package src;
 
 class Bishop extends Piece {
+    private static final String NAME = "Bishop";
     int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 } };
 
     Bishop(Colour colour) {
@@ -12,6 +13,11 @@ class Bishop extends Piece {
     }
 
     public void move(Board board) {
+    }
+
+    @Override
+    public int getValue() {
+        return 3;
     }
 
     @Override

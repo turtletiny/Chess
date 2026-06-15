@@ -1,6 +1,7 @@
 package src;
 
 class Rook extends Piece {
+    private static final String NAME = "ROOK";
     private boolean hasMoved;
     private final int[][] DIRECTIONS = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
@@ -25,6 +26,11 @@ class Rook extends Piece {
     @Override
     public int[][] getDirections() {
         return this.DIRECTIONS;
+    }
+
+    @Override
+    public int getValue() {
+        return 5;
     }
 
     @Override

@@ -22,6 +22,11 @@ class Pawn extends Piece {
     }
 
     @Override
+    public int getValue() {
+        return 1;
+    }
+
+    @Override
     public boolean hasLegalMoves(Board board) {
         if (this.isStrictlyLegal(board, this.getPoint(), this.getPoint().addValues(0, this.yDir))
                 || this.isStrictlyLegal(board, this.getPoint(), this.getPoint().addValues(0, 2 * this.yDir))

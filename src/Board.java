@@ -1,19 +1,17 @@
 package src;
 
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 class Board {
     private double moveCount;
     Colour turnColour;
-    Piece cache;
     King blackKing, whiteKing;
     Rook whiteRookKingSide, whiteRookQueenSide, blackRookKingSide, blackRookQueenSide;
     Piece[] board;
-    private HashMap<String, Integer> graveyard = new HashMap<>();
+    private HashMap<Piece, Integer> whiteGraveyard = new HashMap<>();
+    private HashMap<Piece, Integer> blackGraveyard = new HashMap<>();
     private ArrayList<Move> moveLog = new ArrayList<>();
 
     Board() {
@@ -39,12 +37,12 @@ class Board {
         // Rooks
         this.whiteRookKingSide = new Rook(Colour.WHITE, new Point(8, 1));
         this.whiteRookQueenSide = new Rook(Colour.WHITE, new Point(1, 1));
-        this.blackRookKingSide = new Rook(Colour.BLACK, new Point(1, 8));
-        this.blackRookQueenSide = new Rook(Colour.BLACK, new Point(8, 8));
+        this.blackRookKingSide = new Rook(Colour.BLACK, new Point(8, 8));
+        this.blackRookQueenSide = new Rook(Colour.BLACK, new Point(1, 8));
         this.placePiece(this.whiteRookKingSide, new Point(8, 1));
         this.placePiece(this.whiteRookQueenSide, new Point(1, 1));
-        this.placePiece(this.blackRookKingSide, new Point(1, 8));
-        this.placePiece(this.blackRookQueenSide, new Point(8, 8));
+        this.placePiece(this.blackRookKingSide, new Point(8, 8));
+        this.placePiece(this.blackRookQueenSide, new Point(1, 8));
 
         // Queens
         this.board[3] = new Queen(Colour.BLACK, new Point(4, 8));
@@ -122,30 +120,29 @@ class Board {
     }
 
     public CastleAction canCastle(Colour colour, CastleAction castleSide) {
-        CastleAction castleType = null;
-
         // White Short
         if (castleSide == CastleAction.SHORT && colour.isWhite()) {
             if (this.whiteRookKingSide.getHasMoved() || this.getKing(Colour.WHITE).getHasMoved()) {
-                return castleType;
-            } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 1), new Point(7, 1))) {
+                return null;
+            } else if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), this.whiteRookKingSide.getPoint())) {
+                Point ogPoint = this.getKingPoint(colour);
                 for (int xDir = 1; xDir < 3; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 1), new Point(5 + xDir, 1))) {
-                        return castleType;
+                    if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour), ogPoint.addValues(xDir, 0))) {
+                        return null;
                     }
                 }
                 return CastleAction.WHITESHORT;
-
             }
 
-            // White Long
+        // White Long
         } else if (castleSide == CastleAction.LONG && colour.isWhite()) {
             if (this.whiteRookQueenSide.getHasMoved() || this.getKing(Colour.WHITE).getHasMoved()) {
-                return castleType;
-            } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 1), new Point(2, 1))) {
-                for (int xDir = 1; xDir < 4; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 1), new Point(5 - xDir, 1))) {
-                        return castleType;
+                return null;
+            } else if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), this.whiteRookQueenSide.getPoint())) {
+                Point ogPoint = this.getKingPoint(colour);
+                for (int xDir = 1; xDir < 3; xDir++) {
+                    if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour), ogPoint.addValues(-xDir, 0))) {
+                        return null;
                     }
                 }
                 return CastleAction.WHITELONG;
@@ -153,11 +150,12 @@ class Board {
             // Black Short
         } else if (castleSide == CastleAction.SHORT && !colour.isWhite()) {
             if (this.blackRookKingSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved()) {
-                return castleType;
-            } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 8), new Point(7, 8))) {
+                return null;
+            } else if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), this.blackRookKingSide.getPoint())) {
+                Point ogPoint = this.getKingPoint(colour);
                 for (int xDir = 1; xDir < 3; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 8), new Point(5 + xDir, 8))) {
-                        return castleType;
+                    if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour), ogPoint.addValues(xDir, 0))) {
+                        return null;
                     }
                 }
                 return CastleAction.BLACKSHORT;
@@ -165,18 +163,19 @@ class Board {
 
             // Black Long
         } else if (castleSide == CastleAction.LONG && !colour.isWhite()) {
-            if (this.blackRookKingSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved()) {
-                return castleType;
-            } else if (this.getKing(colour).hasLineOfSight(this, new Point(5, 8), new Point(2, 8))) {
-                for (int xDir = 1; xDir < 4; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), new Point(5, 8), new Point(5 - xDir, 8))) {
-                        return castleType;
+            if (this.blackRookQueenSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved()) {
+                return null;
+            } else if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), this.blackRookQueenSide.getPoint())) {
+                Point ogPoint = this.getKingPoint(colour);
+                for (int xDir = 1; xDir < 3; xDir++) {
+                    if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour), ogPoint.addValues(-xDir, 0))) {
+                        return null;
                     }
                 }
                 return CastleAction.BLACKLONG;
             }
         }
-        return castleType;
+        return null;
     }
 
     public void castle(CastleAction actionType) {
@@ -186,32 +185,32 @@ class Board {
                 this.clearSquare(new Point(5, 1));
                 this.placePiece(this.whiteRookKingSide, new Point(6, 1));
                 this.clearSquare(new Point(8, 1));
-                this.whiteKing.setPoint(new Point(7, 1));
-                this.whiteRookKingSide.setPoint(new Point(6, 1));
+                this.whiteKing.setHasMoved(true);
+                this.whiteRookKingSide.setHasMoved(true);
             }
             case CastleAction.WHITELONG -> {
-                this.placePiece(this.getKing(Colour.WHITE), new Point(2, 1));
+                this.placePiece(this.getKing(Colour.WHITE), new Point(3, 1));
                 this.clearSquare(new Point(5, 1));
-                this.placePiece(this.whiteRookKingSide, new Point(3, 1));
+                this.placePiece(this.whiteRookQueenSide, new Point(4, 1));
                 this.clearSquare(new Point(1, 1));
-                this.whiteKing.setPoint(new Point(2, 1));
-                this.whiteRookQueenSide.setPoint(new Point(3, 1));
+                this.whiteKing.setHasMoved(true);
+                this.whiteRookQueenSide.setHasMoved(true);
             }
             case CastleAction.BLACKSHORT -> {
                 this.placePiece(this.getKing(Colour.BLACK), new Point(7, 8));
                 this.clearSquare(new Point(5, 8));
                 this.placePiece(this.blackRookKingSide, new Point(6, 8));
                 this.clearSquare(new Point(8, 8));
-                this.blackKing.setPoint(new Point(7, 8));
-                this.blackRookKingSide.setPoint(new Point(6, 8));
+                this.blackKing.setHasMoved(true);
+                this.blackRookKingSide.setHasMoved(true);
             }
             case CastleAction.BLACKLONG -> {
-                this.placePiece(this.getKing(Colour.BLACK), new Point(2, 8));
+                this.placePiece(this.getKing(Colour.BLACK), new Point(3, 8));
                 this.clearSquare(new Point(5, 8));
-                this.placePiece(this.blackRookQueenSide, new Point(3, 8));
+                this.placePiece(this.blackRookQueenSide, new Point(4, 8));
                 this.clearSquare(new Point(1, 8));
-                this.blackKing.setPoint(new Point(2, 8));
-                this.blackRookQueenSide.setPoint(new Point(3, 8));
+                this.blackKing.setHasMoved(true);
+                this.blackRookQueenSide.setHasMoved(true);
             }
             default -> {
                 System.out.println("Error");
@@ -219,8 +218,6 @@ class Board {
         }
         this.turnToggle();
         this.incrementMoveCount(0.5);
-        // set king to hasMoved
-
     }
 
     public boolean inCheck(Colour colour) {
@@ -279,7 +276,24 @@ class Board {
     }
 
     public void toGraveyard(Piece piece) {
-        // increment hashmap by 1
+        if (piece == null) {
+            return;
+        }
+        if (piece.colour.isWhite()) {
+            this.whiteGraveyard.put(piece, this.whiteGraveyard.getOrDefault(piece, 0) + 1);
+        } else {
+            this.blackGraveyard.put(piece, this.blackGraveyard.getOrDefault(piece, 0) + 1);
+        }
+    }
+
+    public void printGraveyard() {
+        int diffTotal = 0;
+        String str = "";
+        for (Piece key : this.whiteGraveyard.keySet()) {
+            int diff = this.whiteGraveyard.get(key) - this.blackGraveyard.getOrDefault(key, 0);
+            diffTotal += diff * key.getValue();
+        }
+        System.out.println(str + "+" + diffTotal);
     }
 
     public void incrementMoveCount(double num) {
@@ -323,7 +337,6 @@ class Board {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         this.moveCount = 1;
-        this.graveyard = new HashMap<>();
         this.blackKing = new King(Colour.BLACK);
         this.whiteKing = new King(Colour.WHITE);
         this.board[4] = this.blackKing;

@@ -1,7 +1,6 @@
 package src;
 
 abstract class Piece {
-
     Colour colour;
     private Point point;
 
@@ -28,12 +27,12 @@ abstract class Piece {
     }
 
     // == Getters & Setters ==
+    //
+
+    public abstract int getValue();
+
     public int[][] getDirections() {
         return this.DIRECTIONS;
-    }
-
-    public String getId() {
-        return this.id;
     }
 
     public Point getPoint() {
@@ -46,7 +45,8 @@ abstract class Piece {
 
     // == Piece Logic ==
     public void playMove(Board board, Point from, Point to) {
-        board.cache = board.getPieceAt(to);
+        Piece capturedPiece = board.getPieceAt(to);
+        board.toGraveyard(capturedPiece);
         board.placePiece(this, to);
         board.clearSquare(from);
         this.point = to;
@@ -68,7 +68,7 @@ abstract class Piece {
                 if (board.pieceExists(target)) {
                     break;
                 }
-                target.setX(target.getX() + xDir); // note to self: add point addition / subtraction
+                target.setX(target.getX() + xDir);
                 target.setY(target.getY() + yDir);
             }
         }
@@ -83,7 +83,7 @@ abstract class Piece {
         return false;
     }
 
-    // horizontal, vertical and diagonal line of sight (Note: Doesnt check if the
+    // horizontal, vertical and diagonal line of sight (Doesnt check if the
     // type of move is right for the piece)
     boolean hasLineOfSight(Board board, Point from, Point to) {
         Point dir = new Point(Integer.compare(to.getX(), from.getX()), Integer.compare(to.getY(), from.getY()));
@@ -96,21 +96,6 @@ abstract class Piece {
         }
         return true;
     }
-
-    // boolean hasLineOfSight(Board board, int fromX, int fromY, int toX, int toY) {
-    // int xDir = Integer.compare(toX, fromX);
-    // int yDir = Integer.compare(toY, fromY);
-    // int curX = fromX + xDir;
-    // int curY = fromY + yDir;
-    // while (curX != toX || curY != toY) {
-    // if (board.pieceExists(curX, curY)) {
-    // return false;
-    // }
-    // curX += xDir;
-    // curY += yDir;
-    // }
-    // return true;
-    // }
 
     // Checks that apply to all pieces
     boolean isLegalMove(Board board, Point from, Point to) {
@@ -130,7 +115,6 @@ abstract class Piece {
         if (!this.correctMovePattern(board, from, to)) {
             return false;
         }
-
         return true;
     }
 

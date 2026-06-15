@@ -1,6 +1,7 @@
 package src;
-class Queen extends Piece {
 
+class Queen extends Piece {
+    private static final String NAME = "QUEEN";
     private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 }, { -1, 0 }, { 0, 1 }, { 1, 0 },
             { 0, -1 } };
 
@@ -18,6 +19,11 @@ class Queen extends Piece {
     @Override
     public int[][] getDirections() {
         return this.DIRECTIONS;
+    }
+
+    @Override
+    public int getValue() {
+        return 9;
     }
 
     @Override

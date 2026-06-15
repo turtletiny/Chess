@@ -1,7 +1,7 @@
 package src;
 
 class King extends Piece {
-
+    private static final String NAME = "KING";
     private boolean hasMoved;
     private final int[][] DIRECTIONS = { { -1, -1 }, { 1, 1 }, { 1, 1 }, { -1, 1 }, { -1, 0 }, { 0, 1 }, { 1, 0 },
             { 0, -1 } };
@@ -18,6 +18,11 @@ class King extends Piece {
     }
 
     public void move(Board board) {
+    }
+
+    @Override
+    public int getValue() {
+        return 20;
     }
 
     @Override
