@@ -63,6 +63,16 @@ class Board {
         return this.blackKing;
     }
 
+    public Rook getRook(CastleAction castleSide) {
+        return switch (castleSide) {
+            case WHITESHORT -> this.whiteRookKingSide;
+            case WHITELONG -> this.whiteRookQueenSide;
+            case BLACKSHORT -> this.blackRookKingSide;
+            case BLACKLONG -> this.blackRookQueenSide;
+            default -> null;
+        };
+    }
+
     public static int getIndex(Point point) {
         return 8 * (8 - point.getY()) + point.getX() - 1;
     }
@@ -118,63 +128,27 @@ class Board {
         this.moveLog.add(move);
     }
 
-    public CastleAction canCastle(Colour colour, CastleAction castleSide) {
-        // White Short
-        if (castleSide == CastleAction.SHORT && colour.isWhite()) {
-            if (this.whiteRookKingSide.getHasMoved() || this.getKing(Colour.WHITE).getHasMoved()) {
-                return null;
-            } else if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), this.whiteRookKingSide.getPoint())) {
-                Point ogPoint = this.getKingPoint(colour);
-                for (int xDir = 1; xDir < 3; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour), ogPoint.addValues(xDir, 0))) {
-                        return null;
-                    }
-                }
-                return CastleAction.WHITESHORT;
-            }
-
-        // White Long
-        } else if (castleSide == CastleAction.LONG && colour.isWhite()) {
-            if (this.whiteRookQueenSide.getHasMoved() || this.getKing(Colour.WHITE).getHasMoved()) {
-                return null;
-            } else if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), this.whiteRookQueenSide.getPoint())) {
-                Point ogPoint = this.getKingPoint(colour);
-                for (int xDir = 1; xDir < 3; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour), ogPoint.addValues(-xDir, 0))) {
-                        return null;
-                    }
-                }
-                return CastleAction.WHITELONG;
-            }
-            // Black Short
-        } else if (castleSide == CastleAction.SHORT && !colour.isWhite()) {
-            if (this.blackRookKingSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved()) {
-                return null;
-            } else if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), this.blackRookKingSide.getPoint())) {
-                Point ogPoint = this.getKingPoint(colour);
-                for (int xDir = 1; xDir < 3; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour), ogPoint.addValues(xDir, 0))) {
-                        return null;
-                    }
-                }
-                return CastleAction.BLACKSHORT;
-            }
-
-            // Black Long
-        } else if (castleSide == CastleAction.LONG && !colour.isWhite()) {
-            if (this.blackRookQueenSide.getHasMoved() || this.getKing(Colour.BLACK).getHasMoved()) {
-                return null;
-            } else if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), this.blackRookQueenSide.getPoint())) {
-                Point ogPoint = this.getKingPoint(colour);
-                for (int xDir = 1; xDir < 3; xDir++) {
-                    if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour), ogPoint.addValues(-xDir, 0))) {
-                        return null;
-                    }
-                }
-                return CastleAction.BLACKLONG;
-            }
+    public boolean canCastle(Colour colour, CastleAction castleSide) {
+        Rook rook = this.getRook(castleSide);
+        if (this.getKing(colour).getHasMoved() || rook.getHasMoved()) {
+            return false;
         }
-        return null;
+        if (this.getPieceAt(rook.getPoint()) != rook){
+            return false;
+        }
+        if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), rook.getPoint())) {
+            int xDir = (castleSide == CastleAction.BLACKLONG || castleSide == CastleAction.WHITELONG) ? -1 : 1;
+            while (Math.abs(xDir) < 3) {
+                if (this.leavesOwnKingExposed(this.getKing(colour), this.getKingPoint(colour),
+                        this.getKingPoint(colour).addValues(xDir, 0))) {
+                    return false;
+                }
+                xDir += xDir / Math.abs(xDir);
+            }
+        } else {
+            return false;
+        }
+        return true;
     }
 
     public void castle(CastleAction actionType) {

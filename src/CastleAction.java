@@ -18,8 +18,20 @@ public enum CastleAction {
         castleActionsMap.put("0-0", SHORT);
     }
 
-    public static CastleAction getCastleAction(String input) {
-        return castleActionsMap.get(input);
+    public static CastleAction getCastleAction(String input, Colour colour) {
+        if (castleActionsMap.get(input) == CastleAction.SHORT) {
+            if (colour.isWhite()) {
+                return CastleAction.WHITESHORT;
+            } else {
+                return CastleAction.BLACKSHORT;
+            }
+        } else {
+            if (colour.isWhite()) {
+                return CastleAction.WHITELONG;
+            } else {
+                return CastleAction.BLACKLONG;
+            }
+        }
     }
 
     public static boolean inMap(String input) {

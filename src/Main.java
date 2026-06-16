@@ -30,11 +30,11 @@ public class Main {
                         if (board.inCheck(board.turnColour)) {
                             System.out.println("You can't castle out of check.");
                             continue;
-                        } else if (board.canCastle(board.turnColour, CastleAction.getCastleAction(move)) == null) {
+                        } else if (!board.canCastle(board.turnColour, CastleAction.getCastleAction(move, board.turnColour))) {
                             System.out.println("Invalid castle attempt, try again");
                             continue;
                         }
-                        board.castle(board.canCastle(board.turnColour, CastleAction.getCastleAction(move)));
+                        board.castle(CastleAction.getCastleAction(move, board.turnColour));
                         // board.logMove(new Move(board.turnColour,
                         // CastleAction.getCastleAction(move)));
                         break;
