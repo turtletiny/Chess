@@ -11,12 +11,14 @@ class Board {
     Piece[] board;
     private HashMap<Piece, Integer> whiteGraveyard = new HashMap<>();
     private HashMap<Piece, Integer> blackGraveyard = new HashMap<>();
+    private int pointDiff; // how many points white is up by
     private ArrayList<Move> moveLog = new ArrayList<>();
 
     Board() {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         this.moveCount = 1;
+        this.pointDiff = 0;
 
         // == Initialise Pieces ==
         for (int i = 0; i < 8; i++) {
@@ -121,7 +123,17 @@ class Board {
             return this.moveLog.getLast();
         }
         return null;
+    }
 
+    public void updatePointDiff(Piece deadPiece) {
+        if (deadPiece == null) {
+            return;
+        }
+        if (deadPiece.colour.isWhite()) {
+            this.pointDiff -= deadPiece.getValue();
+        } else {
+            this.pointDiff += deadPiece.getValue();
+        }
     }
 
     public void logMove(Move move) {
@@ -133,7 +145,7 @@ class Board {
         if (this.getKing(colour).getHasMoved() || rook.getHasMoved()) {
             return false;
         }
-        if (this.getPieceAt(rook.getPoint()) != rook){
+        if (this.getPieceAt(rook.getPoint()) != rook) {
             return false;
         }
         if (this.getKing(colour).hasLineOfSight(this, this.getKingPoint(colour), rook.getPoint())) {
@@ -281,6 +293,12 @@ class Board {
     }
 
     public void printBoard() {
+        System.out.println("");
+        if (this.pointDiff < 0) {
+            System.out.println("  Black: +" + Math.abs(this.pointDiff));
+        } else {
+            System.out.println("  Black  ");
+        }
         int count = 1;
         int rowNum = 8;
         System.out.println("   ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐");
@@ -302,7 +320,13 @@ class Board {
             count++;
         }
         System.out.println("   └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
-        System.out.println("      a     b     c     d     e     f     g     h");
+        System.out.println("      a     b     c     d     e     f     g     h\n");
+
+        if (this.pointDiff > 0) {
+            System.out.println("  White: +" + this.pointDiff);
+        } else {
+            System.out.println("  White");
+        }
     }
 
     // == Testing==

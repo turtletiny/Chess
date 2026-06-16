@@ -10,7 +10,7 @@ public class Main {
         // Game Loop
         while (playing) {
             board.printBoard();
-            System.out.println("\n Turn Number: " + board.getMoveCount() + ".");
+            System.out.println("   ─────────────────\n  │ Turn : " + board.getMoveCount() + " │\n   ─────────────────");
             if (board.turnColour == Colour.WHITE) {
                 System.out.println(" ♚ WHITE's turn\n");
             } else {
@@ -30,7 +30,8 @@ public class Main {
                         if (board.inCheck(board.turnColour)) {
                             System.out.println("You can't castle out of check.");
                             continue;
-                        } else if (!board.canCastle(board.turnColour, CastleAction.getCastleAction(move, board.turnColour))) {
+                        } else if (!board.canCastle(board.turnColour,
+                                CastleAction.getCastleAction(move, board.turnColour))) {
                             System.out.println("Invalid castle attempt, try again");
                             continue;
                         }

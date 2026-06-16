@@ -46,7 +46,10 @@ abstract class Piece {
     // == Piece Logic ==
     public void playMove(Board board, Point from, Point to) {
         Piece capturedPiece = board.getPieceAt(to);
-        board.toGraveyard(capturedPiece);
+        if (capturedPiece != null){
+            board.toGraveyard(capturedPiece);
+            board.updatePointDiff(capturedPiece);
+        }
         board.placePiece(this, to);
         board.clearSquare(from);
         this.point = to;
