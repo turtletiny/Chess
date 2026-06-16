@@ -10,12 +10,7 @@ public class Main {
         // Game Loop
         while (playing) {
             board.printBoard();
-            System.out.println("   ─────────────────\n  │ Turn : " + board.getMoveCount() + " │\n   ─────────────────");
-            if (board.turnColour == Colour.WHITE) {
-                System.out.println(" ♚ WHITE's turn\n");
-            } else {
-                System.out.println(" ♔ BLACK's turn\n");
-            }
+            board.drawBox();
             while (true) {
                 try {
                     System.out.println(" Enter move ");
