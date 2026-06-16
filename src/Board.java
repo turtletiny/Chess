@@ -1,7 +1,6 @@
 package src;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
 
 class Board {
@@ -186,7 +185,7 @@ class Board {
                 this.placePiece(this.whiteRookKingSide, new Point(6, 1));
                 this.clearSquare(new Point(8, 1));
                 this.whiteKing.setHasMoved(true);
-                this.whiteRookKingSide.setHasMoved(true);
+                this.whiteRookKingSide.setHasMoved();
             }
             case CastleAction.WHITELONG -> {
                 this.placePiece(this.getKing(Colour.WHITE), new Point(3, 1));
@@ -194,7 +193,7 @@ class Board {
                 this.placePiece(this.whiteRookQueenSide, new Point(4, 1));
                 this.clearSquare(new Point(1, 1));
                 this.whiteKing.setHasMoved(true);
-                this.whiteRookQueenSide.setHasMoved(true);
+                this.whiteRookQueenSide.setHasMoved();
             }
             case CastleAction.BLACKSHORT -> {
                 this.placePiece(this.getKing(Colour.BLACK), new Point(7, 8));
@@ -202,7 +201,7 @@ class Board {
                 this.placePiece(this.blackRookKingSide, new Point(6, 8));
                 this.clearSquare(new Point(8, 8));
                 this.blackKing.setHasMoved(true);
-                this.blackRookKingSide.setHasMoved(true);
+                this.blackRookKingSide.setHasMoved();
             }
             case CastleAction.BLACKLONG -> {
                 this.placePiece(this.getKing(Colour.BLACK), new Point(3, 8));
@@ -210,7 +209,7 @@ class Board {
                 this.placePiece(this.blackRookQueenSide, new Point(4, 8));
                 this.clearSquare(new Point(1, 8));
                 this.blackKing.setHasMoved(true);
-                this.blackRookQueenSide.setHasMoved(true);
+                this.blackRookQueenSide.setHasMoved();
             }
             default -> {
                 System.out.println("Error");

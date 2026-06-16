@@ -1,7 +1,6 @@
 package src;
 
 class Rook extends Piece {
-    private static final String NAME = "ROOK";
     private boolean hasMoved;
     private final int[][] DIRECTIONS = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
@@ -21,6 +20,10 @@ class Rook extends Piece {
 
     public boolean getHasMoved() {
         return this.hasMoved;
+    }
+
+    public void setHasMoved() {
+        this.hasMoved = true;
     }
 
     @Override
@@ -51,7 +54,6 @@ class Rook extends Piece {
             return false;
         }
         if (!this.correctMovePattern(board, from, to)) {
-            System.out.println("Rooks can only move perpendicularly");
             return false;
         }
         if (!this.hasLineOfSight(board, from, to)) {
