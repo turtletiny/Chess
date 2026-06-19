@@ -2,6 +2,7 @@ package src;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Random;
 
 class Board {
     private double moveCount;
@@ -56,6 +57,23 @@ class Board {
         this.board[60] = this.whiteKing;
     }
 
+    Board(GameMode gamemode) {
+        this.turnColour = Colour.WHITE;
+        this.board = new Piece[64];
+        this.moveCount = 1;
+        this.pointDiff = 0;
+
+        if (gamemode == GameMode.CHESS960) {
+            for (int i = 0; i < 8; i++) {
+                // Pawns
+                this.board[i + 8] = new Pawn(Colour.BLACK, new Point(Board.getX(i + 8), 7));
+                this.board[i + 48] = new Pawn(Colour.WHITE, new Point(Board.getX(i + 48), 2));
+            }
+            Random random = new Random();
+            this.board[Board.getIndex(random.nextInt(8)+1, 1)] = new Bishop(Colour.WHITE);
+        }
+    }
+
     // == Getters & Setters ==
 
     public King getKing(Colour colour) {
@@ -77,6 +95,10 @@ class Board {
 
     public static int getIndex(Point point) {
         return 8 * (8 - point.getY()) + point.getX() - 1;
+    }
+
+    public static int getIndex(int x, int y) {
+        return 8 * (8 - y) + x - 1;
     }
 
     public static int getX(int index) {
