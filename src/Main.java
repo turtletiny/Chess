@@ -7,6 +7,10 @@ public class Main {
         boolean playing = true;
         Colour winner = null;
 
+        System.out.println("\nChess.");
+        System.out.println("Enter any key to start game");
+        In.nextLine();
+
         // Game Loop
         while (playing) {
             board.printBoard();
@@ -17,11 +21,6 @@ public class Main {
                     String move = In.nextLine();
                     // can put these into a function later
                     if (CastleAction.inMap(move)) {
-                        // check if rook / king have moved corresponding to getCastleAction
-                        // king cannot be in check
-                        // move king square by square to see if its valid (not blocked, not castling
-                        // through check)
-                        // place place rook next to king
                         if (board.inCheck(board.turnColour)) {
                             System.out.println("You can't castle out of check.");
                             continue;

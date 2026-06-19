@@ -96,14 +96,12 @@ class Pawn extends Piece {
         }
 
         if (isEnPassantAttempt) {
-            System.out.println("attempt");
             boolean enPassantLegal = false;
             if (board.getLastMove() != null) {
                 enPassantLegal = (board.getLastMove().movedPiece() instanceof Pawn)
                         && Math.abs(board.getLastMove().getDiff().getY()) == 2;
             }
             if (!enPassantLegal) {
-                System.out.println("attempt fail :/");
                 return false;
             }
             if (board.getLastMove() != null) {
@@ -116,15 +114,12 @@ class Pawn extends Piece {
             }
         } else {
             if (!(diff.getY() == this.yDir || (diff.getY() == 2 * this.yDir && !this.hasMoved))) {
-                System.out.println(1);
                 return false;
             }
             if (!this.isCapture(board, toPoint) && diff.getX() != 0) {
-                System.out.println(2);
                 return false;
             }
             if (this.isCapture(board, toPoint) && Math.abs(diff.getX()) != 1) {
-                System.out.println(3);
                 return false;
             }
             return true;
