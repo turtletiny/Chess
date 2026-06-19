@@ -46,8 +46,9 @@ public class Main {
                         System.out.println("Try again");
                         continue;
                     } else {
+                        board.logMove(board.getMove(move));
                         selectedPiece.playMove(board, from, to);
-                        // board.logMove(board.getMove(move));
+
                         if (board.inCheck(board.turnColour) && board.hasLegalMoves()) {
                             System.out.println(board.turnColour + " in check");
                         } else if (board.inCheck(board.turnColour) && !board.hasLegalMoves()) {

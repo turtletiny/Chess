@@ -329,21 +329,34 @@ class Board {
         }
     }
 
+    // public void drawBox() {
+    // String s = (this.turnColour.isWhite()) ? "♚ WHITE's turn" : "♔ BLACK's turn";
+    // String j = "Turn: " + (int) this.moveCount;
+    // // j = "Turn: " + 13; //test line for double digit
+    // int diff = j.length() - 7;
+    // int horizontalBarCount = 16;
+    // int frontPadding = 15;
+    // int midPadding = 3;
+    // String finalString = " ".repeat(frontPadding) + "╭" +
+    // "─".repeat(horizontalBarCount) + "╮\n"
+    // + " ".repeat(frontPadding) + "│ " + " ".repeat(midPadding) + j + "
+    // ".repeat(midPadding)
+    // + " ".repeat(diff) + "│\n"
+    // + " ".repeat(frontPadding) + "│ " + s + " ".repeat(diff) + "│\n"
+    // + " ".repeat(frontPadding) + "╰" + "─".repeat(horizontalBarCount) + "╯";
+
+    // System.out.println(finalString);
+    // }
+    //
     public void drawBox() {
-        String s = (this.turnColour.isWhite()) ? "♚ WHITE's turn" : "♔ BLACK's turn";
         String j = "Turn: " + (int) this.moveCount;
         // j = "Turn: " + 13; //test line for double digit
+        String s = (this.turnColour.isWhite()) ? "♚ WHITE's turn" : "♔ BLACK's turn";
         int diff = j.length() - 7;
-        int horizontalBarCount = 16;
-        int frontPadding = 15;
-        int midPadding = 3;
-        String finalString = " ".repeat(frontPadding) + "╭" + "─".repeat(horizontalBarCount) +  "╮\n"
-                + " ".repeat(frontPadding) + "│ " + " ".repeat(midPadding) + j + " ".repeat(midPadding)
-                + " ".repeat(diff) + "│\n"
-                + " ".repeat(frontPadding) + "│ " + s + " ".repeat(diff) + "│\n"
-                + " ".repeat(frontPadding) + "╰" + "─".repeat(horizontalBarCount) + "╯";
-
-        System.out.println(finalString);
+        System.out.println("               ╭" + "─".repeat(diff + 16) + "╮");
+        System.out.println("               │    " + j + " ".repeat(diff + 4) + "│");
+        System.out.println("               │" + s + " ".repeat(diff + 4) + "│");
+        System.out.println("               " + "─".repeat(diff + 16));
     }
 
     // == Testing==

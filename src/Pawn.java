@@ -85,24 +85,49 @@ class Pawn extends Piece {
             super.playMove(board, fromPoint, toPoint);
             this.hasMoved = true;
         }
-
     }
 
     public boolean correctMovePattern(Board board, Point fromPoint, Point toPoint) {
         Point diff = Point.subtractPoints(toPoint, fromPoint);
-        if (board.getLastMove() != null) {
-            boolean enPassantLegal = (board.getLastMove().movedPiece() instanceof Pawn)
-                    && Math.abs(board.getLastMove().getDiff().getX()) == 2;
+
+        boolean isEnPassantAttempt = false;
+        if (Math.abs(diff.getX()) == 1 && !board.pieceExists(toPoint)) {
+            isEnPassantAttempt = true;
         }
 
-        if (!(diff.getY() == this.yDir || (diff.getY() == 2 * this.yDir && !this.hasMoved))) {
-            return false;
-        }
-        if (!this.isCapture(board, toPoint) && diff.getX() != 0) {
-            return false;
-        }
-        if (this.isCapture(board, toPoint) && Math.abs(diff.getX()) != 1) {
-            return false;
+        if (isEnPassantAttempt) {
+            System.out.println("attempt");
+            boolean enPassantLegal = false;
+            if (board.getLastMove() != null) {
+                enPassantLegal = (board.getLastMove().movedPiece() instanceof Pawn)
+                        && Math.abs(board.getLastMove().getDiff().getY()) == 2;
+            }
+            if (!enPassantLegal) {
+                System.out.println("attempt fail :/");
+                return false;
+            }
+            if (board.getLastMove() != null) {
+                boolean isLegal = Math.abs(board.getLastMove().from().getX() - fromPoint.getX()) == 1
+                        && board.getLastMove().from().getX() == toPoint.getX()
+                        && Math.abs(board.getLastMove().from().getY() - toPoint.getY()) == 1
+                        && board.getLastMove().to().getY() == fromPoint.getY();
+                board.clearSquare(board.getLastMove().to());
+                return isLegal;
+            }
+        } else {
+            if (!(diff.getY() == this.yDir || (diff.getY() == 2 * this.yDir && !this.hasMoved))) {
+                System.out.println(1);
+                return false;
+            }
+            if (!this.isCapture(board, toPoint) && diff.getX() != 0) {
+                System.out.println(2);
+                return false;
+            }
+            if (this.isCapture(board, toPoint) && Math.abs(diff.getX()) != 1) {
+                System.out.println(3);
+                return false;
+            }
+            return true;
         }
         return true;
     }
