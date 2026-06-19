@@ -3,6 +3,7 @@ package src;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.HashSet;
 
 class Board {
     private double moveCount;
@@ -70,7 +71,31 @@ class Board {
                 this.board[i + 48] = new Pawn(Colour.WHITE, new Point(Board.getX(i + 48), 2));
             }
             Random random = new Random();
-            this.board[Board.getIndex(random.nextInt(8)+1, 1)] = new Bishop(Colour.WHITE);
+            HashSet<Integer> indexSet = new HashSet<>();
+            int bishopX = random.nextInt(8) + 1;
+            indexSet.add(bishopX);
+            this.board[Board.getIndex(bishopX, 1)] = new Bishop(Colour.WHITE, new Point(bishopX, 1));
+            this.board[Board.getIndex(bishopX, 8)] = new Bishop(Colour.BLACK, new Point(bishopX, 8));
+            int bishop2X = random.nextInt(8) + 1;
+            while (bishop2X % 2 != bishopX % 2 && bishop2X != bishopX) {
+                bishop2X = random.nextInt(8) + 1;
+            }
+            indexSet.add(bishop2X);
+            this.board[Board.getIndex(bishop2X, 1)] = new Bishop(Colour.WHITE, new Point(bishop2X, 1));
+            this.board[Board.getIndex(bishop2X, 8)] = new Bishop(Colour.BLACK, new Point(bishop2X, 8));
+
+            int kingX = random.nextInt(5) + 2;
+            while (!indexSet.contains(kingX)) {
+                kingX = random.nextInt(5) + 2;
+            }
+            indexSet.add(kingX);
+            this.whiteKing = new King(Colour.WHITE, new Point(kingX, 1));
+            this.board[Board.getIndex(kingX, 1)] = this.whiteKing;
+            this.blackKing = new King(Colour.BLACK, new Point(kingX, 8));
+            this.board[Board.getIndex(kingX, 8)] = this.blackKing;
+
+
+
         }
     }
 
