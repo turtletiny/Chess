@@ -13,14 +13,14 @@ class Board {
     Piece[] board;
     private HashMap<Piece, Integer> whiteGraveyard = new HashMap<>();
     private HashMap<Piece, Integer> blackGraveyard = new HashMap<>();
-    private int pointDiff; // how many points white is up by
+    private int whitePointDiff;
     private ArrayList<Move> moveLog = new ArrayList<>();
 
     Board() {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         this.moveCount = 1;
-        this.pointDiff = 0;
+        this.whitePointDiff = 0;
 
         // == Initialise Pieces ==
         for (int i = 0; i < 8; i++) {
@@ -62,7 +62,7 @@ class Board {
         this.turnColour = Colour.WHITE;
         this.board = new Piece[64];
         this.moveCount = 1;
-        this.pointDiff = 0;
+        this.whitePointDiff = 0;
 
         if (gamemode == GameMode.CHESS960) {
             for (int i = 0; i < 8; i++) {
@@ -93,8 +93,6 @@ class Board {
             this.board[Board.getIndex(kingX, 1)] = this.whiteKing;
             this.blackKing = new King(Colour.BLACK, new Point(kingX, 8));
             this.board[Board.getIndex(kingX, 8)] = this.blackKing;
-
-
 
         }
     }
@@ -177,9 +175,9 @@ class Board {
             return;
         }
         if (deadPiece.colour.isWhite()) {
-            this.pointDiff -= deadPiece.getValue();
+            this.whitePointDiff -= deadPiece.getValue();
         } else {
-            this.pointDiff += deadPiece.getValue();
+            this.whitePointDiff += deadPiece.getValue();
         }
     }
 
@@ -279,15 +277,24 @@ class Board {
     }
 
     public boolean leavesOwnKingExposed(Piece piece, Point from, Point to) {
-        Piece capturedPiece = this.getPieceAt(to);
+        boolean isEnPassant = (piece instanceof Pawn) && Math.abs(to.getX() - from.getX()) == 1 && !this.pieceExists(to);
+        Point capturedPoint = isEnPassant ? this.getLastMove().to() : to;
+
+        Piece capturedPiece = this.getPieceAt(capturedPoint);
         this.placePiece(piece, to);
         this.clearSquare(from);
+        if (isEnPassant) {
+            this.clearSquare(capturedPoint);
+        }
         piece.setPoint(to);
 
         boolean exposed = this.isSquareAttacked(piece.colour, this.getKingPoint(piece.colour));
 
         this.placePiece(piece, from);
-        this.placePiece(capturedPiece, to);
+        this.placePiece(capturedPiece, capturedPoint);
+        if (isEnPassant) {
+            this.clearSquare(to);
+        }
         piece.setPoint(from);
         return exposed;
     }
@@ -341,8 +348,8 @@ class Board {
 
     public void printBoard() {
         System.out.println("");
-        if (this.pointDiff < 0) {
-            System.out.println("  Black: +" + Math.abs(this.pointDiff));
+        if (this.whitePointDiff < 0) {
+            System.out.println("  Black: +" + Math.abs(this.whitePointDiff));
         } else {
             System.out.println("  Black  ");
         }
@@ -369,8 +376,8 @@ class Board {
         System.out.println("   └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
         System.out.println("      a     b     c     d     e     f     g     h\n");
 
-        if (this.pointDiff > 0) {
-            System.out.println("  White: +" + this.pointDiff);
+        if (this.whitePointDiff > 0) {
+            System.out.println("  White: +" + this.whitePointDiff);
         } else {
             System.out.println("  White");
         }

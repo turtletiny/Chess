@@ -82,12 +82,24 @@ class Pawn extends Piece {
                 break;
             }
         } else {
+            Point diff = Point.subtractPoints(toPoint, fromPoint);
+            boolean isEnPassant = Math.abs(diff.getX()) == 1 && !board.pieceExists(toPoint);
+            if (isEnPassant) {
+                Piece capturedPiece = board.getPieceAt(board.getLastMove().to());
+                if (capturedPiece != null) {
+                    board.toGraveyard(capturedPiece);
+                    board.updatePointDiff(capturedPiece);
+                }
+                board.clearSquare(board.getLastMove().to());
+                System.out.println("en passant action triggered");
+            }
             super.playMove(board, fromPoint, toPoint);
             this.hasMoved = true;
         }
     }
 
     public boolean correctMovePattern(Board board, Point fromPoint, Point toPoint) {
+
         Point diff = Point.subtractPoints(toPoint, fromPoint);
 
         boolean isEnPassantAttempt = false;
@@ -97,20 +109,17 @@ class Pawn extends Piece {
 
         if (isEnPassantAttempt) {
             boolean enPassantLegal = false;
-            if (board.getLastMove() != null) {
-                enPassantLegal = (board.getLastMove().movedPiece() instanceof Pawn)
-                        && Math.abs(board.getLastMove().getDiff().getY()) == 2;
-            }
+            enPassantLegal = board.getLastMove() != null
+                    && (board.getLastMove().movedPiece() instanceof Pawn)
+                    && Math.abs(board.getLastMove().getDiff().getY()) == 2;
+
             if (!enPassantLegal) {
                 return false;
-            }
-            if (board.getLastMove() != null) {
-                boolean isLegal = Math.abs(board.getLastMove().from().getX() - fromPoint.getX()) == 1
+            } else if (board.getLastMove() != null) {
+                return Math.abs(board.getLastMove().from().getX() - fromPoint.getX()) == 1
                         && board.getLastMove().from().getX() == toPoint.getX()
                         && Math.abs(board.getLastMove().from().getY() - toPoint.getY()) == 1
                         && board.getLastMove().to().getY() == fromPoint.getY();
-                board.clearSquare(board.getLastMove().to());
-                return isLegal;
             }
         } else {
             if (!(diff.getY() == this.yDir || (diff.getY() == 2 * this.yDir && !this.hasMoved))) {

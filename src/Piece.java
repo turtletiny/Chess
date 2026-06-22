@@ -103,7 +103,6 @@ abstract class Piece {
     // Checks that apply to all pieces
     boolean isLegalMove(Board board, Point from, Point to) {
         if (!board.pieceExists(from)) {
-            System.out.println("no piece there!");
             return false;
         }
         if (!playerColour(board)) {
