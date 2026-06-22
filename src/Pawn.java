@@ -54,20 +54,23 @@ class Pawn extends Piece {
     public void playMove(Board board, Point fromPoint, Point toPoint) {
         if (toPoint.getY() == 8 || toPoint.getY() == 1) {
             while (true) {
-                System.out.println("Queen[1] | Knight[2] | Bishop[3] | Rook[4]");
-                int promotionChoice = In.nextInt();
+                System.out.println("\n                 Select Promotion Piece    ");
+                System.out.println("    ╭──────────┬───────────┬───────────┬─────────╮");
+                System.out.println("    │ Queen[1] │ Knight[2] │ Bishop[3] │ Rook[4] │");
+                System.out.println("    ╰──────────┴───────────┴───────────┴─────────╯");
+                String promotionChoice = In.nextLine().toLowerCase();
                 Piece piece;
                 switch (promotionChoice) {
-                    case 1 -> {
+                    case "1", "q", "queen" -> {
                         piece = new Queen(this.colour, toPoint);
                     }
-                    case 2 -> {
+                    case "2", "n", "knight" -> {
                         piece = new Knight(this.colour, toPoint);
                     }
-                    case 3 -> {
+                    case "3", "b", "bishop" -> {
                         piece = new Bishop(this.colour, toPoint);
                     }
-                    case 4 -> {
+                    case "4", "r", "rook" -> {
                         piece = new Rook(this.colour, toPoint);
                     }
                     default -> {

@@ -1,5 +1,5 @@
 # Priority
-- promotion styling
+- point difference bug with promotions
 
 
 # later
