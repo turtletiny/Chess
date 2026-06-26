@@ -1,8 +1,9 @@
 # Terminal Chess Game in Java
 Run: 
-'''bash
+```bash
 java src/Main.java
-'''
+```
+
 # Feature ideas
 - Export game as pgn
 - Puzzles mode (pull from api)
