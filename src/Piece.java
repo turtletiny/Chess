@@ -48,7 +48,6 @@ abstract class Piece {
         Piece capturedPiece = board.getPieceAt(to);
         if (capturedPiece != null){
             board.toGraveyard(capturedPiece);
-            board.updatePointDiff(capturedPiece);
         }
         board.placePiece(this, to);
         board.clearSquare(from);

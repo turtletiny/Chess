@@ -22,7 +22,7 @@ class King extends Piece {
 
     @Override
     public int getValue() {
-        return 20;
+        return 0;
     }
 
     @Override

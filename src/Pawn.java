@@ -91,7 +91,6 @@ class Pawn extends Piece {
                 Piece capturedPiece = board.getPieceAt(board.getLastMove().to());
                 if (capturedPiece != null) {
                     board.toGraveyard(capturedPiece);
-                    board.updatePointDiff(capturedPiece);
                 }
                 board.clearSquare(board.getLastMove().to());
                 System.out.println("en passant action triggered");
