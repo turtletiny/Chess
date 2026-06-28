@@ -1,8 +1,12 @@
 # Terminal Chess Game in Java
 Written in pure Java (no libraries)
-Run: 
+Run CLI: 
 ```bash
-java src/Main.java
+gradle runCLI
+```
+Run GUI (wip) : 
+```bash
+gradle run
 ```
 
 # Feature ideas
