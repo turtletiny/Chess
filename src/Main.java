@@ -50,13 +50,18 @@ public class Main {
                         board.logMove(board.getMove(move));
                         selectedPiece.playMove(board, from, to);
 
+                        // In check
                         if (board.inCheck(board.turnColour) && board.hasLegalMoves()) {
                             System.out.println(board.turnColour + " in check");
+                            //Checkmate
                         } else if (board.inCheck(board.turnColour) && !board.hasLegalMoves()) {
                             winner = board.turnColour.getOpposite();
+                            board.printBoard();
                             playing = false;
+                            // Stalemate
                         } else if (!board.inCheck(board.turnColour) && !board.hasLegalMoves()) {
-                            playing = false;
+                          board.printBoard();
+                          playing = false;
                         }
                         break;
                     }

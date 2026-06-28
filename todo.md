@@ -1,5 +1,4 @@
 # Priority
-- point difference bug with promotions
 - last move isnt displayed on the board.
 
 # later

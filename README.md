@@ -2,9 +2,9 @@
 Written in pure Java (no libraries)
 Run CLI: 
 ```bash
-gradle runCLI
+gradle runCLI -q
 ```
-Run GUI (wip) : 
+Run GUI (currently doesnt work) : 
 ```bash
 gradle run
 ```

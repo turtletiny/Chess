@@ -27,7 +27,7 @@ public class HelloFX extends Application {
   public void start(Stage primaryStage) {
     primaryStage.setTitle("Person editor");
 
-    p = new Person("Alaina", 17);
+    p = new Person("person", 17);
     label = new Label("Person details: " + p);
 
     nameField = new TextField();
