@@ -1,3 +1,5 @@
+//Representation of a move for the movelog
+
 package src;
 
 public record Move(Point from, Point to, Piece movedPiece, Piece capturedPiece, Colour colour, CastleAction castleMove) {

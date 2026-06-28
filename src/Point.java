@@ -1,3 +1,6 @@
+//Represents a (x,y) point on the board
+// Can be used as a vector
+
 package src;
 
 class Point {
