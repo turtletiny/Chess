@@ -1,4 +1,5 @@
 # Terminal Chess Game in Java
+Written in pure Java (no libraries)
 Run: 
 ```bash
 java src/Main.java
