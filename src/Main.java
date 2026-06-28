@@ -73,9 +73,9 @@ public class Main {
         }
 
         if (winner == null) {
-            System.out.println("Stalemate in " + board.getMoveCount() + " moves");
+            System.out.println("\nStalemate in " + board.getMoveCount() + " moves");
         } else {
-            System.out.println(winner + " wins by checkmate in " + board.getMoveCount() + " moves");
+          System.out.println("\n" + winner + " wins by checkmate in " + board.getMoveCount() + " moves");
         }
     }
 }
