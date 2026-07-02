@@ -1,5 +1,4 @@
 # Priority
-- last move isnt displayed on the board.
 
 # later
 
