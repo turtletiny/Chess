@@ -1,5 +1,4 @@
 # Terminal Chess Game in Java
-Written in pure Java (no libraries)
 Run CLI: 
 ```bash
 gradle runCLI -q
