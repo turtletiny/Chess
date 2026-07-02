@@ -53,15 +53,15 @@ public class Main {
                         // In check
                         if (board.inCheck(board.turnColour) && board.hasLegalMoves()) {
                             System.out.println(board.turnColour + " in check");
-                            //Checkmate
+                            // Checkmate
                         } else if (board.inCheck(board.turnColour) && !board.hasLegalMoves()) {
                             winner = board.turnColour.getOpposite();
                             board.printBoard();
                             playing = false;
                             // Stalemate
                         } else if (!board.inCheck(board.turnColour) && !board.hasLegalMoves()) {
-                          board.printBoard();
-                          playing = false;
+                            board.printBoard();
+                            playing = false;
                         }
                         break;
                     }
@@ -75,7 +75,7 @@ public class Main {
         if (winner == null) {
             System.out.println("\nStalemate in " + board.getMoveCount() + " moves");
         } else {
-          System.out.println("\n" + winner + " wins by checkmate in " + board.getMoveCount() + " moves");
+            System.out.println("\n" + winner + " wins by checkmate in " + board.getMoveCount() + " moves");
         }
     }
 }
