@@ -170,6 +170,10 @@ class Board {
     return null;
   }
 
+  public int getPointDiff() {
+    return this.whitePointDiff;
+  }
+
   public void calculatePointDiff() {
     for (Piece p : this.board) {
       if (p == null)
