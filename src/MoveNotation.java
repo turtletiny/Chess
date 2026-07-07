@@ -24,22 +24,20 @@ class MoveNotation {
                 safeInput.charAt(0) >= 'a' && safeInput.charAt(0) <= 'h'
                 && safeInput.charAt(1) >= '1' && safeInput.charAt(1) <= '8') {
             Point toSquare = new Point(safeInput.charAt(0) - 96, safeInput.charAt(1) - 48);
-            Point initialPoint = MoveNotation.pieceExists(toSquare, ' ', board); //blank char == pawn notation
+            Point initialPoint = MoveNotation.pieceExists(toSquare, ' ', board); // blank char == pawn notation
             if (initialPoint == null) {
                 return null;
             } else {
                 return new Move(initialPoint, toSquare);
             }
 
-
-
-
-
         } else if (safeInput.length() == 3 &&
                 this.isValidPieceNotation(safeInput.charAt(0))) {
             // dest = charat1, charat2
             // from = piece that can move to dest
         }
+
+        return null;
 
     }
 
