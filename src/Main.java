@@ -20,7 +20,7 @@ public class Main {
             while (true) {
                 try {
                     System.out.println(" Enter move ");
-                    String move = In.nextLine();
+                    String move = In.nextLine().toLowerCase().replaceAll("\\s", "");
                     // can put these into a function later
                     if (CastleAction.inMap(move)) {
                         if (board.inCheck(board.turnColour)) {

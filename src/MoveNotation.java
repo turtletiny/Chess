@@ -15,27 +15,35 @@ class MoveNotation {
     }
 
     public static Move convertMove(String input, Board board) {
-        String safeInput = input.trim().toLowerCase();
 
         // Pawn move. FORMAT: "e4"
-        if (safeInput.length() == 2 &&
-                safeInput.charAt(0) >= 'a' && safeInput.charAt(0) <= 'h'
-                && safeInput.charAt(1) >= '1' && safeInput.charAt(1) <= '8') {
-            Point toSquare = new Point(safeInput.charAt(0) - 96, safeInput.charAt(1) - 48);
-            Point initialPoint = MoveNotation.pieceExists(toSquare, 'p', board);
-
+        if (input.length() == 2
+                && input.charAt(0) >= 'a' && input.charAt(0) <= 'h'
+                && input.charAt(1) >= '1' && input.charAt(1) <= '8') {
+            Point toSquare = new Point(input.charAt(0) - 96, input.charAt(1) - 48);
+            Point initialPoint = MoveNotation.pieceExists(toSquare, 'p', board, false);
             return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
 
             // Piece move. FORMAT: "ne4"
-        } else if (safeInput.length() == 3 &&
-                MoveNotation.isValidPieceNotation(safeInput.charAt(0)) &&
-                safeInput.charAt(1) >= 'a' && safeInput.charAt(1) <= 'h'
-                && safeInput.charAt(2) >= '1' && safeInput.charAt(1) <= '8') {
-            Point toSquare = new Point(safeInput.charAt(1) - 96, safeInput.charAt(2) - 48);
-            Point initialPoint = MoveNotation.pieceExists(toSquare, safeInput.charAt(0), board);
+        } else if (input.length() == 3
+                && MoveNotation.isValidPieceNotation(input.charAt(0))
+                && input.charAt(1) >= 'a' && input.charAt(1) <= 'h'
+                && input.charAt(2) >= '1' && input.charAt(2) <= '8') {
+            Point toSquare = new Point(input.charAt(1) - 96, input.charAt(2) - 48);
+            Point initialPoint = MoveNotation.pieceExists(toSquare, input.charAt(0), board, false);
+            return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
 
+            // Piece move. FORMAT: "nxe4"
+        } else if (input.length() == 4
+                && MoveNotation.isValidPieceNotation(input.charAt(0))
+                && input.charAt(1) == 'x'
+                && input.charAt(2) >= 'a' && input.charAt(2) <= 'h'
+                && input.charAt(3) >= '1' && input.charAt(3) <= '8') {
+            Point toSquare = new Point(input.charAt(2) - 96, input.charAt(3) - 48);
+            Point initialPoint = MoveNotation.pieceExists(toSquare, input.charAt(0), board, true);
             return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
         }
+
         return null;
     }
 
@@ -43,7 +51,7 @@ class MoveNotation {
         return MoveNotation.NOTATION_MAP.containsKey(c);
     }
 
-    public static Point pieceExists(Point toSquare, char notation, Board board) {
+    public static Point pieceExists(Point toSquare, char notation, Board board, boolean isCapture) {
         if (!NOTATION_MAP.containsKey(notation)) {
             return null;
         }
@@ -51,9 +59,10 @@ class MoveNotation {
         int validCount = 0;
         Point validPoint = null;
         for (Piece p : board.board) {
-            if (p != null &&
-                    targetClass.isInstance(p) &&
-                    p.isLegalMove(board, p.getPoint(), toSquare)) {
+            if (p != null
+                    && targetClass.isInstance(p)
+                    && p.isLegalMove(board, p.getPoint(), toSquare)
+                    && ((!isCapture) || (isCapture && p.isCapture(board, toSquare)))) {
                 validCount++;
                 validPoint = p.getPoint();
             }
@@ -64,4 +73,5 @@ class MoveNotation {
             return null;
         }
     }
+
 }
