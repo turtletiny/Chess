@@ -18,6 +18,7 @@ g1 nf3 #knight from g1 to f3
 
 **short algebraic notation** is a WIP
 
+yes my code is real ugly im learning ok 😅 
 
 # Feature ideas
 - Export game as pgn
