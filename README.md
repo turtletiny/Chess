@@ -12,9 +12,11 @@ Currently only supports **long algebraic notation**
 Example:
 ```bash
 e2 e4 #pawn from e2 to e4
+```
 
 ```bash
 g1 nf3 #knight from g1 to f3
+```
 
 **short algebraic notation** is a WIP
 
