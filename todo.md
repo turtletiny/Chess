@@ -1,5 +1,7 @@
 # Priority
 
+- fix logmove with new short form converted move Main.java line 60
+
 # later
 
 - export game as pgn

@@ -21,4 +21,8 @@ public record Move(Point from, Point to, Piece movedPiece, Piece capturedPiece, 
     public Point getDiff() {
         return Point.subtractPoints(to, from);
     }
+
+    public String toString() {
+        return this.from + "->" + this.to;
+    }
 }

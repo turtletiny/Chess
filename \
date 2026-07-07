@@ -49,6 +49,7 @@ public class Main {
                     }
                     Point from = convertedMove.from();
                     Point to = convertedMove.to();
+
                     Piece selectedPiece = board.getPieceAt(from);
                     if (!board.pieceExists(from)
                             || !selectedPiece.isLegalMove(board, from, to)
@@ -56,8 +57,7 @@ public class Main {
                         System.out.println("Try again");
                         continue;
                     } else {
-                        //fix later
-                        board.logMove(convertedMove);
+                        board.logMove(board.getMove(move));
                         selectedPiece.playMove(board, from, to);
 
                         // In check
@@ -76,7 +76,7 @@ public class Main {
                         break;
                     }
                 } catch (StringIndexOutOfBoundsException e) {
-                    System.out.println("str out Invalid Input!" + e);
+                    System.out.println("str out Invalid Input!");
                     In.nextLine();
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("array out of ");

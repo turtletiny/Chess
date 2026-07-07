@@ -49,4 +49,8 @@ class Point {
         return new Point(a.getX() - b.getX(), a.getY() - b.getY());
     }
 
+    public String toString() {
+        return "(" + this.x + ", " + this.y + ")";
+    }
+
 }
