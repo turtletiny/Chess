@@ -3,7 +3,7 @@ Run CLI:
 ```bash
 gradle runCLI -q
 ```
-Run GUI (currently doesnt work) : 
+Run GUI (wip) : 
 ```bash
 gradle run
 ```
