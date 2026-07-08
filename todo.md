@@ -1,5 +1,8 @@
 # Priority
 
+
+- continue working on short form notation
+- continue working on GUI
 - fix logmove with new short form converted move Main.java line 60
 
 # later

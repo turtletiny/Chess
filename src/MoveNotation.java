@@ -42,6 +42,15 @@ class MoveNotation {
             Point toSquare = new Point(input.charAt(2) - 96, input.charAt(3) - 48);
             Point initialPoint = MoveNotation.pieceExists(toSquare, input.charAt(0), board, true);
             return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
+
+            // Piece move. FORMAT: "n1e4"
+        } else if (input.length() == 4
+                && MoveNotation.isValidPieceNotation(input.charAt(0))
+                && input.charAt(1) >= 'a' && input.charAt(1) <= 'h'
+                && input.charAt(2) >= 'a' && input.charAt(2) <= 'h'
+                && input.charAt(3) >= '1' && input.charAt(3) <= '8') {
+            Point toSquare = new Point(input.charAt(2) - 96, input.charAt(3) - 48);
+
         }
 
         return null;
