@@ -43,10 +43,11 @@ class MoveNotation {
             Point initialPoint = MoveNotation.pieceExists(toSquare, input.charAt(0), board, true);
             return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
 
-            // Piece move. FORMAT: "nae4"
+            // Piece move. FORMAT: "nae4" / "n1e4"
         } else if (input.length() == 4
                 && MoveNotation.isValidPieceNotation(input.charAt(0))
-                && input.charAt(1) >= 'a' && input.charAt(1) <= 'h'
+                && ((input.charAt(1) >= 'a' && input.charAt(1) <= 'h')
+                        || (input.charAt(1) >= '1' && input.charAt(1) <= '8'))
                 && input.charAt(2) >= 'a' && input.charAt(2) <= 'h'
                 && input.charAt(3) >= '1' && input.charAt(3) <= '8') {
             Point toSquare = new Point(input.charAt(2) - 96, input.charAt(3) - 48);
@@ -95,7 +96,19 @@ class MoveNotation {
         // char validity (a-h or 1-8) is already checked in convertMove()
         if (axis >= 97) {
             int i = MoveNotation.letterToRow(axis);
-            for (; i < board.board.length; i++) {
+            for (; i < board.board.length; i += 8) {
+                Piece p = board.board[i];
+                if (p != null
+                        && targetClass.isInstance(p)
+                        && p.isLegalMove(board, p.getPoint(), toSquare)) {
+                    validCount++;
+                    validPoint = p.getPoint();
+                }
+            }
+        } else {
+            int i = MoveNotation.charToColumn(axis);
+            int j = i + 8;
+            for (; i < j; i++) {
                 Piece p = board.board[i];
                 if (p != null
                         && targetClass.isInstance(p)
