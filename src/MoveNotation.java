@@ -43,14 +43,15 @@ class MoveNotation {
             Point initialPoint = MoveNotation.pieceExists(toSquare, input.charAt(0), board, true);
             return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
 
-            // Piece move. FORMAT: "n1e4"
+            // Piece move. FORMAT: "nae4"
         } else if (input.length() == 4
                 && MoveNotation.isValidPieceNotation(input.charAt(0))
                 && input.charAt(1) >= 'a' && input.charAt(1) <= 'h'
                 && input.charAt(2) >= 'a' && input.charAt(2) <= 'h'
                 && input.charAt(3) >= '1' && input.charAt(3) <= '8') {
             Point toSquare = new Point(input.charAt(2) - 96, input.charAt(3) - 48);
-
+            Point initialPoint = MoveNotation.searchByAxis(toSquare, input.charAt(0), board, false, input.charAt(1));
+            return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
         }
 
         return null;
@@ -83,4 +84,40 @@ class MoveNotation {
         }
     }
 
+    public static Point searchByAxis(Point toSquare, char notation, Board board, boolean isCapture, char axis) {
+        if (!NOTATION_MAP.containsKey(notation)) {
+            return null;
+        }
+        Class<? extends Piece> targetClass = NOTATION_MAP.get(notation);
+        int validCount = 0;
+        Point validPoint = null;
+
+        // char validity (a-h or 1-8) is already checked in convertMove()
+        if (axis >= 97) {
+            int i = MoveNotation.letterToRow(axis);
+            for (; i < board.board.length; i++) {
+                Piece p = board.board[i];
+                if (p != null
+                        && targetClass.isInstance(p)
+                        && p.isLegalMove(board, p.getPoint(), toSquare)) {
+                    validCount++;
+                    validPoint = p.getPoint();
+                }
+            }
+        }
+        if (validCount == 1) {
+            return validPoint;
+        } else {
+            return null;
+        }
+    }
+
+    private static int letterToRow(char letter) {
+        return letter - 97; // 97 is the ascii value of 'a' -> converts a to 0, b to 1, etc, representing
+                            // the index number to start from in the board array
+    }
+
+    private static int charToColumn(char num) {
+        return 64 - 8 * (num - '0');
+    }
 }
