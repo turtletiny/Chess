@@ -53,9 +53,21 @@ class MoveNotation {
             Point toSquare = new Point(input.charAt(2) - 96, input.charAt(3) - 48);
             Point initialPoint = MoveNotation.searchByAxis(toSquare, input.charAt(0), board, false, input.charAt(1));
             return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
-        }
 
-        return null;
+            // Piece move. FORMAT: "n1xe4"
+        } else if (input.length() == 5
+                && MoveNotation.isValidPieceNotation(input.charAt(0))
+                && ((input.charAt(1) >= 'a' && input.charAt(1) <= 'h')
+                        || (input.charAt(1) >= '1' && input.charAt(1) <= '8'))
+                && input.charAt(2) == 'x'
+                && input.charAt(3) >= 'a' && input.charAt(3) <= 'h'
+                && input.charAt(4) >= '1' && input.charAt(4) <= '8') {
+            Point toSquare = new Point(input.charAt(3) - 96, input.charAt(4) - 48);
+            Point initialPoint = MoveNotation.searchByAxis(toSquare, input.charAt(0), board, true, input.charAt(1));
+            return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
+        } else {
+            return null;
+        }
     }
 
     public static boolean isValidPieceNotation(char c) {
@@ -100,7 +112,9 @@ class MoveNotation {
                 Piece p = board.board[i];
                 if (p != null
                         && targetClass.isInstance(p)
-                        && p.isLegalMove(board, p.getPoint(), toSquare)) {
+                        && p.isLegalMove(board, p.getPoint(), toSquare)
+                        && ((!isCapture) || (isCapture && p.isCapture(board, toSquare)))
+            ) {
                     validCount++;
                     validPoint = p.getPoint();
                 }
@@ -112,7 +126,8 @@ class MoveNotation {
                 Piece p = board.board[i];
                 if (p != null
                         && targetClass.isInstance(p)
-                        && p.isLegalMove(board, p.getPoint(), toSquare)) {
+                        && p.isLegalMove(board, p.getPoint(), toSquare)
+                        && ((!isCapture) || (isCapture && p.isCapture(board, toSquare)))) {
                     validCount++;
                     validPoint = p.getPoint();
                 }

@@ -79,7 +79,7 @@ public class Main {
                     System.out.println("str out Invalid Input!" + e);
                     In.nextLine();
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("array out of ");
+                    System.out.println("array out of " + e);
                     In.nextLine();
                 }
             }
