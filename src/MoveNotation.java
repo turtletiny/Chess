@@ -65,7 +65,20 @@ class MoveNotation {
             Point toSquare = new Point(input.charAt(3) - 96, input.charAt(4) - 48);
             Point initialPoint = MoveNotation.searchByAxis(toSquare, input.charAt(0), board, true, input.charAt(1));
             return (initialPoint == null) ? null : new Move(initialPoint, toSquare);
-        } else {
+
+            // Promotion. FORMAT: e8=q
+        } else if (input.length() == 4
+                && input.charAt(0) >= 'a' && input.charAt(0) <= 'h'
+                && input.charAt(1) >= '1' && input.charAt(1) <= '8'
+                && input.charAt(2) == '='
+                && input.charAt(3) == 'q' || input.charAt(3) == 'r' || input.charAt(3) == 'n'
+                || input.charAt(3) == 'b') {
+            Point toSquare = new Point(input.charAt(0) - 96, input.charAt(1) - 48);
+            return null;
+        }
+
+        else {
+
             return null;
         }
     }
@@ -113,8 +126,7 @@ class MoveNotation {
                 if (p != null
                         && targetClass.isInstance(p)
                         && p.isLegalMove(board, p.getPoint(), toSquare)
-                        && ((!isCapture) || (isCapture && p.isCapture(board, toSquare)))
-            ) {
+                        && ((!isCapture) || (isCapture && p.isCapture(board, toSquare)))) {
                     validCount++;
                     validPoint = p.getPoint();
                 }
