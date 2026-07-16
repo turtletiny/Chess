@@ -8,19 +8,12 @@ Run GUI (wip) :
 gradle run
 ```
 
-Currently only supports **long algebraic notation**
-Example:
+
+Play:
 ```bash
-e2 e4 #pawn from e2 to e4
+nf3 #knight to f3
+
 ```
-
-```bash
-g1 nf3 #knight from g1 to f3
-```
-
-**short algebraic notation** is a WIP
-
-yes my code is real ugly im learning ok 😅 
 
 # Feature ideas
 - Export game as pgn
