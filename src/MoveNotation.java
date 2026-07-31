@@ -13,7 +13,7 @@ class MoveNotation {
         MoveNotation.NOTATION_MAP.put('b', Bishop.class);
         MoveNotation.NOTATION_MAP.put('p', Pawn.class);
     }
-
+    //  regex: "[nqkrbp][a-h]|[1-8]?[a-h][1-8][]"
     public static Move convertMove(String input, Board board) {
 
         // Pawn move. FORMAT: "e4"
