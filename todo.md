@@ -5,6 +5,9 @@
 - continue working on GUI
 - fix logmove with new short form converted move Main.java line 60
 
+
+- saving games as file
+- method to generate the file name (just use time for now)
 # later
 
 - export game as pgn
